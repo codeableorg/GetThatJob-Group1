@@ -229,6 +229,9 @@ defmodule Getthatjob.Recruitment do
   """
   def get_job!(id), do: Repo.get!(Job, id)
 
+  @doc false
+  def get_job_by_title!(title), do: Repo.get_by!(Job, title: title)
+
   @doc """
   Creates a job.
 
@@ -241,9 +244,10 @@ defmodule Getthatjob.Recruitment do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_job(attrs \\ %{}) do
+  def create_job(%Recruiter{} = recruiter, attrs \\ %{}) do
     %Job{}
     |> Job.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:recruiter, recruiter)
     |> Repo.insert()
   end
 

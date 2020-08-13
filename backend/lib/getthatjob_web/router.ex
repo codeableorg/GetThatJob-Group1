@@ -5,10 +5,6 @@ defmodule GetthatjobWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", GetthatjobWeb do
-    pipe_through :api
-  end
-
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
@@ -19,9 +15,20 @@ defmodule GetthatjobWeb.Router do
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 
-    scope "/" do
+    scope "/admin" do
       pipe_through [:fetch_session, :protect_from_forgery]
       live_dashboard "/dashboard", metrics: GetthatjobWeb.Telemetry
     end
+  end
+
+  scope "/" do
+    pipe_through :api
+
+    forward "/api", Absinthe.Plug, schema: GetthatjobWeb.Schema.Schema
+
+    forward "/", Absinthe.Plug.GraphiQL,
+      schema: GetthatjobWeb.Schema.Schema,
+      socket: GetthatjobWeb.UserSocket,
+      interface: :simple
   end
 end

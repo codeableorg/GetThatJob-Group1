@@ -33,3 +33,16 @@ alias Getthatjob.{Account, Recruitment}
 
 {:ok, _} =
   Account.create_user(recruiter, %{email: "ricardohuamanip@gmail.com", password: "123456"})
+
+{:ok, _} =
+  Recruitment.create_job(recruiter, %{
+    title: "holi",
+    type: "holi",
+    seniority: "holi",
+    salary: 123,
+    location: "Lima",
+    introduction: "asdsa",
+    expected: "asds",
+    looking_for: "asdasd",
+    requirements: "asdsdas"
+  })
