@@ -37,7 +37,6 @@ defmodule Getthatjob.Recruitment.Job do
       :title,
       :type,
       :seniority,
-      :salary,
       :location,
       :introduction,
       :expected,

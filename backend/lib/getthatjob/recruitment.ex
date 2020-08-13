@@ -201,16 +201,63 @@ defmodule Getthatjob.Recruitment do
   alias Getthatjob.Recruitment.Job
 
   @doc """
-  Returns the list of jobs.
+  Returns a list of places matching the given `criteria`.
 
-  ## Examples
+  Example Criteria:
 
-      iex> list_jobs()
-      [%Job{}, ...]
-
+  [{:limit, 15}, {:order, :asc}, {:filter, [{:matching, "lake"}, {:wifi, true}, {:guest_count, 3}]}]
   """
-  def list_jobs do
-    Repo.all(Job)
+
+  def list_jobs(criteria) do
+    query = from(p in Job)
+
+    Enum.reduce(criteria, query, fn
+      {:limit, limit}, query ->
+        from p in query, limit: ^limit
+
+      {:filter, filters}, query ->
+        filter_with(filters, query)
+
+      {:order, order}, query ->
+        from p in query, order_by: [{^order, :id}]
+    end)
+    |> Repo.all()
+  end
+
+  defp filter_with(filters, query) do
+    Enum.reduce(filters, query, fn
+      {:matching, term}, query ->
+        pattern = "%#{term}%"
+
+        from q in query,
+          where:
+            ilike(q.title, ^pattern) or
+              ilike(q.introduction, ^pattern) or
+              ilike(q.requirements, ^pattern)
+
+      {:country, value}, query ->
+        from q in query, where: q.location == ^value
+
+      {:type, value}, query ->
+        from q in query, where: q.type == ^value
+
+      {:seniority, value}, query ->
+        from q in query, where: q.seniority == ^value
+
+      {:salary_range, %{low: low_salary, high: high_salary}}, query ->
+        salary_between(query, low_salary, high_salary)
+    end)
+  end
+
+  defp salary_between(query, low_salary, high_salary) do
+    from q in query,
+      where:
+        fragment(
+          "? BETWEEN ? AND ?",
+          q.salary,
+          ^low_salary,
+          ^high_salary
+        )
   end
 
   @doc """

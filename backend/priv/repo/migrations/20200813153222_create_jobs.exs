@@ -6,7 +6,7 @@ defmodule Getthatjob.Repo.Migrations.CreateJobs do
       add :title, :string, null: false
       add :type, :string, null: false
       add :seniority, :string, null: false
-      add :salary, :integer, null: false
+      add :salary, :integer, null: true
       add :location, :string, null: false
       add :introduction, :text, null: false
       add :expected, :text, null: false
