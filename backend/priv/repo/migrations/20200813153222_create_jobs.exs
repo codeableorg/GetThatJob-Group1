@@ -3,15 +3,15 @@ defmodule Getthatjob.Repo.Migrations.CreateJobs do
 
   def change do
     create table(:jobs) do
-      add :title, :string
-      add :type, :string
-      add :seniority, :string
-      add :salary, :integer
-      add :location, :string
-      add :introduction, :text
-      add :expected, :text
-      add :looking_for, :text
-      add :requirements, :text
+      add :title, :string, null: false
+      add :type, :string, null: false
+      add :seniority, :string, null: false
+      add :salary, :integer, null: false
+      add :location, :string, null: false
+      add :introduction, :text, null: false
+      add :expected, :text, null: false
+      add :looking_for, :text, null: false
+      add :requirements, :text, null: false
       add :recruiter_id, references(:recruiters, on_delete: :nothing)
 
       timestamps()

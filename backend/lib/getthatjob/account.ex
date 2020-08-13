@@ -7,6 +7,7 @@ defmodule Getthatjob.Account do
   alias Getthatjob.Repo
 
   alias Getthatjob.Account.User
+  alias Getthatjob.Recruitment.{Professional, Recruiter}
 
   @doc """
   Returns the list of users.
@@ -49,9 +50,19 @@ defmodule Getthatjob.Account do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}) do
+  def create_user(type_user, attrs \\ %{})
+
+  def create_user(%Professional{} = profesional, attrs) do
     %User{}
     |> User.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:professional, profesional)
+    |> Repo.insert()
+  end
+
+  def create_user(%Recruiter{} = recruiter, attrs) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:recruiter, recruiter)
     |> Repo.insert()
   end
 

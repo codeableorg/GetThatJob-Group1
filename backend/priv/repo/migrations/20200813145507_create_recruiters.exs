@@ -3,13 +3,12 @@ defmodule Getthatjob.Repo.Migrations.CreateRecruiters do
 
   def change do
     create table(:recruiters) do
-      add :company_name, :string
-      add :company_logo_path, :string
-      add :company_website, :string
-      add :company_description, :text
+      add :company_name, :string, null: false
+      add :company_logo_path, :string, null: false
+      add :company_website, :string, null: false
+      add :company_description, :text, null: false
 
       timestamps()
     end
-
   end
 end

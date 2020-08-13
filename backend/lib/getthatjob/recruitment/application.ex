@@ -1,13 +1,14 @@
 defmodule Getthatjob.Recruitment.Application do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Getthatjob.Recruitment.{Job, Professional}
 
   schema "applications" do
     field :cv_path, :string
     field :professional_experience, :string
     field :reason, :string
-    field :job_id, :id
-    field :professional_id, :id
+    belongs_to :job, Job
+    belongs_to :professional, Professional
 
     timestamps()
   end

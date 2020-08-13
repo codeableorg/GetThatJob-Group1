@@ -3,9 +3,9 @@ defmodule Getthatjob.Repo.Migrations.CreateApplications do
 
   def change do
     create table(:applications) do
-      add :cv_path, :string
-      add :professional_experience, :text
-      add :reason, :text
+      add :cv_path, :string, null: false
+      add :professional_experience, :text, null: false
+      add :reason, :text, null: false
       add :job_id, references(:jobs, on_delete: :nothing)
       add :professional_id, references(:professionals, on_delete: :nothing)
 

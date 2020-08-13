@@ -52,4 +52,8 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs which loads secrets
 # and configuration from environment variables.
+config :argon2_elixir,
+  t_cost: 8,
+  m_cost: 17
+
 import_config "prod.secret.exs"

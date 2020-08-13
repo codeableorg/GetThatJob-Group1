@@ -10,13 +10,26 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-professional = Getthatjob.Repo.insert!(%Getthatjob.Recruitment.Professional{})
-recruiter = Getthatjob.Repo.insert!(%Getthatjob.Recruitment.Recruiter{})
+alias Getthatjob.{Account, Recruitment}
 
-Getthatjob.Repo.insert!(%Getthatjob.Account.User{
-  recruiter_id: recruiter.id
-})
+{:ok, profesional} =
+  Recruitment.create_professional(%{
+    name: "Albert",
+    phone_number: "11111111",
+    description: "Holi",
+    experience: "Woli"
+  })
 
-Getthatjob.Repo.insert!(%Getthatjob.Account.User{
-  professional_id: professional.id
-})
+{:ok, recruiter} =
+  Recruitment.create_recruiter(%{
+    company_description: "Codeable Description",
+    company_logo_path: "asd",
+    company_name: "Codeable",
+    company_website: "codeable.pe"
+  })
+
+{:ok, _} =
+  Account.create_user(profesional, %{email: "acastemoreno@gmail.com", password: "123456"})
+
+{:ok, _} =
+  Account.create_user(recruiter, %{email: "ricardohuamanip@gmail.com", password: "123456"})
