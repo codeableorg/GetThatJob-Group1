@@ -9,3 +9,14 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+professional = Getthatjob.Repo.insert!(%Getthatjob.Recruitment.Professional{})
+recruiter = Getthatjob.Repo.insert!(%Getthatjob.Recruitment.Recruiter{})
+
+Getthatjob.Repo.insert!(%Getthatjob.Account.User{
+  recruiter_id: recruiter.id
+})
+
+Getthatjob.Repo.insert!(%Getthatjob.Account.User{
+  professional_id: professional.id
+})

@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :getthatjob, Getthatjob.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "getthatjob_dev",
+  password: "123456",
   database: "getthatjob_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,

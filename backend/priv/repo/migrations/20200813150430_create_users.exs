@@ -1,0 +1,17 @@
+defmodule Getthatjob.Repo.Migrations.CreateUsers do
+  use Ecto.Migration
+
+  def change do
+    create table(:users) do
+      add :email, :string
+      add :password_hash, :string
+      add :professional_id, references(:professionals, on_delete: :nothing)
+      add :recruiter_id, references(:recruiters, on_delete: :nothing)
+
+      timestamps()
+    end
+
+    create index(:users, [:professional_id])
+    create index(:users, [:recruiter_id])
+  end
+end
