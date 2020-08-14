@@ -6,6 +6,7 @@ import Layout from '../components/Layout';
 import { Container } from '../components/StyledComponents';
 import Button from '../components/Button';
 import heroImage from '../assets/hero-image.png';
+import testimonialsAvatar from '../assets/testimonials-avatar.png';
 
 const HeroWrapper = styled.section`
   padding: 30px 0;
@@ -54,6 +55,46 @@ const HeroWrapper = styled.section`
   }
 `;
 
+const TestimonialsWrapper = styled.section`
+  .testimonial {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    padding: 90px 0;
+    margin: auto;
+  }
+
+  .testimonial__avatar {
+    margin-bottom: 15px;
+  }
+
+  .testimonial__body {
+    margin-bottom: 15px;
+    color: #000000;
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 3rem;
+    text-align: center;
+  }
+
+  .testimonial__author-name {
+    color: #000000;
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 2rem;
+    text-align: center;
+  }
+
+  .testimonial__author-position {
+    color: #000000;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.5rem;
+    text-align: center;
+  }
+`;
+
 function Hero() {
   return (
     <HeroWrapper>
@@ -81,10 +122,33 @@ function Hero() {
   );
 }
 
+function Testimonials() {
+  return (
+    <TestimonialsWrapper>
+      <Container>
+        <article class="testimonial">
+          <img
+            src={testimonialsAvatar}
+            className="testimonial__avatar"
+            alt="get-that-jop"
+          />
+          <p className="testimonial__body">
+            "Amazing experience, I love it a lot. Thanks to the team I got that
+            Job, great!"
+          </p>
+          <div class="testimonial__author-name">Lassy Chester</div>
+          <div class="testimonial__author-position">Art Director</div>
+        </article>
+      </Container>
+    </TestimonialsWrapper>
+  );
+}
+
 export default function Index() {
   return (
     <Layout>
       <Hero />
+      <Testimonials />
     </Layout>
   );
 }
