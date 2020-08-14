@@ -388,9 +388,11 @@ defmodule Getthatjob.Recruitment do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_application(attrs \\ %{}) do
+  def create_application(%Job{} = job, %Professional{} = professional, attrs \\ %{}) do
     %Application{}
     |> Application.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:job, job)
+    |> Ecto.Changeset.put_assoc(:professional, professional)
     |> Repo.insert()
   end
 
@@ -439,5 +441,15 @@ defmodule Getthatjob.Recruitment do
   """
   def change_application(%Application{} = application, attrs \\ %{}) do
     Application.changeset(application, attrs)
+  end
+
+  # Dataloader
+
+  def datasource() do
+    Dataloader.Ecto.new(Repo, query: &query/2)
+  end
+
+  def query(queryable, _) do
+    queryable
   end
 end

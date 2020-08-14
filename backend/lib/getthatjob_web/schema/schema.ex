@@ -1,6 +1,11 @@
 defmodule GetthatjobWeb.Schema.Schema do
   use Absinthe.Schema
-  alias Getthatjob.{Account, Recruitment}
+
+  alias Getthatjob.Recruitment
+
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+
+  alias GetthatjobWeb.Resolvers
 
   query do
     @desc "Get a Job by title"
@@ -8,9 +13,7 @@ defmodule GetthatjobWeb.Schema.Schema do
     field :job, :job do
       arg(:title, non_null(:string))
 
-      resolve(fn _, %{title: title}, _ ->
-        {:ok, Recruitment.get_job_by_title!(title)}
-      end)
+      resolve(&Resolvers.Recruitment.job/3)
     end
 
     @desc "Get a list of jobs"
@@ -19,9 +22,7 @@ defmodule GetthatjobWeb.Schema.Schema do
       arg(:order, type: :sort_order, default_value: :asc)
       arg(:filter, :job_filter)
 
-      resolve(fn _, args, _ ->
-        {:ok, Recruitment.list_jobs(args)}
-      end)
+      resolve(&Resolvers.Recruitment.jobs/3)
     end
   end
 
@@ -44,15 +45,47 @@ defmodule GetthatjobWeb.Schema.Schema do
   end
 
   object :job do
-    field(:id, non_null(:id))
-    field(:title, non_null(:string))
-    field(:type, non_null(:string))
-    field(:seniority, non_null(:boolean))
-    field(:salary, :integer)
-    field(:location, non_null(:string))
-    field(:introduction, non_null(:string))
-    field(:expected, non_null(:string))
-    field(:looking_for, non_null(:string))
-    field(:requirements, non_null(:string))
+    field :id, non_null(:id)
+    field :title, non_null(:string)
+    field :type, non_null(:string)
+    field :seniority, non_null(:boolean)
+    field :salary, :integer
+    field :location, non_null(:string)
+    field :introduction, non_null(:string)
+    field :expected, non_null(:string)
+    field :looking_for, non_null(:string)
+    field :requirements, non_null(:string)
+    field :applications, list_of(:application), resolve: dataloader(Recruitment)
+  end
+
+  object :application do
+    field :id, non_null(:id)
+    field :cv_path, non_null(:string)
+    field :professional_experience, non_null(:string)
+    field :reason, non_null(:string)
+
+    field :professional, :professional, resolve: dataloader(Recruitment)
+  end
+
+  object :professional do
+    field :id, non_null(:id)
+    field :name, non_null(:string)
+    field :phone_number, non_null(:string)
+    field :description, non_null(:string)
+    field :experience, non_null(:string)
+    field :linkedin, :string
+    field :github, :string
+  end
+
+  def context(ctx) do
+    loader =
+      Dataloader.new()
+      |> Dataloader.add_source(Recruitment, Recruitment.datasource())
+
+    Map.put(ctx, :loader, loader)
+  end
+
+  def plugins do
+    [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
   end
 end

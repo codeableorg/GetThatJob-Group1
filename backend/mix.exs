@@ -20,7 +20,7 @@ defmodule Getthatjob.MixProject do
   def application do
     [
       mod: {Getthatjob.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -45,7 +45,8 @@ defmodule Getthatjob.MixProject do
       {:argon2_elixir, "~> 2.0"},
       {:plug_cowboy, "~> 2.0"},
       {:absinthe, "~> 1.5"},
-      {:absinthe_plug, "~> 1.5"}
+      {:absinthe_plug, "~> 1.5"},
+      {:dataloader, "~> 1.0.0"}
     ]
   end
 
