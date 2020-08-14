@@ -34,7 +34,16 @@ const Wrapper = styled.header`
   .navbar {
     display: grid;
     grid-template-columns: repeat(2, auto);
+    align-items: center;
     column-gap: 15px;
+  }
+
+  .navbar__link {
+    padding: 5px 20px;
+    color: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
   }
 `;
 
@@ -48,10 +57,9 @@ export default function Header() {
         </Link>
 
         <nav className="navbar">
-          <Dropdown title="Sign In">
-            <Link to="/sign-in/recruiter">Recruiter</Link>
-            <Link to="/sign-in/professional">Professional</Link>
-          </Dropdown>
+          <Link className="navbar__link" to="/sign-in">
+            Sign In
+          </Link>
 
           <Dropdown title="Sign Up" color="#3c2dff">
             <Link to="/sign-up/recruiter">Recruiter</Link>
