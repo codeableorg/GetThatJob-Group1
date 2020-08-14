@@ -15,7 +15,7 @@ export default function Layout({ children }) {
   return (
     <Wrapper>
       <Header />
-      {children}
+      <main>{children}</main>
       <Footer />
     </Wrapper>
   );

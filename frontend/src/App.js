@@ -1,15 +1,15 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
-import Layout from './components/Layout';
+import Index from './pages/Index';
 
 function App() {
   return (
-    <Layout>
+    <Switch>
       <Route exact path="/">
-        Index
+        <Index />
       </Route>
-    </Layout>
+    </Switch>
   );
 }
 
