@@ -46,7 +46,8 @@ defmodule Getthatjob.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:absinthe, "~> 1.5"},
       {:absinthe_plug, "~> 1.5"},
-      {:dataloader, "~> 1.0.0"}
+      {:dataloader, "~> 1.0.0"},
+      {:absinthe_error_payload, "~> 1.0"}
     ]
   end
 

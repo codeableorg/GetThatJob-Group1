@@ -7,6 +7,7 @@ defmodule Getthatjob.Account.User do
     field(:email, :string)
     field(:password_hash, :string)
     field(:password, :string, virtual: true)
+    field(:password_confirmation, :string, virtual: true)
     belongs_to :professional, Professional
     belongs_to :recruiter, Recruiter
 
@@ -16,8 +17,9 @@ defmodule Getthatjob.Account.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :password])
-    |> validate_required([:email, :password])
+    |> cast(attrs, [:email, :password, :password_confirmation])
+    |> validate_required([:email, :password, :password_confirmation])
+    |> validate_confirmation(:password)
     |> unique_constraint(:email)
     |> check_constraint(:professional, name: :one_type_user)
     |> hash_password()

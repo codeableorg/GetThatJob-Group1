@@ -9,7 +9,6 @@ defmodule GetthatjobWeb.Schema.Schema do
 
   query do
     @desc "Get a Job by title"
-
     field :job, :job do
       arg(:title, non_null(:string))
 
@@ -26,7 +25,18 @@ defmodule GetthatjobWeb.Schema.Schema do
     end
   end
 
+  mutation do
+    @desc "Create a professional user account"
+    field :signup_professional, :session do
+      arg(:user, non_null(:user_input))
+
+      resolve(&Resolvers.Account.signup_professional/3)
+    end
+  end
+
   def context(ctx) do
+    ctx = Map.put(ctx, :current_user, Getthatjob.Account.get_user!(1))
+
     loader =
       Dataloader.new()
       |> Dataloader.add_source(Recruitment, Recruitment.datasource())

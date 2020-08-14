@@ -25,5 +25,6 @@ defmodule Getthatjob.Recruitment.Recruiter do
       :company_website,
       :company_description
     ])
+    |> cast_assoc(:user, with: &Getthatjob.Account.User.changeset/2)
   end
 end

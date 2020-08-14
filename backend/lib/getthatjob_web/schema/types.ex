@@ -37,6 +37,22 @@ defmodule GetthatjobWeb.Schema.Types do
     field :github, :string
   end
 
+  object :session do
+    field :user, non_null(:user)
+    field :token, non_null(:string)
+  end
+
+  object :user do
+    field :id, non_null(:id)
+    field :email, non_null(:string)
+  end
+
+  input_object :user_input do
+    field :email, non_null(:string)
+    field :password, non_null(:string)
+    field :password_confirmation, non_null(:string)
+  end
+
   input_object :job_filter do
     field :matching, :string
     field :country, :string

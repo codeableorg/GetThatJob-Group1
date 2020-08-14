@@ -10,14 +10,19 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias Getthatjob.{Account, Recruitment}
+alias Getthatjob.Recruitment
 
 {:ok, profesional} =
   Recruitment.create_professional(%{
     name: "Albert",
     phone_number: "11111111",
     description: "Holi",
-    experience: "Woli"
+    experience: "Woli",
+    user: %{
+      email: "acastemoreno@gmail.com",
+      password: "123456",
+      password_confirmation: "123456"
+    }
   })
 
 {:ok, recruiter} =
@@ -25,14 +30,13 @@ alias Getthatjob.{Account, Recruitment}
     company_description: "Codeable Description",
     company_logo_path: "asd",
     company_name: "Codeable",
-    company_website: "codeable.pe"
+    company_website: "codeable.pe",
+    user: %{
+      email: "ricardohuamanip@gmail.com",
+      password: "123456",
+      password_confirmation: "123456"
+    }
   })
-
-{:ok, _} =
-  Account.create_user(profesional, %{email: "acastemoreno@gmail.com", password: "123456"})
-
-{:ok, _} =
-  Account.create_user(recruiter, %{email: "ricardohuamanip@gmail.com", password: "123456"})
 
 {:ok, job1} =
   Recruitment.create_job(recruiter, %{
@@ -67,7 +71,7 @@ alias Getthatjob.{Account, Recruitment}
     cv_path: "cv_path1"
   })
 
-{:ok, application} =
+{:ok, _application} =
   Recruitment.create_application(job2, profesional, %{
     professional_experience: "professional_experience2",
     reason: "reason job2",

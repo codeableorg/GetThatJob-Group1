@@ -21,6 +21,6 @@ defmodule Getthatjob.Recruitment.Professional do
   def changeset(professional, attrs) do
     professional
     |> cast(attrs, [:name, :phone_number, :description, :experience, :linkedin, :github])
-    |> validate_required([:name, :phone_number, :description, :experience])
+    |> cast_assoc(:user, with: &Getthatjob.Account.User.changeset/2)
   end
 end

@@ -50,18 +50,18 @@ defmodule Getthatjob.Account do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(type_user, attrs \\ %{})
+  def create_user(_type_user, attrs \\ %{})
 
   def create_user(%Professional{} = profesional, attrs) do
     %User{}
-    |> User.changeset(attrs)
+    |> User.changeset(Map.put(attrs, :type, "professional"))
     |> Ecto.Changeset.put_assoc(:professional, profesional)
     |> Repo.insert()
   end
 
   def create_user(%Recruiter{} = recruiter, attrs) do
     %User{}
-    |> User.changeset(attrs)
+    |> User.changeset(Map.put(attrs, :type, "recruiter"))
     |> Ecto.Changeset.put_assoc(:recruiter, recruiter)
     |> Repo.insert()
   end
