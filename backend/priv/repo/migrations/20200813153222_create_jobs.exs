@@ -12,7 +12,7 @@ defmodule Getthatjob.Repo.Migrations.CreateJobs do
       add :expected, :text, null: false
       add :looking_for, :text, null: false
       add :requirements, :text, null: false
-      add :recruiter_id, references(:recruiters, on_delete: :nothing)
+      add :recruiter_id, references(:recruiters, on_delete: :nothing), null: false
 
       timestamps()
     end
