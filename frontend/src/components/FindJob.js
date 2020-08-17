@@ -53,6 +53,7 @@ const JOBS = gql`
       id
       title
       location
+      insertedAt
     }
   }
 `;
