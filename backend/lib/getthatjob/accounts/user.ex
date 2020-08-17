@@ -1,4 +1,4 @@
-defmodule Getthatjob.Account.User do
+defmodule Getthatjob.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias Getthatjob.Recruitment.{Professional, Recruiter}

@@ -1,7 +1,7 @@
 defmodule Getthatjob.Recruitment.Recruiter do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Getthatjob.Account.User
+  alias Getthatjob.Accounts.User
   alias Getthatjob.Recruitment.Job
 
   schema "recruiters" do
@@ -25,6 +25,6 @@ defmodule Getthatjob.Recruitment.Recruiter do
       :company_website,
       :company_description
     ])
-    |> cast_assoc(:user, with: &Getthatjob.Account.User.changeset/2)
+    |> cast_assoc(:user, with: &Getthatjob.Accounts.User.changeset/2)
   end
 end

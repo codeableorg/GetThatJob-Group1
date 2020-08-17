@@ -20,3 +20,5 @@ config :getthatjob, GetthatjobWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :getthatjob, auth_salt: "xalkdXT0Nho04J/CHBueV6o0zmSiQDLf0E59dK/nowN+SiYd3sfq6RGuxIT/MJ9o"
