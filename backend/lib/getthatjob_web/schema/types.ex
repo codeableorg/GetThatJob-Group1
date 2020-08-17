@@ -2,6 +2,8 @@ defmodule GetthatjobWeb.Schema.Types do
   use Absinthe.Schema.Notation
   alias Getthatjob.Recruitment
 
+  import_types(Absinthe.Type.Custom)
+
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
   object :job do
@@ -15,6 +17,8 @@ defmodule GetthatjobWeb.Schema.Types do
     field :expected, non_null(:string)
     field :looking_for, non_null(:string)
     field :requirements, non_null(:string)
+    field :inserted_at, non_null(:naive_datetime)
+    field :recruiter, non_null(:recruiter), resolve: dataloader(Recruitment)
     field :applications, list_of(:application), resolve: dataloader(Recruitment)
   end
 
@@ -35,6 +39,14 @@ defmodule GetthatjobWeb.Schema.Types do
     field :experience, non_null(:string)
     field :linkedin, :string
     field :github, :string
+  end
+
+  object :recruiter do
+    field :id, non_null(:id)
+    field :company_name, non_null(:string)
+    field :company_logo_path, non_null(:string)
+    field :company_website, non_null(:string)
+    field :company_description, non_null(:string)
   end
 
   object :session do

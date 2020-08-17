@@ -64,3 +64,5 @@ config :cors_plug,
   origin: ["http://localhost:3000"],
   max_age: 86400,
   methods: ["GET", "POST"]
+
+config :getthatjob, auth_salt: "xalkdXT0Nho04J/CHBueV6o0zmSiQDLf0E59dK/nowN+SiYd3sfq6RGuxIT/MJ9o"
