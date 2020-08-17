@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { useQuery, gql } from '@apollo/client';
 
 import { Container } from './StyledComponents';
+import JobItem from '../features/jobs/JobItem';
 
 const Wrapper = styled.section`
   background: #3c2dff;
@@ -49,6 +50,7 @@ const Wrapper = styled.section`
 const JOBS = gql`
   query {
     jobs {
+      id
       title
       location
     }
@@ -79,7 +81,10 @@ export default function FindJob() {
         <section className="jobs-list">
           {loading && 'Loading...'}
           {error && console.log(error)}
-          {data && console.log(data.jobs)}
+          {data &&
+            data.jobs.map((job) => (
+              <JobItem job={job} key={job.id} className="job" />
+            ))}
         </section>
       </Container>
     </Wrapper>
