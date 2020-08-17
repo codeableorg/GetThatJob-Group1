@@ -50,7 +50,7 @@ const JOBS = gql`
   query {
     jobs {
       title
-      country
+      location
     }
   }
 `;

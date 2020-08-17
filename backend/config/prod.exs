@@ -56,4 +56,9 @@ config :argon2_elixir,
   t_cost: 8,
   m_cost: 17
 
+config :cors_plug,
+  origin: ["http://localhost:3000"],
+  max_age: 86400,
+  methods: ["GET", "POST"]
+
 import_config "prod.secret.exs"

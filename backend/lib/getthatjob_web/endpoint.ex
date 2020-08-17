@@ -10,6 +10,8 @@ defmodule GetthatjobWeb.Endpoint do
     signing_salt: "EJR5C8Ym"
   ]
 
+  plug CORSPlug
+
   socket "/socket", GetthatjobWeb.UserSocket,
     websocket: true,
     longpoll: false
