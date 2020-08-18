@@ -18,21 +18,25 @@ const SignupProfessional = () => {
       <SubTitle>As Professional</SubTitle>
       <Formik
         initialValues={{
-          email: '',
-          password: '',
-          passwordConfirmation: '',
+          user: {
+            email: '',
+            password: '',
+            passwordConfirmation: '',
+          },
         }}
         validationSchema={Yup.object({
-          email: Yup.string()
-            .email('Invalid email address')
-            .required('Required'),
-          password: Yup.string()
-            .max(20, 'Must be 20 characters or less')
-            .required('Required'),
-          passwordConfirmation: Yup.string()
-            .max(20, 'Must be 20 characters or less')
-            .required('Required')
-            .oneOf([Yup.ref('password')], 'Passwords must match'),
+          user: Yup.object({
+            email: Yup.string()
+              .email('Invalid email address')
+              .required('Required'),
+            password: Yup.string()
+              .max(20, 'Must be 20 characters or less')
+              .required('Required'),
+            passwordConfirmation: Yup.string()
+              .max(20, 'Must be 20 characters or less')
+              .required('Required')
+              .oneOf([Yup.ref('password')], 'Passwords must match'),
+          }),
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
@@ -44,14 +48,14 @@ const SignupProfessional = () => {
         <FormStyled>
           <TextInput
             label="Email"
-            name="email"
+            name="user.email"
             type="email"
             placeholder="admin@mail.com"
           />
-          <TextInput label="Password" name="password" type="password" />
+          <TextInput label="Password" name="user.password" type="password" />
           <TextInput
             label="Password Confirmation"
-            name="passwordConfirmation"
+            name="user.passwordConfirmation"
             type="password"
           />
           <SubmitStyled type="submit">Submit Up</SubmitStyled>
