@@ -8,7 +8,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphiql',
+  uri: 'http://localhost:4000/api',
   cache: new InMemoryCache(),
 });
 
