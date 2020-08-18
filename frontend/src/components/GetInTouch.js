@@ -99,16 +99,16 @@ export default function GetInTouch() {
           <div className="description__body">
             If you are not sure yet, shoot us a message!
           </div>
-          <div class="description__info">
+          <div className="description__info">
             <div>hello@getthatjob.com</div>
             <div>Jose Galvez 692, 7th Floor. The Board</div>
           </div>
         </article>
-        <form class="form">
+        <form className="form">
           <input type="text" className="form__input" placeholder="Your email" />
           <input type="text" className="form__input" placeholder="Name" />
           <textarea className="form__textarea" />
-          <button class="form__button">
+          <button className="form__button">
             <img
               src={mailIcon}
               className="form__button-icon"
