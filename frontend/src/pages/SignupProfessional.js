@@ -57,12 +57,12 @@ const SignupProfessional = () => {
                 password: Yup.string()
                   .max(20, 'Must be 20 characters or less')
                   .required('Required'),
-                passwordConfirmation: Yup.string()
+                password_confirmation: Yup.string()
                   .max(20, 'Must be 20 characters or less')
                   .required('Required')
                   .oneOf([Yup.ref('password')], 'Passwords must match'),
               })}
-              onSubmit={(values, { setErrors }) => {
+              onSubmit={(values, { setErrors, setSubmitting }) => {
                 signup({ variables: values }).catch((e) => {
                   const errors = e.graphQLErrors[0];
                   setSubmitting(false);
