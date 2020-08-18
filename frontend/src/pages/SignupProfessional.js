@@ -17,13 +17,13 @@ const SIGNUP_PROFESSIONAL_MUTATION = gql`
   mutation SignupProfessional(
     $email: String!
     $password: String!
-    $passwordConfirmation: String!
+    $password_confirmation: String!
   ) {
     signupProfessional(
       user: {
         email: $email
         password: $password
-        passwordConfirmation: $passwordConfirmation
+        passwordConfirmation: $password_confirmation
       }
     ) {
       token
@@ -42,16 +42,13 @@ const SignupProfessional = () => {
       <Title>Sign Up</Title>
       <SubTitle>As Professional</SubTitle>
       <Mutation mutation={SIGNUP_PROFESSIONAL_MUTATION}>
-        {(signup, { data, loading }) => {
-          if (data) {
-            console.log(data.signupProfessional);
-          }
+        {(signup, { loading }) => {
           return (
             <Formik
               initialValues={{
                 email: '',
                 password: '',
-                passwordConfirmation: '',
+                password_confirmation: '',
               }}
               validationSchema={Yup.object({
                 email: Yup.string()
@@ -65,10 +62,9 @@ const SignupProfessional = () => {
                   .required('Required')
                   .oneOf([Yup.ref('password')], 'Passwords must match'),
               })}
-              onSubmit={(values, { setSubmitting, setErrors }) => {
+              onSubmit={(values, { setErrors }) => {
                 signup({ variables: values }).catch((e) => {
                   const errors = e.graphQLErrors[0];
-                  setSubmitting(false);
                   setErrors(errors.details.user);
                 });
               }}
@@ -83,7 +79,7 @@ const SignupProfessional = () => {
                 <TextInput label="Password" name="password" type="password" />
                 <TextInput
                   label="Password Confirmation"
-                  name="passwordConfirmation"
+                  name="password_confirmation"
                   type="password"
                 />
                 <SubmitStyled type="submit" disabled={loading}>
