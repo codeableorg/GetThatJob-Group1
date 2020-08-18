@@ -1,12 +1,12 @@
-defmodule Getthatjob.Account do
+defmodule Getthatjob.Accounts do
   @moduledoc """
-  The Account context.
+  The Accounts context.
   """
 
   import Ecto.Query, warn: false
   alias Getthatjob.Repo
 
-  alias Getthatjob.Account.User
+  alias Getthatjob.Accounts.User
   alias Getthatjob.Recruitment.{Professional, Recruiter}
 
   @doc """
@@ -36,7 +36,9 @@ defmodule Getthatjob.Account do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user(id) do
+    Repo.get(User, id)
+  end
 
   @doc """
   Creates a user.
@@ -98,6 +100,25 @@ defmodule Getthatjob.Account do
   """
   def delete_user(%User{} = user) do
     Repo.delete(user)
+  end
+
+  def authenticate(email, password) do
+    user = Repo.get_by(User, email: email)
+
+    with %{password_hash: password_hash} <- user,
+         true <- Argon2.verify_pass(password, password_hash) do
+      {:ok, user}
+    else
+      _ -> :error
+    end
+  end
+
+  def fill_user_type(%User{} = user) do
+    if user.professional_id == nil do
+      Map.put(user, :type, "recruiter")
+    else
+      Map.put(user, :type, "professional")
+    end
   end
 
   @doc """

@@ -1,7 +1,7 @@
 defmodule Getthatjob.Recruitment.Professional do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Getthatjob.Account.User
+  alias Getthatjob.Accounts.User
   alias Getthatjob.Recruitment.Application
 
   schema "professionals" do
@@ -21,6 +21,6 @@ defmodule Getthatjob.Recruitment.Professional do
   def changeset(professional, attrs) do
     professional
     |> cast(attrs, [:name, :phone_number, :description, :experience, :linkedin, :github])
-    |> cast_assoc(:user, with: &Getthatjob.Account.User.changeset/2)
+    |> cast_assoc(:user, with: &Getthatjob.Accounts.User.changeset/2)
   end
 end
