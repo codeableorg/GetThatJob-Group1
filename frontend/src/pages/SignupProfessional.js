@@ -42,7 +42,10 @@ const SignupProfessional = () => {
       <Title>Sign Up</Title>
       <SubTitle>As Professional</SubTitle>
       <Mutation mutation={SIGNUP_PROFESSIONAL_MUTATION}>
-        {(signup, { loading }) => {
+        {(signup, { data, loading }) => {
+          if (data) {
+            console.log(data.signupProfessional);
+          }
           return (
             <Formik
               initialValues={{
@@ -62,12 +65,12 @@ const SignupProfessional = () => {
                   .required('Required')
                   .oneOf([Yup.ref('password')], 'Passwords must match'),
               })}
-              onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                  signup({ variables: values });
-                  alert(JSON.stringify(values, null, 2));
+              onSubmit={(values, { setSubmitting, setErrors }) => {
+                signup({ variables: values }).catch((e) => {
+                  const errors = e.graphQLErrors[0];
                   setSubmitting(false);
-                }, 400);
+                  setErrors(errors.details.user);
+                });
               }}
             >
               <FormStyled>
