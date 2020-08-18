@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { gql } from '@apollo/client';
-import { Query } from '@apollo/client/react/components';
+import { useQuery, gql } from '@apollo/client';
 
 import { Container } from './StyledComponents';
 
@@ -57,6 +56,8 @@ const JOBS = gql`
 `;
 
 export default function FindJob() {
+  const { loading, data, error } = useQuery(JOBS);
+
   return (
     <Wrapper>
       <Container>
@@ -76,14 +77,9 @@ export default function FindJob() {
         </section>
 
         <section className="jobs-list">
-          <Query query={JOBS}>
-            {({ data, loading, error }) => {
-              if (loading) return 'Loading...';
-              if (error) console.log(error);
-              console.log(data.jobs);
-              return null;
-            }}
-          </Query>
+          {loading && 'Loading...'}
+          {error && console.log(error)}
+          {data && console.log(data.jobs)}
         </section>
       </Container>
     </Wrapper>
