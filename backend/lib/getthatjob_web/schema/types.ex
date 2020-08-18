@@ -3,6 +3,7 @@ defmodule GetthatjobWeb.Schema.Types do
   alias Getthatjob.Recruitment
 
   import_types(Absinthe.Type.Custom)
+  import_types(Absinthe.Plug.Types)
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 

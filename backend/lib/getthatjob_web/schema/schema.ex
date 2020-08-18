@@ -56,6 +56,18 @@ defmodule GetthatjobWeb.Schema.Schema do
 
       resolve(&Resolvers.Accounts.signup_recruiter/3)
     end
+
+    @desc "Test for file upload"
+    field :upload_file, :string do
+      arg(:file_data, non_null(:upload))
+
+      resolve(fn args, _ ->
+        # this is a `%Plug.Upload{}` struct.
+        IO.inspect(args.file_data)
+
+        {:ok, "success"}
+      end)
+    end
   end
 
   def context(ctx) do
