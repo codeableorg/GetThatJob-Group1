@@ -3,6 +3,7 @@ defmodule GetthatjobWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug GetthatjobWeb.Plugs.SetCurrentUser
   end
 
   scope "/" do
@@ -12,8 +13,7 @@ defmodule GetthatjobWeb.Router do
 
     forward "/graphiql", Absinthe.Plug.GraphiQL,
       schema: GetthatjobWeb.Schema.Schema,
-      socket: GetthatjobWeb.UserSocket,
-      interface: :simple
+      socket: GetthatjobWeb.UserSocket
   end
 
   # Enables LiveDashboard only for development

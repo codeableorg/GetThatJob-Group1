@@ -4,6 +4,7 @@ defmodule GetthatjobWeb.Schema.Schema do
   alias Getthatjob.Recruitment
 
   alias GetthatjobWeb.Resolvers
+  alias GetthatjobWeb.Schema.Middleware
 
   import_types(GetthatjobWeb.Schema.Types)
 
@@ -11,7 +12,6 @@ defmodule GetthatjobWeb.Schema.Schema do
     @desc "Get a Job by title"
     field :job, :job do
       arg(:title, non_null(:string))
-
       resolve(&Resolvers.Recruitment.job/3)
     end
 
@@ -22,6 +22,12 @@ defmodule GetthatjobWeb.Schema.Schema do
       arg(:filter, :job_filter)
 
       resolve(&Resolvers.Recruitment.jobs/3)
+    end
+
+    @desc "Get the currently signed-in user"
+    field :me, :user do
+      middleware(Middleware.Authenticate)
+      resolve(&Resolvers.Accounts.me/3)
     end
   end
 
@@ -53,8 +59,6 @@ defmodule GetthatjobWeb.Schema.Schema do
   end
 
   def context(ctx) do
-    ctx = Map.put(ctx, :current_user, Getthatjob.Accounts.get_user!(1))
-
     loader =
       Dataloader.new()
       |> Dataloader.add_source(Recruitment, Recruitment.datasource())

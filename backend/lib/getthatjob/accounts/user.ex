@@ -8,6 +8,7 @@ defmodule Getthatjob.Accounts.User do
     field(:password_hash, :string)
     field(:password, :string, virtual: true)
     field(:password_confirmation, :string, virtual: true)
+    field(:type, :string, virtual: true)
     belongs_to :professional, Professional
     belongs_to :recruiter, Recruiter
 

@@ -9,6 +9,7 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
         {:error, "Whoops, invalid credentials!"}
 
       {:ok, user} ->
+        user = user |> Accounts.fill_user_type()
         token = GetthatjobWeb.Auth.Token.sign(user)
         {:ok, %{user: user, token: token}}
     end
@@ -22,8 +23,9 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
 
     case result do
       {:ok, profesional} ->
-        token = GetthatjobWeb.Auth.Token.sign(profesional.user)
-        {:ok, %{user: profesional.user, token: token}}
+        user = profesional.user |> Accounts.fill_user_type()
+        token = GetthatjobWeb.Auth.Token.sign(user)
+        {:ok, %{user: user, token: token}}
 
       {:error, changeset} ->
         {:error,
@@ -40,12 +42,21 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
 
     case result do
       {:ok, recruiter} ->
-        token = GetthatjobWeb.Auth.Token.sign(recruiter.user)
-        {:ok, %{user: recruiter.user, token: token}}
+        user = recruiter.user |> Accounts.fill_user_type()
+        token = GetthatjobWeb.Auth.Token.sign(user)
+        {:ok, %{user: user, token: token}}
 
       {:error, changeset} ->
         {:error,
          message: "Could not create recruiter", details: ChangesetErrors.error_details(changeset)}
     end
+  end
+
+  def me(_, _, %{context: %{current_user: user}}) do
+    {:ok, user}
+  end
+
+  def me(_, _, _) do
+    {:ok, nil}
   end
 end

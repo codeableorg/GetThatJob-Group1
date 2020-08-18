@@ -36,7 +36,9 @@ defmodule Getthatjob.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user(id) do
+    Repo.get(User, id)
+  end
 
   @doc """
   Creates a user.
@@ -108,6 +110,14 @@ defmodule Getthatjob.Accounts do
       {:ok, user}
     else
       _ -> :error
+    end
+  end
+
+  def fill_user_type(%User{} = user) do
+    if user.professional_id == nil do
+      Map.put(user, :type, "recruiter")
+    else
+      Map.put(user, :type, "professional")
     end
   end
 
