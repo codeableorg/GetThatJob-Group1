@@ -32,7 +32,6 @@ const FileInput = ({ formik, label, note, ...props }) => {
       {meta.touched && formik.errors.company_logo_meta ? (
         <ErrorInput>{formik.errors.company_logo_meta}</ErrorInput>
       ) : null}
-      {console.log(formik.touched)}
     </Fragment>
   );
 };

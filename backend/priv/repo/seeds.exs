@@ -24,7 +24,7 @@ alias Getthatjob.Recruitment
       password_confirmation: "123456"
     },
     company_logo_meta: %{
-      path: Path.expand("./assets/static/photo.jpg"),
+      path: Path.absname("./assets/static/photo.jpg"),
       filename: "photo.jpg"
     }
   })
@@ -41,7 +41,7 @@ alias Getthatjob.Recruitment
       password_confirmation: "123456"
     },
     company_logo_meta: %{
-      path: Path.expand("./assets/static/photo.jpg"),
+      path: Path.absname("./assets/static/photo.jpg"),
       filename: "photo.jpg"
     }
   })
