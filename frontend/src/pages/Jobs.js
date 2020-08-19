@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import Layout from '../components/Layout';
 import Sidebar from '../components/Sidebar';
 
 const Wrapper = styled.div`
@@ -13,11 +12,9 @@ const Wrapper = styled.div`
 
 export default function Jobs() {
   return (
-    <Layout>
-      <Wrapper>
-        <Sidebar />
-        <span>Jobs</span>
-      </Wrapper>
-    </Layout>
+    <Wrapper>
+      <Sidebar />
+      <span>Jobs</span>
+    </Wrapper>
   );
 }

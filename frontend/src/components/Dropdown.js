@@ -15,6 +15,7 @@ const Wrapper = styled.div`
     font-family: Hind;
     font-size: 1rem;
     font-weight: 700;
+    cursor: pointer;
   }
 
   .button__title {

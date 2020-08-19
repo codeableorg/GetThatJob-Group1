@@ -48,7 +48,7 @@ const Wrapper = styled.section`
 `;
 
 const JOBS = gql`
-  query {
+  query Jobs {
     jobs {
       id
       title

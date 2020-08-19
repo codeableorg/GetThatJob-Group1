@@ -56,7 +56,10 @@ defmodule GetthatjobWeb.Schema.Types do
 
   object :user do
     field :id, non_null(:id)
+    field :type, non_null(:string)
     field :email, non_null(:string)
+    field :professional, :professional, resolve: dataloader(Recruitment)
+    field :recruiter, :recruiter, resolve: dataloader(Recruitment)
   end
 
   input_object :user_input do

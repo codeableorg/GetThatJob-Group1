@@ -3,18 +3,19 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
 
   alias GetthatjobWeb.Schema.ChangesetErrors
 
-  def signin(_, %{email: email, password: password}, _) do
+  def sign_in(_, %{email: email, password: password}, _) do
     case Accounts.authenticate(email, password) do
-      :error ->
-        {:error, "Whoops, invalid credentials!"}
+      {:error, details} ->
+        {:error, message: "Whoops, invalid credentials!", details: %{user: details}}
 
       {:ok, user} ->
+        user = user |> Accounts.fill_user_type()
         token = GetthatjobWeb.Auth.Token.sign(user)
         {:ok, %{user: user, token: token}}
     end
   end
 
-  def signup_professional(_, arg, _) do
+  def sign_up_professional(_, arg, _) do
     result =
       arg
       |> Enum.into(%{})
@@ -22,8 +23,9 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
 
     case result do
       {:ok, profesional} ->
-        token = GetthatjobWeb.Auth.Token.sign(profesional.user)
-        {:ok, %{user: profesional.user, token: token}}
+        user = profesional.user |> Accounts.fill_user_type()
+        token = GetthatjobWeb.Auth.Token.sign(user)
+        {:ok, %{user: user, token: token}}
 
       {:error, changeset} ->
         {:error,
@@ -32,7 +34,7 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
     end
   end
 
-  def signup_recruiter(_, arg, _) do
+  def sign_up_recruiter(_, arg, _) do
     result =
       arg
       |> Enum.into(%{})
@@ -40,12 +42,21 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
 
     case result do
       {:ok, recruiter} ->
-        token = GetthatjobWeb.Auth.Token.sign(recruiter.user)
-        {:ok, %{user: recruiter.user, token: token}}
+        user = recruiter.user |> Accounts.fill_user_type()
+        token = GetthatjobWeb.Auth.Token.sign(user)
+        {:ok, %{user: user, token: token}}
 
       {:error, changeset} ->
         {:error,
          message: "Could not create recruiter", details: ChangesetErrors.error_details(changeset)}
     end
+  end
+
+  def me(_, _, %{context: %{current_user: user}}) do
+    {:ok, user}
+  end
+
+  def me(_, _, _) do
+    {:ok, nil}
   end
 end
