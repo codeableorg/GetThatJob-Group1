@@ -109,7 +109,8 @@ defmodule Getthatjob.Accounts do
          true <- Argon2.verify_pass(password, password_hash) do
       {:ok, user}
     else
-      _ -> :error
+      nil -> {:error, %{email: "email don't exist"}}
+      false -> {:error, %{password: "wrong password"}}
     end
   end
 
