@@ -4,8 +4,9 @@ import { Switch, Route } from 'react-router-dom';
 import Index from './pages/Index';
 import Layout from './components/Layout';
 import Auth from './components/Auth';
-import SignupRecruiter from './pages/SignupRecruiter';
-import SignupProfessional from './pages/SignupProfessional';
+import SignIn from './pages/SignIn';
+import SignUpRecruiter from './pages/SignUpRecruiter';
+import SignUpProfessional from './pages/SignUpProfessional';
 
 function App() {
   return (
@@ -16,15 +17,16 @@ function App() {
         </Route>
         <Route path={['/sign-in', '/sign-up']}>
           <Auth>
+            <Route exact path="/sign-in" component={SignIn} />
             <Route
               exact
               path="/sign-up/recruiter"
-              component={SignupRecruiter}
+              component={SignUpRecruiter}
             />
             <Route
               exact
               path="/sign-up/professional"
-              component={SignupProfessional}
+              component={SignUpProfessional}
             />
           </Auth>
         </Route>

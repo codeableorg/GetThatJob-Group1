@@ -13,13 +13,13 @@ import {
 } from '../components/auth/StyledComponents';
 import TextInput from '../components/auth/TextInput';
 
-const SIGNUP_PROFESSIONAL_MUTATION = gql`
-  mutation SignupProfessional(
+const SIGN_UP_PROFESSIONAL_MUTATION = gql`
+  mutation SignUpProfessional(
     $email: String!
     $password: String!
     $password_confirmation: String!
   ) {
-    signupProfessional(
+    signUpProfessional(
       user: {
         email: $email
         password: $password
@@ -36,12 +36,12 @@ const SIGNUP_PROFESSIONAL_MUTATION = gql`
   }
 `;
 
-const SignupProfessional = () => {
+const SignUpProfessional = () => {
   let history = useHistory();
 
-  const [signup, { loading }] = useMutation(SIGNUP_PROFESSIONAL_MUTATION, {
-    onCompleted({ signupProfessional }) {
-      localStorage.setItem('auth-token', signupProfessional.token);
+  const [signUp, { loading }] = useMutation(SIGN_UP_PROFESSIONAL_MUTATION, {
+    onCompleted({ signUpProfessional }) {
+      localStorage.setItem('auth-token', signUpProfessional.token);
       history.push('/');
     },
   });
@@ -69,7 +69,7 @@ const SignupProfessional = () => {
             .oneOf([Yup.ref('password')], 'Passwords must match'),
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
-          signup({ variables: values }).catch(({ graphQLErrors }) => {
+          signUp({ variables: values }).catch(({ graphQLErrors }) => {
             setErrors(graphQLErrors[0].details.user);
             setSubmitting(false);
           });
@@ -98,4 +98,4 @@ const SignupProfessional = () => {
   );
 };
 
-export default SignupProfessional;
+export default SignUpProfessional;

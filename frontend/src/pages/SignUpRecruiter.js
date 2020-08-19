@@ -12,7 +12,7 @@ import {
 import TextInput from '../components/auth/TextInput';
 import TextAreaInput from '../components/auth/TextAreaInput';
 
-const SignupRecruiter = () => {
+const SignUpRecruiter = () => {
   return (
     <Fragment>
       <Title>Sign Up</Title>
@@ -95,4 +95,4 @@ const SignupRecruiter = () => {
   );
 };
 
-export default SignupRecruiter;
+export default SignUpRecruiter;
