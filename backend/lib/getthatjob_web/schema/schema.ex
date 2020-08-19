@@ -50,7 +50,7 @@ defmodule GetthatjobWeb.Schema.Schema do
     field :sign_up_recruiter, :session do
       arg(:user, non_null(:user_input))
       arg(:company_name, non_null(:string))
-      arg(:company_logo_path, non_null(:string))
+      arg(:company_logo_meta, non_null(:upload))
       arg(:company_website, non_null(:string))
       arg(:company_description, non_null(:string))
 

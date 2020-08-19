@@ -6,7 +6,7 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
   def sign_in(_, %{email: email, password: password}, _) do
     case Accounts.authenticate(email, password) do
       {:error, details} ->
-        {:error, message: "Whoops, invalid credentials!", details: %{user: details}}
+        {:error, message: "Whoops, invalid credentials!", details: details}
 
       {:ok, user} ->
         user = user |> Accounts.fill_user_type()

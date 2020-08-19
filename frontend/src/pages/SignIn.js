@@ -10,6 +10,7 @@ import {
   SubmitStyled,
 } from '../components/auth/StyledComponents';
 import TextInput from '../components/auth/TextInput';
+import { formatErrors } from '../lib/AuthHelper';
 
 const SIGN_IN = gql`
   mutation SignIn($email: String!, $password: String!) {
@@ -52,7 +53,8 @@ const SignIn = () => {
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
           signIn({ variables: values }).catch(({ graphQLErrors }) => {
-            setErrors(graphQLErrors[0].details.user);
+            console.log(formatErrors(graphQLErrors[0].details));
+            setErrors(formatErrors(graphQLErrors[0].details));
             setSubmitting(false);
           });
         }}

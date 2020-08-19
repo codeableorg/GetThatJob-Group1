@@ -70,7 +70,7 @@ const SignUpProfessional = () => {
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
           signUp({ variables: values }).catch(({ graphQLErrors }) => {
-            setErrors(graphQLErrors[0].details.user);
+            setErrors(graphQLErrors[0].details);
             setSubmitting(false);
           });
         }}

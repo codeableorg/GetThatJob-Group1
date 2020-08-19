@@ -22,6 +22,10 @@ alias Getthatjob.Recruitment
       email: "acastemoreno@gmail.com",
       password: "123456",
       password_confirmation: "123456"
+    },
+    company_logo_meta: %{
+      path: Path.expand("./assets/static/photo.jpg"),
+      filename: "photo.jpg"
     }
   })
 
@@ -35,6 +39,10 @@ alias Getthatjob.Recruitment
       email: "ricardohuamanip@gmail.com",
       password: "123456",
       password_confirmation: "123456"
+    },
+    company_logo_meta: %{
+      path: Path.expand("./assets/static/photo.jpg"),
+      filename: "photo.jpg"
     }
   })
 

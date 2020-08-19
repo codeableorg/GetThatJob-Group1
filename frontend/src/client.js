@@ -3,10 +3,12 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 
+import { createLink } from 'apollo-absinthe-upload-link';
+
 const HTTP_ENDPOINT = 'http://localhost:4000/api';
 
 // Create an HTTP link to the Phoenix app's HTTP endpoint URL.
-const httpLink = createHttpLink({
+const httpLink = createLink({
   uri: HTTP_ENDPOINT,
 });
 
