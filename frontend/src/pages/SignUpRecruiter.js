@@ -111,7 +111,6 @@ const SignUpRecruiter = () => {
         }}
       >
         {(formik) => {
-          let { setFieldValue, handleChange } = formik;
           return (
             <FormStyled>
               <TextInput

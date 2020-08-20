@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { useField, useFormik } from 'formik';
+import { useField } from 'formik';
 
 import {
   Label,
