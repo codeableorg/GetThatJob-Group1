@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useApolloClient } from '@apollo/client';
+import { GET_CURRENT_USER_QUERY } from './auth/CurrentUser';
 
 import { Container } from './StyledComponents';
 import Dropdown from './Dropdown';
 import logo from '../assets/logo.png';
+import CurrentUser from './auth/CurrentUser';
 
 const Wrapper = styled.header`
   width: 100%;
@@ -31,6 +35,14 @@ const Wrapper = styled.header`
     font-weight: 900;
   }
 
+  .menu .logout {
+    color: #f5222d;
+    cursor: pointer;
+    background-color: #ffffff;
+    border: none;
+    text-align: left;
+  }
+
   .navbar {
     display: grid;
     grid-template-columns: repeat(2, auto);
@@ -47,26 +59,67 @@ const Wrapper = styled.header`
   }
 `;
 
+const userTitle = (currentUser) => {
+  if (currentUser.type === 'RECRUITER') {
+    return currentUser.recruiter.companyName;
+  } else if (currentUser.professional.name === null) {
+    return currentUser.email;
+  } else {
+    return currentUser.professional.name;
+  }
+};
+
 export default function Header() {
+  let history = useHistory();
+  let client = useApolloClient();
+
+  const handleLogout = () => {
+    localStorage.removeItem('auth-token');
+    // client.resetStore();
+    client.writeQuery({
+      query: GET_CURRENT_USER_QUERY,
+      data: {
+        me: null,
+      },
+    });
+    history.replace('/');
+  };
+
   return (
-    <Wrapper>
-      <Container>
-        <Link className="brand" to="/">
-          <img src={logo} alt="get-that-job" />
-          <h1 className="brand__title">Get That Job</h1>
-        </Link>
+    <CurrentUser>
+      {(currentUser) => (
+        <Wrapper>
+          <Container>
+            <Link className="brand" to="/">
+              <img src={logo} alt="get-that-job" />
+              <h1 className="brand__title">Get That Job</h1>
+            </Link>
 
-        <nav className="navbar">
-          <Link className="navbar__link" to="/sign-in">
-            Sign In
-          </Link>
+            <nav className="navbar">
+              {currentUser && (
+                <Dropdown title={userTitle(currentUser)} color="#3c2dff">
+                  <Link to="/profile">Edit your profile</Link>
+                  <button className="logout" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </Dropdown>
+              )}
+              {!currentUser && (
+                <Fragment>
+                  <Link className="navbar__link" to="/sign-in">
+                    Sign In
+                  </Link>
 
-          <Dropdown title="Sign Up" color="#3c2dff">
-            <Link to="/sign-up/recruiter">Recruiter</Link>
-            <Link to="/sign-up/professional">Professional</Link>
-          </Dropdown>
-        </nav>
-      </Container>
-    </Wrapper>
+                  <Dropdown title="Sign Up" color="#3c2dff">
+                    <Link to="/sign-up/recruiter">Recruiter</Link>
+                    <Link to="/sign-up/professional">Professional</Link>
+                  </Dropdown>
+                </Fragment>
+              )}
+            </nav>
+          </Container>
+        </Wrapper>
+      )}
+    </CurrentUser>
   );
 }

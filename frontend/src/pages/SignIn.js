@@ -11,15 +11,23 @@ import {
 } from '../components/auth/StyledComponents';
 import TextInput from '../components/auth/TextInput';
 import { formatErrors } from '../lib/AuthHelper';
+import { GET_CURRENT_USER_QUERY } from '../components/auth/CurrentUser';
 
 const SIGN_IN = gql`
   mutation SignIn($email: String!, $password: String!) {
     signIn(email: $email, password: $password) {
       token
       user {
-        type
         email
-        id
+        type
+        professional {
+          id
+          name
+        }
+        recruiter {
+          id
+          companyName
+        }
       }
     }
   }
@@ -31,7 +39,15 @@ const SignIn = () => {
   const [signIn, { loading }] = useMutation(SIGN_IN, {
     onCompleted({ signIn }) {
       localStorage.setItem('auth-token', signIn.token);
-      history.push('/');
+      history.replace('/jobs');
+    },
+    update(cache, { data }) {
+      cache.writeQuery({
+        query: GET_CURRENT_USER_QUERY,
+        data: {
+          me: data.signIn.user,
+        },
+      });
     },
   });
 

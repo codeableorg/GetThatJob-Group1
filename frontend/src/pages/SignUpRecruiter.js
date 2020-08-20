@@ -15,6 +15,7 @@ import TextInput from '../components/auth/TextInput';
 import TextAreaInput from '../components/auth/TextAreaInput';
 import FileInput from '../components/auth/FileInput';
 import { formatErrors } from '../lib/AuthHelper';
+import { GET_CURRENT_USER_QUERY } from '../components/auth/CurrentUser';
 
 const SIGN_UP_RECRUITER_MUTATION = gql`
   mutation SignUpRecruiter(
@@ -39,9 +40,16 @@ const SIGN_UP_RECRUITER_MUTATION = gql`
     ) {
       token
       user {
-        type
         email
-        id
+        type
+        professional {
+          id
+          name
+        }
+        recruiter {
+          id
+          companyName
+        }
       }
     }
   }
@@ -53,7 +61,15 @@ const SignUpRecruiter = () => {
   const [signUp, { loading }] = useMutation(SIGN_UP_RECRUITER_MUTATION, {
     onCompleted({ signUpRecruiter }) {
       localStorage.setItem('auth-token', signUpRecruiter.token);
-      history.push('/');
+      history.replace('/jobs');
+    },
+    update(cache, { data }) {
+      cache.writeQuery({
+        query: GET_CURRENT_USER_QUERY,
+        data: {
+          me: data.signUpRecruiter.user,
+        },
+      });
     },
   });
 

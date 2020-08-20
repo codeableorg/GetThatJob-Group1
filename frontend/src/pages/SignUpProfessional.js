@@ -12,6 +12,7 @@ import {
   LinkStyled,
 } from '../components/auth/StyledComponents';
 import TextInput from '../components/auth/TextInput';
+import { GET_CURRENT_USER_QUERY } from '../components/auth/CurrentUser';
 
 const SIGN_UP_PROFESSIONAL_MUTATION = gql`
   mutation SignUpProfessional(
@@ -28,9 +29,16 @@ const SIGN_UP_PROFESSIONAL_MUTATION = gql`
     ) {
       token
       user {
-        type
         email
-        id
+        type
+        professional {
+          id
+          name
+        }
+        recruiter {
+          id
+          companyName
+        }
       }
     }
   }
@@ -42,7 +50,15 @@ const SignUpProfessional = () => {
   const [signUp, { loading }] = useMutation(SIGN_UP_PROFESSIONAL_MUTATION, {
     onCompleted({ signUpProfessional }) {
       localStorage.setItem('auth-token', signUpProfessional.token);
-      history.push('/');
+      history.replace('/');
+    },
+    update(cache, { data }) {
+      cache.writeQuery({
+        query: GET_CURRENT_USER_QUERY,
+        data: {
+          me: data.signUpProfessional.user,
+        },
+      });
     },
   });
 

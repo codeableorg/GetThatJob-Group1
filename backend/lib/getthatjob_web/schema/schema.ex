@@ -26,7 +26,7 @@ defmodule GetthatjobWeb.Schema.Schema do
 
     @desc "Get the currently signed-in user"
     field :me, :user do
-      middleware(Middleware.Authenticate)
+      # middleware(Middleware.Authenticate)
       resolve(&Resolvers.Accounts.me/3)
     end
   end
@@ -55,18 +55,6 @@ defmodule GetthatjobWeb.Schema.Schema do
       arg(:company_description, non_null(:string))
 
       resolve(&Resolvers.Accounts.sign_up_recruiter/3)
-    end
-
-    @desc "Test for file upload"
-    field :upload_file, :string do
-      arg(:file_data, non_null(:upload))
-
-      resolve(fn args, _ ->
-        # this is a `%Plug.Upload{}` struct.
-        IO.inspect(args.file_data)
-
-        {:ok, "success"}
-      end)
     end
   end
 
