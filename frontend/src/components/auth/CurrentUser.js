@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 
 const GET_CURRENT_USER_QUERY = gql`
   query GetCurrentUser {
@@ -19,10 +20,18 @@ const GET_CURRENT_USER_QUERY = gql`
 `;
 
 let CurrentUser = ({ children }) => {
-  const { error, data, loading } = useQuery(GET_CURRENT_USER_QUERY);
+  const [getCurrentUser, { error, data, loading, called }] = useLazyQuery(
+    GET_CURRENT_USER_QUERY
+  );
+
+  useEffect(() => {
+    getCurrentUser();
+    return () => {};
+  }, []);
+
   if (error) return null;
-  if (loading) return null;
-  return children(data.me);
+  if (!called || loading) return children({ currentUser: null, loaded: false });
+  return children({ currentUser: data.me, loaded: true });
 };
 
 CurrentUser.propTypes = {

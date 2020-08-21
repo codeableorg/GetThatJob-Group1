@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
@@ -75,18 +75,18 @@ export default function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem('auth-token');
-    history.replace('/');
     client.writeQuery({
       query: GET_CURRENT_USER_QUERY,
       data: {
         me: null,
       },
     });
+    history.replace('/');
   };
 
   return (
     <CurrentUser>
-      {(currentUser) => (
+      {({ loaded, currentUser }) => (
         <Wrapper>
           <Container>
             <Link className="brand" to="/">
@@ -95,7 +95,7 @@ export default function Header() {
             </Link>
 
             <nav className="navbar">
-              {currentUser && (
+              {loaded && currentUser && (
                 <Dropdown title={userTitle(currentUser)} color="#3c2dff">
                   <Link to="/profile">Edit your profile</Link>
                   <button className="logout" onClick={handleLogout}>
@@ -103,7 +103,7 @@ export default function Header() {
                   </button>
                 </Dropdown>
               )}
-              {!currentUser && (
+              {loaded && !currentUser && (
                 <Fragment>
                   <Link className="navbar__link" to="/sign-in">
                     Sign In

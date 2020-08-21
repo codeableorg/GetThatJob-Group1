@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Index from './pages/Index';
-
 import Layout from './components/Layout';
 import Auth from './components/Auth';
 import SignIn from './pages/SignIn';
@@ -10,6 +9,7 @@ import SignUpRecruiter from './pages/SignUpRecruiter';
 import SignUpProfessional from './pages/SignUpProfessional';
 import Jobs from './pages/Jobs';
 import Protected from './components/Protected';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -18,10 +18,13 @@ function App() {
         <Route exact path="/">
           <Index />
         </Route>
-        <Route path={['/jobs']}>
+        <Route path={['/jobs', '/profile']}>
           <Protected>
             <Route exact path="/jobs">
               <Jobs />
+            </Route>
+            <Route exact path="/profile">
+              <Profile />
             </Route>
           </Protected>
         </Route>

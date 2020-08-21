@@ -1,6 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
+import { Redirect } from 'react-router-dom';
+
 import Sidebar from './Sidebar';
+import CurrentUser from './auth/CurrentUser';
 
 const Wrapper = styled.div`
   display: grid;
@@ -11,12 +14,22 @@ const Wrapper = styled.div`
 
 const Protected = ({ children }) => {
   return (
-    <Fragment>
-      <Wrapper>
-        <Sidebar />
-        {children}
-      </Wrapper>
-    </Fragment>
+    <CurrentUser>
+      {({ loaded, currentUser }) => {
+        if (!loaded) {
+          return null;
+        } else if (loaded && currentUser === null) {
+          return <Redirect to="/sign-in" />;
+        } else {
+          return (
+            <Wrapper>
+              <Sidebar />
+              {children}
+            </Wrapper>
+          );
+        }
+      }}
+    </CurrentUser>
   );
 };
 
