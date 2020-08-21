@@ -11,7 +11,7 @@ defmodule GetthatjobWeb.Schema.Types do
     field(:id, non_null(:id))
     field(:title, non_null(:string))
     field(:type, non_null(:string))
-    field(:seniority, non_null(:boolean))
+    field(:seniority, non_null(:string))
     field(:salary, :integer)
     field(:location, non_null(:string))
     field(:introduction, non_null(:string))

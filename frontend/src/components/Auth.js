@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Container } from './auth/StyledComponents';
 
 const Auth = ({ children }) => {
-  return <Container>{children}</Container>;
+  return (
+    <Fragment>
+      <Container>{children}</Container>
+    </Fragment>
+  );
 };
 
 export default Auth;

@@ -19,9 +19,9 @@ const GET_CURRENT_USER_QUERY = gql`
 `;
 
 let CurrentUser = ({ children }) => {
-  const { error, data } = useQuery(GET_CURRENT_USER_QUERY);
+  const { error, data, loading } = useQuery(GET_CURRENT_USER_QUERY);
   if (error) return null;
-  if (data === undefined) return children(null);
+  if (loading) return null;
   return children(data.me);
 };
 

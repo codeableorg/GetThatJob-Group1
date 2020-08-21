@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
@@ -75,14 +75,13 @@ export default function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem('auth-token');
-    // client.resetStore();
+    history.replace('/');
     client.writeQuery({
       query: GET_CURRENT_USER_QUERY,
       data: {
         me: null,
       },
     });
-    history.replace('/');
   };
 
   return (

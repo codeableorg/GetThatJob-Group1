@@ -9,6 +9,7 @@ import SignIn from './pages/SignIn';
 import SignUpRecruiter from './pages/SignUpRecruiter';
 import SignUpProfessional from './pages/SignUpProfessional';
 import Jobs from './pages/Jobs';
+import Protected from './components/Protected';
 
 function App() {
   return (
@@ -17,8 +18,12 @@ function App() {
         <Route exact path="/">
           <Index />
         </Route>
-        <Route exact path="/jobs">
-          <Jobs />
+        <Route path={['/jobs']}>
+          <Protected>
+            <Route exact path="/jobs">
+              <Jobs />
+            </Route>
+          </Protected>
         </Route>
         <Route path={['/sign-in', '/sign-up']}>
           <Auth>
