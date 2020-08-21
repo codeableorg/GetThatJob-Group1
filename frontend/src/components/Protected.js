@@ -12,6 +12,10 @@ const Wrapper = styled.div`
   background: #f7fafc;
 `;
 
+const Main = styled.div`
+  padding: 64px 100px;
+`;
+
 const Protected = ({ children }) => {
   return (
     <CurrentUser>
@@ -24,7 +28,7 @@ const Protected = ({ children }) => {
           return (
             <Wrapper>
               <Sidebar />
-              {children}
+              <Main>{children}</Main>
             </Wrapper>
           );
         }

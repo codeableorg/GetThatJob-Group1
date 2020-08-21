@@ -4,38 +4,26 @@ import * as Yup from 'yup';
 import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
-import { Title, SubTitle } from '../components/auth/StyledComponents';
-import {
-  FormStyled,
-  AuthSubmitStyled,
-  LinkStyled,
-} from '../components/form/StyledComponents';
-import TextInput from '../components/form/TextInput';
-import TextAreaInput from '../components/form/TextAreaInput';
-import FileInput from '../components/form/FileInput';
-import { formatErrors } from '../lib/AuthHelper';
-import { GET_CURRENT_USER_QUERY } from '../components/auth/CurrentUser';
+import { FormStyled, GeneralSubmitStyled } from '../form/StyledComponents';
+import { Deletetyled } from './StyledComponents';
+import TextInput from '../form/TextInput';
+import TextAreaInput from '../form/TextAreaInput';
+import FileInput from '../form/FileInput';
+import { GET_CURRENT_USER_QUERY } from '../auth/CurrentUser';
+import { formatErrors } from '../../lib/AuthHelper';
 
-const SIGN_UP_RECRUITER_MUTATION = gql`
-  mutation SignUpRecruiter(
-    $company_name: String!
-    $company_website: String!
-    $company_logo_meta: Upload!
-    $company_description: String!
+const SIGN_UP_PROFESSIONAL_MUTATION = gql`
+  mutation SignUpProfessional(
     $email: String!
     $password: String!
     $password_confirmation: String!
   ) {
-    signUpRecruiter(
+    signUpProfessional(
       user: {
         email: $email
         password: $password
         passwordConfirmation: $password_confirmation
       }
-      companyName: $company_name
-      companyLogoMeta: $company_logo_meta
-      companyWebsite: $company_website
-      companyDescription: $company_description
     ) {
       token
       user {
@@ -54,19 +42,19 @@ const SIGN_UP_RECRUITER_MUTATION = gql`
   }
 `;
 
-const SignUpRecruiter = () => {
+const RecruiterProfile = ({ currentUser }) => {
   let history = useHistory();
 
-  const [signUp, { loading }] = useMutation(SIGN_UP_RECRUITER_MUTATION, {
-    onCompleted({ signUpRecruiter }) {
-      localStorage.setItem('auth-token', signUpRecruiter.token);
-      history.replace('/jobs');
+  const [signUp, { loading }] = useMutation(SIGN_UP_PROFESSIONAL_MUTATION, {
+    onCompleted({ signUpProfessional }) {
+      localStorage.setItem('auth-token', signUpProfessional.token);
+      history.replace('/');
     },
     update(cache, { data }) {
       cache.writeQuery({
         query: GET_CURRENT_USER_QUERY,
         data: {
-          me: data.signUpRecruiter.user,
+          me: data.signUpProfessional.user,
         },
       });
     },
@@ -74,8 +62,6 @@ const SignUpRecruiter = () => {
 
   return (
     <Fragment>
-      <Title>Sign Up</Title>
-      <SubTitle>As Recruiter</SubTitle>
       <Formik
         initialValues={{
           company_name: '',
@@ -84,6 +70,8 @@ const SignUpRecruiter = () => {
           company_description: '',
           company_logo: '',
           company_logo_meta: null,
+          password: '',
+          password_confirmation: '',
         }}
         validationSchema={Yup.object({
           company_name: Yup.string()
@@ -108,6 +96,13 @@ const SignUpRecruiter = () => {
           email: Yup.string()
             .email('Invalid email address')
             .required('Required'),
+          password: Yup.string()
+            .max(20, 'Must be 20 characters or less')
+            .required('Required'),
+          password_confirmation: Yup.string()
+            .max(20, 'Must be 20 characters or less')
+            .required('Required')
+            .oneOf([Yup.ref('password')], 'Passwords must match'),
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
           signUp({ variables: values }).catch(({ graphQLErrors }) => {
@@ -152,16 +147,22 @@ const SignUpRecruiter = () => {
                 type="email"
                 placeholder="admin@mail.com"
               />
-              <AuthSubmitStyled type="submit" disabled={loading}>
-                Submit Up
-              </AuthSubmitStyled>
+              <TextInput label="Password" name="password" type="password" />
+              <TextInput
+                label="Password Confirmation"
+                name="password_confirmation"
+                type="password"
+              />
+              <GeneralSubmitStyled type="submit" disabled={loading}>
+                Save Changes
+              </GeneralSubmitStyled>
             </FormStyled>
           );
         }}
       </Formik>
-      <LinkStyled to="/sign-in">Sign in</LinkStyled>
+      <Deletetyled>Delete permanently your account</Deletetyled>
     </Fragment>
   );
 };
 
-export default SignUpRecruiter;
+export default RecruiterProfile;

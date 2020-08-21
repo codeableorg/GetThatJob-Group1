@@ -4,14 +4,13 @@ import * as Yup from 'yup';
 import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
-import { Title, SubTitle } from '../components/auth/StyledComponents';
-import {
-  FormStyled,
-  AuthSubmitStyled,
-  LinkStyled,
-} from '../components/form/StyledComponents';
-import TextInput from '../components/form/TextInput';
-import { GET_CURRENT_USER_QUERY } from '../components/auth/CurrentUser';
+import { FormStyled, GeneralSubmitStyled } from '../form/StyledComponents';
+import { Deletetyled } from './StyledComponents';
+import TextInput from '../form/TextInput';
+import TextAreaInput from '../form/TextAreaInput';
+import FileInput from '../form/FileInput';
+import { GET_CURRENT_USER_QUERY } from '../auth/CurrentUser';
+import { formatErrors } from '../../lib/AuthHelper';
 
 const SIGN_UP_PROFESSIONAL_MUTATION = gql`
   mutation SignUpProfessional(
@@ -43,7 +42,7 @@ const SIGN_UP_PROFESSIONAL_MUTATION = gql`
   }
 `;
 
-const SignUpProfessional = () => {
+const ProfessionalProfile = ({ currentUser }) => {
   let history = useHistory();
 
   const [signUp, { loading }] = useMutation(SIGN_UP_PROFESSIONAL_MUTATION, {
@@ -60,11 +59,8 @@ const SignUpProfessional = () => {
       });
     },
   });
-
   return (
     <Fragment>
-      <Title>Sign Up</Title>
-      <SubTitle>As Professional</SubTitle>
       <Formik
         initialValues={{
           email: '',
@@ -85,7 +81,7 @@ const SignUpProfessional = () => {
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
           signUp({ variables: values }).catch(({ graphQLErrors }) => {
-            setErrors(graphQLErrors[0].details);
+            setErrors(formatErrors(graphQLErrors[0].details));
             setSubmitting(false);
           });
         }}
@@ -103,14 +99,14 @@ const SignUpProfessional = () => {
             name="password_confirmation"
             type="password"
           />
-          <AuthSubmitStyled type="submit" disabled={loading}>
-            Submit Up
-          </AuthSubmitStyled>
+          <GeneralSubmitStyled type="submit" disabled={loading}>
+            Save Changes
+          </GeneralSubmitStyled>
         </FormStyled>
       </Formik>
-      <LinkStyled to="/sign-in">Sign in</LinkStyled>
+      <Deletetyled>Delete permanently your account</Deletetyled>
     </Fragment>
   );
 };
 
-export default SignUpProfessional;
+export default ProfessionalProfile;

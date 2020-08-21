@@ -4,12 +4,12 @@ import * as Yup from 'yup';
 import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
+import { Title } from '../components/auth/StyledComponents';
 import {
-  Title,
   FormStyled,
-  SubmitStyled,
-} from '../components/auth/StyledComponents';
-import TextInput from '../components/auth/TextInput';
+  AuthSubmitStyled,
+} from '../components/form/StyledComponents';
+import TextInput from '../components/form/TextInput';
 import { formatErrors } from '../lib/AuthHelper';
 import { GET_CURRENT_USER_QUERY } from '../components/auth/CurrentUser';
 
@@ -83,9 +83,9 @@ const SignIn = () => {
             placeholder="youremail@email.com"
           />
           <TextInput label="Password" name="password" type="password" />
-          <SubmitStyled type="submit" disabled={loading}>
+          <AuthSubmitStyled type="submit" disabled={loading}>
             Login
-          </SubmitStyled>
+          </AuthSubmitStyled>
         </FormStyled>
       </Formik>
     </Fragment>
