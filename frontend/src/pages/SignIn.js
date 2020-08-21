@@ -23,10 +23,18 @@ const SIGN_IN = gql`
         professional {
           id
           name
+          phoneNumber
+          description
+          experience
+          linkedin
+          github
         }
         recruiter {
           id
           companyName
+          companyLogoPath
+          companyWebsite
+          companyDescription
         }
       }
     }

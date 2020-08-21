@@ -44,10 +44,18 @@ const SIGN_UP_RECRUITER_MUTATION = gql`
         professional {
           id
           name
+          phoneNumber
+          description
+          experience
+          linkedin
+          github
         }
         recruiter {
           id
           companyName
+          companyLogoPath
+          companyWebsite
+          companyDescription
         }
       }
     }
@@ -108,6 +116,13 @@ const SignUpRecruiter = () => {
           email: Yup.string()
             .email('Invalid email address')
             .required('Required'),
+          password: Yup.string()
+            .max(20, 'Must be 20 characters or less')
+            .required('Required'),
+          password_confirmation: Yup.string()
+            .max(20, 'Must be 20 characters or less')
+            .required('Required')
+            .oneOf([Yup.ref('password')], 'Passwords must match'),
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
           signUp({ variables: values }).catch(({ graphQLErrors }) => {
@@ -151,6 +166,12 @@ const SignUpRecruiter = () => {
                 name="email"
                 type="email"
                 placeholder="admin@mail.com"
+              />
+              <TextInput label="Password" name="password" type="password" />
+              <TextInput
+                label="Password Confirmation"
+                name="password_confirmation"
+                type="password"
               />
               <AuthSubmitStyled type="submit" disabled={loading}>
                 Submit Up

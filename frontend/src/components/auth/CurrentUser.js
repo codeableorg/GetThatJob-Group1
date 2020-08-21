@@ -10,10 +10,18 @@ const GET_CURRENT_USER_QUERY = gql`
       professional {
         id
         name
+        phoneNumber
+        description
+        experience
+        linkedin
+        github
       }
       recruiter {
         id
         companyName
+        companyLogoPath
+        companyWebsite
+        companyDescription
       }
     }
   }

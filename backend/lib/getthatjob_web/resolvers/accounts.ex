@@ -3,6 +3,14 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
 
   alias GetthatjobWeb.Schema.ChangesetErrors
 
+  def me(_, _, %{context: %{current_user: user}}) do
+    {:ok, user}
+  end
+
+  def me(_, _, _) do
+    {:ok, nil}
+  end
+
   def sign_in(_, %{email: email, password: password}, _) do
     case Accounts.authenticate(email, password) do
       {:error, details} ->
@@ -15,9 +23,9 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
     end
   end
 
-  def sign_up_professional(_, arg, _) do
+  def sign_up_professional(_, args, _) do
     result =
-      arg
+      args
       |> Enum.into(%{})
       |> Recruitment.create_professional()
 
@@ -34,9 +42,9 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
     end
   end
 
-  def sign_up_recruiter(_, arg, _) do
+  def sign_up_recruiter(_, args, _) do
     result =
-      arg
+      args
       |> Enum.into(%{})
       |> Recruitment.create_recruiter()
 
@@ -52,11 +60,19 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
     end
   end
 
-  def me(_, _, %{context: %{current_user: user}}) do
-    {:ok, user}
-  end
+  def update_current_professional(_, args, %{context: %{current_user: user}}) do
+    with professional <- Accounts.get_professional_from_user(user),
+         params <- Enum.into(args, %{}),
+         {:ok, new_professional} <- Recruitment.update_professional(professional, params) do
+      {:ok, new_professional}
+    else
+      nil ->
+        {:error, message: "Current user is not a professional", details: %{amiguito: "amiguito"}}
 
-  def me(_, _, _) do
-    {:ok, nil}
+      {:error, changeset} ->
+        {:error,
+         message: "Could not update professional",
+         details: ChangesetErrors.error_details(changeset)}
+    end
   end
 end

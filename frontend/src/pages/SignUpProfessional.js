@@ -33,10 +33,18 @@ const SIGN_UP_PROFESSIONAL_MUTATION = gql`
         professional {
           id
           name
+          phoneNumber
+          description
+          experience
+          linkedin
+          github
         }
         recruiter {
           id
           companyName
+          companyLogoPath
+          companyWebsite
+          companyDescription
         }
       }
     }

@@ -26,7 +26,6 @@ defmodule GetthatjobWeb.Schema.Schema do
 
     @desc "Get the currently signed-in user"
     field :me, :user do
-      # middleware(Middleware.Authenticate)
       resolve(&Resolvers.Accounts.me/3)
     end
   end
@@ -55,6 +54,19 @@ defmodule GetthatjobWeb.Schema.Schema do
       arg(:company_description, non_null(:string))
 
       resolve(&Resolvers.Accounts.sign_up_recruiter/3)
+    end
+
+    @desc "Edit current profesional"
+    field :update_current_professional, :professional do
+      arg(:name, non_null(:string))
+      arg(:phone_number, non_null(:string))
+      arg(:description, non_null(:string))
+      arg(:experience, non_null(:string))
+      arg(:linkedin, :string)
+      arg(:github, :string)
+
+      middleware(Middleware.Authenticate)
+      resolve(&Resolvers.Accounts.update_current_professional/3)
     end
   end
 

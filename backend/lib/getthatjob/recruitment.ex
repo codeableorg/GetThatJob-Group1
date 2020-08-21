@@ -165,7 +165,7 @@ defmodule Getthatjob.Recruitment do
   """
   def update_professional(%Professional{} = professional, attrs) do
     professional
-    |> Professional.changeset(attrs)
+    |> Professional.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -213,13 +213,13 @@ defmodule Getthatjob.Recruitment do
 
     Enum.reduce(criteria, query, fn
       {:limit, limit}, query ->
-        from p in query, limit: ^limit
+        from(p in query, limit: ^limit)
 
       {:filter, filters}, query ->
         filter_with(filters, query)
 
       {:order, order}, query ->
-        from p in query, order_by: [{^order, :id}]
+        from(p in query, order_by: [{^order, :id}])
     end)
     |> Repo.all()
   end
@@ -229,20 +229,21 @@ defmodule Getthatjob.Recruitment do
       {:matching, term}, query ->
         pattern = "%#{term}%"
 
-        from q in query,
+        from(q in query,
           where:
             ilike(q.title, ^pattern) or
               ilike(q.introduction, ^pattern) or
               ilike(q.requirements, ^pattern)
+        )
 
       {:country, value}, query ->
-        from q in query, where: q.location == ^value
+        from(q in query, where: q.location == ^value)
 
       {:type, value}, query ->
-        from q in query, where: q.type == ^value
+        from(q in query, where: q.type == ^value)
 
       {:seniority, value}, query ->
-        from q in query, where: q.seniority == ^value
+        from(q in query, where: q.seniority == ^value)
 
       {:salary_range, %{low: low_salary, high: high_salary}}, query ->
         salary_between(query, low_salary, high_salary)
@@ -250,7 +251,7 @@ defmodule Getthatjob.Recruitment do
   end
 
   defp salary_between(query, low_salary, high_salary) do
-    from q in query,
+    from(q in query,
       where:
         fragment(
           "? BETWEEN ? AND ?",
@@ -258,6 +259,7 @@ defmodule Getthatjob.Recruitment do
           ^low_salary,
           ^high_salary
         )
+    )
   end
 
   @doc """

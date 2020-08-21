@@ -13,31 +13,29 @@ import { GET_CURRENT_USER_QUERY } from '../auth/CurrentUser';
 import { formatErrors } from '../../lib/AuthHelper';
 
 const SIGN_UP_PROFESSIONAL_MUTATION = gql`
-  mutation SignUpProfessional(
-    $email: String!
-    $password: String!
-    $password_confirmation: String!
+  mutation UpdateCurrentProfessional(
+    $name: String!
+    $phoneNumber: String!
+    $description: String!
+    $experience: String!
+    $linkedin: String
+    $github: String
   ) {
-    signUpProfessional(
-      user: {
-        email: $email
-        password: $password
-        passwordConfirmation: $password_confirmation
-      }
+    updateCurrentProfessional(
+      name: $name
+      phoneNumber: $phoneNumber
+      description: $description
+      experience: $experience
+      linkedin: $linkedin
+      github: $github
     ) {
-      token
-      user {
-        email
-        type
-        professional {
-          id
-          name
-        }
-        recruiter {
-          id
-          companyName
-        }
-      }
+      id
+      name
+      phoneNumber
+      description
+      experience
+      linkedin
+      github
     }
   }
 `;
@@ -45,59 +43,84 @@ const SIGN_UP_PROFESSIONAL_MUTATION = gql`
 const ProfessionalProfile = ({ currentUser }) => {
   let history = useHistory();
 
-  const [signUp, { loading }] = useMutation(SIGN_UP_PROFESSIONAL_MUTATION, {
-    onCompleted({ signUpProfessional }) {
-      localStorage.setItem('auth-token', signUpProfessional.token);
-      history.replace('/');
-    },
-    update(cache, { data }) {
-      cache.writeQuery({
-        query: GET_CURRENT_USER_QUERY,
-        data: {
-          me: data.signUpProfessional.user,
-        },
-      });
-    },
-  });
+  const [updateProfessional, { loading }] = useMutation(
+    SIGN_UP_PROFESSIONAL_MUTATION,
+    {
+      onCompleted() {
+        history.replace('/');
+      },
+      update(cache, { data }) {
+        cache.writeQuery({
+          query: SIGN_UP_PROFESSIONAL_MUTATION,
+          data: data.updateCurrentProfessional,
+        });
+      },
+    }
+  );
+
   return (
     <Fragment>
       <Formik
-        initialValues={{
-          email: '',
-          password: '',
-          password_confirmation: '',
-        }}
+        initialValues={currentUser.professional}
         validationSchema={Yup.object({
-          email: Yup.string()
-            .email('Invalid email address')
-            .required('Required'),
-          password: Yup.string()
-            .max(20, 'Must be 20 characters or less')
-            .required('Required'),
-          password_confirmation: Yup.string()
-            .max(20, 'Must be 20 characters or less')
-            .required('Required')
-            .oneOf([Yup.ref('password')], 'Passwords must match'),
+          name: Yup.string().required('Required'),
+          phoneNumber: Yup.string().required('Required'),
+          description: Yup.string().required('Required'),
+          experience: Yup.string().required('Required'),
+          linkedin: Yup.string(),
+          github: Yup.string(),
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
-          signUp({ variables: values }).catch(({ graphQLErrors }) => {
-            setErrors(formatErrors(graphQLErrors[0].details));
-            setSubmitting(false);
+          updateProfessional({ variables: values }).catch(({ e }) => {
+            console.log(e);
+            // setErrors(formatErrors(graphQLErrors[0].details));
+            // setSubmitting(false);
           });
         }}
       >
         <FormStyled>
           <TextInput
-            label="Email"
-            name="email"
-            type="email"
-            placeholder="admin@mail.com"
+            label="Name"
+            name="name"
+            type="text"
+            placeholder="John Doe"
+            note="Use your real first and last name"
           />
-          <TextInput label="Password" name="password" type="password" />
           <TextInput
-            label="Password Confirmation"
-            name="password_confirmation"
-            type="password"
+            label="Phone Number"
+            name="phoneNumber"
+            type="text"
+            placeholder="987654321"
+            note="Add your phone number to make sure you don't miss any job opportunity."
+          />
+          <TextInput
+            label="Professional Description"
+            name="description"
+            type="text"
+            placeholder="e.g Software Engineer, Mememaster, Pokemaster"
+            note="Short an specific text about what you do"
+          />
+          <TextAreaInput
+            label="Professional Experience"
+            name="experience"
+            placeholder="Worked 6 years in a bitcoin farm until I decided to
+            change my life...."
+            note="Tells us about your work experience, what did you do before joining this top community?"
+            rows="4"
+          />
+          <TextInput
+            label="LinkedIn profile URL"
+            name="linkedin"
+            type="text"
+            placeholder="https://linkedin/in/your-name-here"
+            note="Your LinkedIn profile helps companies to know more about you."
+          />
+          <TextInput
+            label="GitHub profile URL"
+            name="github"
+            type="text"
+            placeholder="https://github.com/your-user-here"
+            note="If you are a developer, a good GitHub profile will tell more about your skills."
           />
           <GeneralSubmitStyled type="submit" disabled={loading}>
             Save Changes
