@@ -5,7 +5,7 @@ import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
 import { FormStyled, GeneralSubmitStyled } from '../form/StyledComponents';
-import { Deletetyled } from './StyledComponents';
+import DeleteUser from './DeleteUser';
 import TextInput from '../form/TextInput';
 import TextAreaInput from '../form/TextAreaInput';
 import FileInput from '../form/FileInput';
@@ -124,7 +124,7 @@ const RecruiterProfile = ({ currentUser }) => {
           );
         }}
       </Formik>
-      <Deletetyled>Delete permanently your account</Deletetyled>
+      <DeleteUser />
     </Fragment>
   );
 };

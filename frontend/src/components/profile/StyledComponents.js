@@ -14,7 +14,7 @@ export const Title = styled.p`
   margin-bottom: 20px;
 `;
 
-export const Deletetyled = styled.p`
+export const DeleteButton = styled.p`
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -24,4 +24,43 @@ export const Deletetyled = styled.p`
   color: #f5222d;
 
   cursor: pointer;
+`;
+
+export const DeleteContainerModal = styled.div`
+  padding: 20px;
+
+  .control-buttom {
+    display: flex;
+    flex-direction: row;
+  }
+
+  p {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+`;
+
+const CommonControlButtom = styled.div`
+  padding: 8px 16px;
+  margin-top: 12px;
+  width: fit-content;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+
+  cursor: pointer;
+`;
+
+export const ConfirmDeleteModal = styled(CommonControlButtom)`
+  color: #ffffff;
+  background-color: #f5222d;
+  border: 1px solid #f5222d;
+  margin-right: 20px;
+`;
+
+export const CancelDeleteModal = styled(CommonControlButtom)`
+  color: #3c2dff;
+  background-color: #ffffff;
+  border: 1px solid #3c2dff;
 `;
