@@ -35,7 +35,7 @@ let CurrentUser = ({ children }) => {
   useEffect(() => {
     getCurrentUser();
     return () => {};
-  }, []);
+  }, [getCurrentUser]);
 
   if (error) return null;
   if (!called || loading) return children({ currentUser: null, loaded: false });

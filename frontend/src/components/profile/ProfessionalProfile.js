@@ -49,12 +49,6 @@ const ProfessionalProfile = ({ currentUser }) => {
       onCompleted() {
         history.replace('/');
       },
-      update(cache, { data }) {
-        cache.writeQuery({
-          query: SIGN_UP_PROFESSIONAL_MUTATION,
-          data: data.updateCurrentProfessional,
-        });
-      },
     }
   );
 
@@ -71,11 +65,12 @@ const ProfessionalProfile = ({ currentUser }) => {
           github: Yup.string(),
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
-          updateProfessional({ variables: values }).catch(({ e }) => {
-            console.log(e);
-            // setErrors(formatErrors(graphQLErrors[0].details));
-            // setSubmitting(false);
-          });
+          updateProfessional({ variables: values }).catch(
+            ({ graphQLErrors }) => {
+              setErrors(formatErrors(graphQLErrors[0].details));
+              setSubmitting(false);
+            }
+          );
         }}
       >
         <FormStyled>
