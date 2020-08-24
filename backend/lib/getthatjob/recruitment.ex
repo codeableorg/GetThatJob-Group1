@@ -69,7 +69,7 @@ defmodule Getthatjob.Recruitment do
   """
   def update_recruiter(%Recruiter{} = recruiter, attrs) do
     recruiter
-    |> Recruiter.changeset(attrs)
+    |> Recruiter.update_changeset(attrs)
     |> Repo.update()
   end
 

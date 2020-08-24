@@ -1,6 +1,4 @@
 import styled from '@emotion/styled/macro';
-import { Form } from 'formik';
-import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   width: 400px;

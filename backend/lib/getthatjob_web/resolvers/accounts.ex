@@ -63,8 +63,8 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
   def update_current_professional(_, args, %{context: %{current_user: user}}) do
     with professional <- Accounts.get_professional_from_user(user),
          params <- Enum.into(args, %{}),
-         {:ok, new_professional} <- Recruitment.update_professional(professional, params) do
-      {:ok, new_professional}
+         {:ok, professional} <- Recruitment.update_professional(professional, params) do
+      {:ok, professional}
     else
       nil ->
         {:error, message: "Current user is not a professional", details: %{amiguito: "amiguito"}}
@@ -73,6 +73,21 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
         {:error,
          message: "Could not update professional",
          details: ChangesetErrors.error_details(changeset)}
+    end
+  end
+
+  def update_current_recruiter(_, args, %{context: %{current_user: user}}) do
+    with recruiter <- Accounts.get_recruiter_from_user(user),
+         params <- Enum.into(args, %{}),
+         {:ok, recruiter} <- Recruitment.update_recruiter(recruiter, params) do
+      {:ok, recruiter}
+    else
+      nil ->
+        {:error, message: "Current user is not a recruiter", details: %{amiguito: "amiguito"}}
+
+      {:error, changeset} ->
+        {:error,
+         message: "Could not update recruiter", details: ChangesetErrors.error_details(changeset)}
     end
   end
 end

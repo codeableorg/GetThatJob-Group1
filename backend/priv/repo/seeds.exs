@@ -22,10 +22,6 @@ alias Getthatjob.Recruitment
       email: "acastemoreno@gmail.com",
       password: "123456",
       password_confirmation: "123456"
-    },
-    company_logo_meta: %{
-      path: Path.absname("./assets/static/photo.jpg"),
-      filename: "photo.jpg"
     }
   })
 

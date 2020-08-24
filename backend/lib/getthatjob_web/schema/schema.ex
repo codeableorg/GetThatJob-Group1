@@ -68,6 +68,17 @@ defmodule GetthatjobWeb.Schema.Schema do
       middleware(Middleware.Authenticate)
       resolve(&Resolvers.Accounts.update_current_professional/3)
     end
+
+    @desc "Edit current recruiter"
+    field :update_current_recruiter, :recruiter do
+      arg(:company_name, non_null(:string))
+      arg(:company_logo_meta, :upload)
+      arg(:company_website, non_null(:string))
+      arg(:company_description, non_null(:string))
+
+      middleware(Middleware.Authenticate)
+      resolve(&Resolvers.Accounts.update_current_recruiter/3)
+    end
   end
 
   def context(ctx) do

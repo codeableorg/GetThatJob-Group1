@@ -9,35 +9,26 @@ import { Deletetyled } from './StyledComponents';
 import TextInput from '../form/TextInput';
 import TextAreaInput from '../form/TextAreaInput';
 import FileInput from '../form/FileInput';
-import { GET_CURRENT_USER_QUERY } from '../auth/CurrentUser';
 import { formatErrors } from '../../lib/AuthHelper';
 
-const SIGN_UP_PROFESSIONAL_MUTATION = gql`
-  mutation SignUpProfessional(
-    $email: String!
-    $password: String!
-    $password_confirmation: String!
+const UPDATE_RECRUITER_MUTATION = gql`
+  mutation UpdateCurrentRecruiter(
+    $companyName: String!
+    $companyLogoMeta: Upload
+    $companyWebsite: String!
+    $companyDescription: String!
   ) {
-    signUpProfessional(
-      user: {
-        email: $email
-        password: $password
-        passwordConfirmation: $password_confirmation
-      }
+    updateCurrentRecruiter(
+      companyName: $companyName
+      companyLogoMeta: $companyLogoMeta
+      companyWebsite: $companyWebsite
+      companyDescription: $companyDescription
     ) {
-      token
-      user {
-        email
-        type
-        professional {
-          id
-          name
-        }
-        recruiter {
-          id
-          companyName
-        }
-      }
+      id
+      companyName
+      companyLogoPath
+      companyWebsite
+      companyDescription
     }
   }
 `;
@@ -45,67 +36,52 @@ const SIGN_UP_PROFESSIONAL_MUTATION = gql`
 const RecruiterProfile = ({ currentUser }) => {
   let history = useHistory();
 
-  const [signUp, { loading }] = useMutation(SIGN_UP_PROFESSIONAL_MUTATION, {
-    onCompleted({ signUpProfessional }) {
-      localStorage.setItem('auth-token', signUpProfessional.token);
-      history.replace('/');
-    },
-    update(cache, { data }) {
-      cache.writeQuery({
-        query: GET_CURRENT_USER_QUERY,
-        data: {
-          me: data.signUpProfessional.user,
-        },
-      });
-    },
-  });
+  const [updateRecruiter, { loading }] = useMutation(
+    UPDATE_RECRUITER_MUTATION,
+    {
+      onCompleted() {
+        history.replace('/');
+      },
+    }
+  );
 
   return (
     <Fragment>
       <Formik
         initialValues={{
-          company_name: '',
-          company_website: '',
-          email: '',
-          company_description: '',
-          company_logo: '',
-          company_logo_meta: null,
-          password: '',
-          password_confirmation: '',
+          ...currentUser.recruiter,
+          companyLogo: '',
+          companyLogoMeta: null,
         }}
         validationSchema={Yup.object({
-          company_name: Yup.string()
+          companyName: Yup.string()
             .max(15, 'Must be 15 characters or less')
             .required('Required'),
-          company_website: Yup.string()
+          companyWebsite: Yup.string()
             .max(20, 'Must be 20 characters or less')
             .required('Required'),
-          company_description: Yup.string()
+          companyDescription: Yup.string()
             .max(20, 'Must be 20 characters or less')
             .required('Required'),
-          company_logo_meta: Yup.mixed()
-            .required('A file is required')
-            .test('fileFormat', 'Images only', (value) => {
-              return (
-                value &&
-                ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'].includes(
-                  value.type
-                )
-              );
-            }),
-          email: Yup.string()
-            .email('Invalid email address')
-            .required('Required'),
-          password: Yup.string()
-            .max(20, 'Must be 20 characters or less')
-            .required('Required'),
-          password_confirmation: Yup.string()
-            .max(20, 'Must be 20 characters or less')
-            .required('Required')
-            .oneOf([Yup.ref('password')], 'Passwords must match'),
+          companyLogoMeta: Yup.mixed().test(
+            'fileFormat',
+            'Images only',
+            (value) => {
+              if (value != null) {
+                return [
+                  'image/jpg',
+                  'image/jpeg',
+                  'image/gif',
+                  'image/png',
+                ].includes(value.type);
+              } else {
+                return true;
+              }
+            }
+          ),
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
-          signUp({ variables: values }).catch(({ graphQLErrors }) => {
+          updateRecruiter({ variables: values }).catch(({ graphQLErrors }) => {
             setErrors(formatErrors(graphQLErrors[0].details));
             setSubmitting(false);
           });
@@ -116,42 +92,30 @@ const RecruiterProfile = ({ currentUser }) => {
             <FormStyled>
               <TextInput
                 label="Company Name"
-                name="company_name"
+                name="companyName"
                 type="text"
                 placeholder="My GreatCo"
                 note="Your company already exists in Get on Board? Don't create a duplicate."
               />
               <TextInput
                 label="Company Website"
-                name="company_website"
+                name="companyWebsite"
                 type="text"
                 placeholder="https://"
                 note="Your company Website"
               />
               <FileInput
                 label="Company Logo"
-                name="company_logo"
+                name="companyLogo"
                 type="file"
                 note="200x200px minimum"
                 formik={formik}
               />
               <TextAreaInput
                 label="Description"
-                name="company_description"
+                name="companyDescription"
                 note="Your company description"
                 rows="4"
-              />
-              <TextInput
-                label="Administrator email"
-                name="email"
-                type="email"
-                placeholder="admin@mail.com"
-              />
-              <TextInput label="Password" name="password" type="password" />
-              <TextInput
-                label="Password Confirmation"
-                name="password_confirmation"
-                type="password"
               />
               <GeneralSubmitStyled type="submit" disabled={loading}>
                 Save Changes

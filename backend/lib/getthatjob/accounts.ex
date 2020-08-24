@@ -130,6 +130,14 @@ defmodule Getthatjob.Accounts do
     |> Repo.one()
   end
 
+  def get_recruiter_from_user(%User{} = user) do
+    user
+    |> Ecto.assoc(:recruiter)
+    # |> join(:left, [p], u in assoc(p, :user))
+    # |> preload([p, u], user: u)
+    |> Repo.one()
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 

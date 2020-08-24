@@ -18,24 +18,24 @@ import { GET_CURRENT_USER_QUERY } from '../components/auth/CurrentUser';
 
 const SIGN_UP_RECRUITER_MUTATION = gql`
   mutation SignUpRecruiter(
-    $company_name: String!
-    $company_website: String!
-    $company_logo_meta: Upload!
-    $company_description: String!
+    $companyName: String!
+    $companyWebsite: String!
+    $companyLogoMeta: Upload!
+    $companyDescription: String!
     $email: String!
     $password: String!
-    $password_confirmation: String!
+    $passwordConfirmation: String!
   ) {
     signUpRecruiter(
       user: {
         email: $email
         password: $password
-        passwordConfirmation: $password_confirmation
+        passwordConfirmation: $passwordConfirmation
       }
-      companyName: $company_name
-      companyLogoMeta: $company_logo_meta
-      companyWebsite: $company_website
-      companyDescription: $company_description
+      companyName: $companyName
+      companyLogoMeta: $companyLogoMeta
+      companyWebsite: $companyWebsite
+      companyDescription: $companyDescription
     ) {
       token
       user {
@@ -86,24 +86,26 @@ const SignUpRecruiter = () => {
       <SubTitle>As Recruiter</SubTitle>
       <Formik
         initialValues={{
-          company_name: '',
-          company_website: '',
+          companyName: '',
+          companyWebsite: '',
           email: '',
-          company_description: '',
-          company_logo: '',
-          company_logo_meta: null,
+          companyDescription: '',
+          companyLogo: '',
+          companyLogoMeta: null,
+          password: '',
+          passwordConfirmation: '',
         }}
         validationSchema={Yup.object({
-          company_name: Yup.string()
+          companyName: Yup.string()
             .max(15, 'Must be 15 characters or less')
             .required('Required'),
-          company_website: Yup.string()
+          companyWebsite: Yup.string()
             .max(20, 'Must be 20 characters or less')
             .required('Required'),
-          company_description: Yup.string()
+          companyDescription: Yup.string()
             .max(20, 'Must be 20 characters or less')
             .required('Required'),
-          company_logo_meta: Yup.mixed()
+          companyLogoMeta: Yup.mixed()
             .required('A file is required')
             .test('fileFormat', 'Images only', (value) => {
               return (
@@ -119,7 +121,7 @@ const SignUpRecruiter = () => {
           password: Yup.string()
             .max(20, 'Must be 20 characters or less')
             .required('Required'),
-          password_confirmation: Yup.string()
+          passwordConfirmation: Yup.string()
             .max(20, 'Must be 20 characters or less')
             .required('Required')
             .oneOf([Yup.ref('password')], 'Passwords must match'),
@@ -136,28 +138,28 @@ const SignUpRecruiter = () => {
             <FormStyled>
               <TextInput
                 label="Company Name"
-                name="company_name"
+                name="companyName"
                 type="text"
                 placeholder="My GreatCo"
                 note="Your company already exists in Get on Board? Don't create a duplicate."
               />
               <TextInput
                 label="Company Website"
-                name="company_website"
+                name="companyWebsite"
                 type="text"
                 placeholder="https://"
                 note="Your company Website"
               />
               <FileInput
                 label="Company Logo"
-                name="company_logo"
+                name="companyLogo"
                 type="file"
                 note="200x200px minimum"
                 formik={formik}
               />
               <TextAreaInput
                 label="Description"
-                name="company_description"
+                name="companyDescription"
                 note="Your company description"
                 rows="4"
               />
@@ -170,7 +172,7 @@ const SignUpRecruiter = () => {
               <TextInput label="Password" name="password" type="password" />
               <TextInput
                 label="Password Confirmation"
-                name="password_confirmation"
+                name="passwordConfirmation"
                 type="password"
               />
               <AuthSubmitStyled type="submit" disabled={loading}>

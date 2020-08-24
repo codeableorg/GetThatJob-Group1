@@ -8,11 +8,9 @@ import { FormStyled, GeneralSubmitStyled } from '../form/StyledComponents';
 import { Deletetyled } from './StyledComponents';
 import TextInput from '../form/TextInput';
 import TextAreaInput from '../form/TextAreaInput';
-import FileInput from '../form/FileInput';
-import { GET_CURRENT_USER_QUERY } from '../auth/CurrentUser';
 import { formatErrors } from '../../lib/AuthHelper';
 
-const SIGN_UP_PROFESSIONAL_MUTATION = gql`
+const UPDATE_PROFESSIONAL_MUTATION = gql`
   mutation UpdateCurrentProfessional(
     $name: String!
     $phoneNumber: String!
@@ -44,7 +42,7 @@ const ProfessionalProfile = ({ currentUser }) => {
   let history = useHistory();
 
   const [updateProfessional, { loading }] = useMutation(
-    SIGN_UP_PROFESSIONAL_MUTATION,
+    UPDATE_PROFESSIONAL_MUTATION,
     {
       onCompleted() {
         history.replace('/');

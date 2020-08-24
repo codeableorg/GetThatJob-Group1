@@ -20,17 +20,24 @@ const FileInput = ({ formik, label, note, ...props }) => {
         {...props}
         onChange={(e) => {
           let files = e.currentTarget.files;
-          setValue(files[0].filename);
-          handleChange(e);
-          setFieldValue(`${props.name}_meta`, files[0]);
+          console.log(e.currentTarget.files);
+          if (files.length === 0) {
+            setValue(null);
+            handleChange(e);
+            setFieldValue(`${props.name}Meta`, null);
+          } else {
+            setValue(files[0].filename);
+            handleChange(e);
+            setFieldValue(`${props.name}Meta`, files[0]);
+          }
         }}
       />
       {note ? <NoteInput>{note}</NoteInput> : null}
       {meta.touched && meta.error ? (
         <ErrorInput>{meta.error}</ErrorInput>
       ) : null}
-      {meta.touched && formik.errors.company_logo_meta ? (
-        <ErrorInput>{formik.errors.company_logo_meta}</ErrorInput>
+      {meta.touched && formik.errors[`${props.name}Meta`] ? (
+        <ErrorInput>{formik.errors[`${props.name}Meta`]}</ErrorInput>
       ) : null}
     </Fragment>
   );
