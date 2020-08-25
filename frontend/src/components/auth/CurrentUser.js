@@ -37,7 +37,7 @@ let CurrentUser = ({ children }) => {
     return () => {};
   }, [getCurrentUser]);
 
-  if (error) return null;
+  if (error) return children({ currentUser: null, loaded: false });
   if (!called || loading) return children({ currentUser: null, loaded: false });
   return children({ currentUser: data.me, loaded: true });
 };

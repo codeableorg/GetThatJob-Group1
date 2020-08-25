@@ -79,6 +79,12 @@ defmodule GetthatjobWeb.Schema.Schema do
       middleware(Middleware.Authenticate)
       resolve(&Resolvers.Accounts.update_current_recruiter/3)
     end
+
+    @desc "Delete current user"
+    field :delete_current_user, :user_id do
+      middleware(Middleware.Authenticate)
+      resolve(&Resolvers.Accounts.delete_user/3)
+    end
   end
 
   def context(ctx) do

@@ -62,7 +62,7 @@ const Wrapper = styled.header`
 const userTitle = (currentUser) => {
   if (currentUser.type === 'RECRUITER') {
     return currentUser.recruiter.companyName;
-  } else if (currentUser.professional.name === null) {
+  } else if (currentUser.professional.name === '') {
     return currentUser.email;
   } else {
     return currentUser.professional.name;

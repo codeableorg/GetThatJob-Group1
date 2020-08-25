@@ -11,6 +11,7 @@ import {
   LinkStyled,
 } from '../components/form/StyledComponents';
 import TextInput from '../components/form/TextInput';
+import { formatErrors } from '../lib/AuthHelper';
 import { GET_CURRENT_USER_QUERY } from '../components/auth/CurrentUser';
 
 const SIGN_UP_PROFESSIONAL_MUTATION = gql`
@@ -57,7 +58,7 @@ const SignUpProfessional = () => {
   const [signUp, { loading }] = useMutation(SIGN_UP_PROFESSIONAL_MUTATION, {
     onCompleted({ signUpProfessional }) {
       localStorage.setItem('auth-token', signUpProfessional.token);
-      history.replace('/');
+      history.replace('/jobs');
     },
     update(cache, { data }) {
       cache.writeQuery({
@@ -93,7 +94,7 @@ const SignUpProfessional = () => {
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
           signUp({ variables: values }).catch(({ graphQLErrors }) => {
-            setErrors(graphQLErrors[0].details);
+            setErrors(formatErrors(graphQLErrors[0].details));
             setSubmitting(false);
           });
         }}

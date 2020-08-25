@@ -90,4 +90,15 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
          message: "Could not update recruiter", details: ChangesetErrors.error_details(changeset)}
     end
   end
+
+  def delete_user(_, _, %{context: %{current_user: user}}) do
+    case Accounts.delete_user(user) do
+      {:ok, user} ->
+        {:ok, user}
+
+      {:error, changeset} ->
+        {:error,
+         message: "Could not delete user", details: ChangesetErrors.error_details(changeset)}
+    end
+  end
 end
