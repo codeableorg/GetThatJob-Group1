@@ -2,6 +2,12 @@ import styled from '@emotion/styled/macro';
 import { Form } from 'formik';
 import { Link } from 'react-router-dom';
 
+export const FormContainer = styled.div`
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+`;
+
 export const FormStyled = styled(Form)`
   display: flex;
   flex-direction: column;

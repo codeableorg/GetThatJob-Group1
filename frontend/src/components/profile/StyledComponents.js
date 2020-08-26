@@ -1,11 +1,5 @@
 import styled from '@emotion/styled/macro';
 
-export const ProfileContainer = styled.div`
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-`;
-
 export const Title = styled.p`
   font-style: normal;
   font-weight: bold;

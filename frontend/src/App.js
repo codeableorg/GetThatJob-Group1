@@ -10,6 +10,7 @@ import SignUpProfessional from './pages/SignUpProfessional';
 import Jobs from './pages/Jobs';
 import Protected from './components/Protected';
 import Profile from './pages/Profile';
+import NewJob from './pages/NewJob';
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           <Protected>
             <Route exact path="/jobs">
               <Jobs />
+            </Route>
+            <Route exact path="/jobs/new">
+              <NewJob />
             </Route>
             <Route exact path="/profile">
               <Profile />

@@ -16,3 +16,13 @@ export const Button = styled.button`
   font-size: 0.85rem;
   font-weight: 500;
 `;
+
+export const BlueTitle = styled.p`
+  font-style: normal;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 44px;
+  margin-bottom: 20px;
+
+  color: #3c2dff;
+`;

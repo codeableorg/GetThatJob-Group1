@@ -3,14 +3,12 @@ import React from 'react';
 import CurrentUser from '../components/auth/CurrentUser';
 import RecruiterProfile from '../components/profile/RecruiterProfile';
 import ProfessionalProfile from '../components/profile/ProfessionalProfile';
-import {
-  ProfileContainer,
-  Title,
-} from '../components/profile/StyledComponents';
+import { Title } from '../components/profile/StyledComponents';
+import { FormContainer } from '../components/form/StyledComponents';
 
 const Profile = () => {
   return (
-    <ProfileContainer>
+    <FormContainer>
       <Title>Edit your profile</Title>
       <CurrentUser>
         {({ loaded, currentUser }) => {
@@ -23,7 +21,7 @@ const Profile = () => {
           }
         }}
       </CurrentUser>
-    </ProfileContainer>
+    </FormContainer>
   );
 };
 
