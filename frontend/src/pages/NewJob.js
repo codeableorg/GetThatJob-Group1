@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Radio } from 'antd';
 
 import CurrentUser from '../components/auth/CurrentUser';
 import {

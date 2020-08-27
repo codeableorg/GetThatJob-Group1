@@ -2,13 +2,7 @@ import React, { Fragment } from 'react';
 import { useField } from 'formik';
 import { Radio } from 'antd';
 
-import {
-  Label,
-  TextInputStyled,
-  NoteInput,
-  ErrorInput,
-} from './StyledComponents';
-import { RadioStyled } from './StyledComponents';
+import { Label, NoteInput, ErrorInput, RadioStyled } from './StyledComponents';
 
 const RadioGroup = ({ label, note, options, ...props }) => {
   const [field, meta, { setValue, setTouched }] = useField(props);

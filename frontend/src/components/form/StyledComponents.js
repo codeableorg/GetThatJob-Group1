@@ -107,4 +107,13 @@ export const RadioStyled = styled.div`
   font-weight: normal;
   font-size: 16px;
   line-height: 24px;
+  cursor: pointer;
+
+  &.ant-radio-button-wrapper-checked {
+    background-color: blue;
+  }
+
+  .ant-radio-button {
+    display: none;
+  }
 `;
