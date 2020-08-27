@@ -102,15 +102,39 @@ export const LinkStyled = styled(Link)`
   color: #3c2dff;
 `;
 
+export const RadioGroupStyled = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0px, 1fr));
+`;
+
 export const RadioStyled = styled.div`
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 24px;
   cursor: pointer;
+  color: #595959;
+  background-color: #ffffff;
+  border: 1px solid #d9d9d9;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  &:first-of-type {
+    border-radius: 4px 0px 0px 4px;
+  }
+
+  &:last-child {
+    border-radius: 0px 4px 4px 0px;
+  }
 
   &.ant-radio-button-wrapper-checked {
-    background-color: blue;
+    background-color: #3c2dff;
+    color: #ffffff;
+    border: 1px solid #3c2dff;
   }
 
   .ant-radio-button {

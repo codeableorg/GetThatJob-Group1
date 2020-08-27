@@ -2,7 +2,13 @@ import React, { Fragment } from 'react';
 import { useField } from 'formik';
 import { Radio } from 'antd';
 
-import { Label, NoteInput, ErrorInput, RadioStyled } from './StyledComponents';
+import {
+  Label,
+  NoteInput,
+  ErrorInput,
+  RadioStyled,
+  RadioGroupStyled,
+} from './StyledComponents';
 
 const RadioGroup = ({ label, note, options, ...props }) => {
   const [field, meta, { setValue, setTouched }] = useField(props);
@@ -11,7 +17,8 @@ const RadioGroup = ({ label, note, options, ...props }) => {
     <Fragment>
       <Label htmlFor={props.id || props.name}>{label}</Label>
 
-      <Radio.Group
+      <RadioGroupStyled
+        as={Radio.Group}
         {...field}
         {...props}
         onChange={(e) => {
@@ -26,7 +33,7 @@ const RadioGroup = ({ label, note, options, ...props }) => {
             </RadioStyled>
           );
         })}
-      </Radio.Group>
+      </RadioGroupStyled>
 
       {note ? <NoteInput>{note}</NoteInput> : null}
       {meta.touched && meta.error ? (
