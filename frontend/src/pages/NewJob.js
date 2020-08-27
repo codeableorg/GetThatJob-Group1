@@ -22,6 +22,12 @@ const TYPES = [
   { value: 'free', text: 'Freelance' },
   { value: 'inter', text: 'Intership' },
 ];
+const SENIORITIES = [
+  { value: 'junior', text: 'Junior' },
+  { value: 'semi', text: 'Semi Senior' },
+  { value: 'senior', text: 'Senior' },
+  { value: 'export', text: 'Expert' },
+];
 
 const NewJob = () => {
   return (
@@ -53,10 +59,9 @@ const NewJob = () => {
                     .required('Required'),
                   type: Yup.string()
                     .oneOf(TYPES.map((type) => type.value))
-                    .max(20, 'Must be 20 characters or less')
                     .required('Required'),
                   seniority: Yup.string()
-                    .max(20, 'Must be 20 characters or less')
+                    .oneOf(SENIORITIES.map((type) => type.value))
                     .required('Required'),
                   salary: Yup.number().integer().required('Required'),
                   location: Yup.string()
@@ -99,7 +104,7 @@ const NewJob = () => {
                   <RadioGroup
                     label="Seniority"
                     name="seniority"
-                    options={TYPES}
+                    options={SENIORITIES}
                   />
 
                   <TextAreaInput

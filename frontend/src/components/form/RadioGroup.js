@@ -21,10 +21,10 @@ const RadioGroup = ({ label, note, options, ...props }) => {
         as={Radio.Group}
         {...field}
         {...props}
-        onChange={(e) => {
-          setTouched(true);
-          setValue(e.target.value);
-        }}
+        // onChange={(e) => {
+        //   setTouched(true);
+        //   setValue(e.target.value);
+        // }}
       >
         {options.map((option, index) => {
           return (
