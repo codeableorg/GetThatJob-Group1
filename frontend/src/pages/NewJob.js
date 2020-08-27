@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { Radio } from 'antd';
 
 import CurrentUser from '../components/auth/CurrentUser';
 import {
@@ -85,7 +86,12 @@ const NewJob = () => {
                     name="location"
                     options={LOCATIONS}
                   />
-
+                  <Radio.Group defaultValue="a">
+                    <Radio.Button value="a">Hangzhou</Radio.Button>
+                    <Radio.Button value="b">Shanghai</Radio.Button>
+                    <Radio.Button value="c">Beijing</Radio.Button>
+                    <Radio.Button value="d">Chengdu</Radio.Button>
+                  </Radio.Group>
                   <TextAreaInput
                     label="Job introduction"
                     name="introduction"
