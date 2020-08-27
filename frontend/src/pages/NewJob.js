@@ -13,9 +13,16 @@ import {
 import TextInput from '../components/form/TextInput';
 import TextAreaInput from '../components/form/TextAreaInput';
 import SelectInput from '../components/form/SelectInput';
+import RadioGroup from '../components/form/RadioGroup';
 import { BlueTitle } from '../components/StyledComponents';
 
 const LOCATIONS = ['Lima', 'Bogota', 'Mexico'];
+const TYPES = [
+  { value: 'full', text: 'Full Time' },
+  { value: 'part', text: 'Part Time' },
+  { value: 'free', text: 'Freelance' },
+  { value: 'inter', text: 'Intership' },
+];
 
 const NewJob = () => {
   return (
@@ -46,6 +53,7 @@ const NewJob = () => {
                     .max(15, 'Must be 15 characters or less')
                     .required('Required'),
                   type: Yup.string()
+                    .oneOf(TYPES.map((type) => type.value))
                     .max(20, 'Must be 20 characters or less')
                     .required('Required'),
                   seniority: Yup.string()
@@ -86,12 +94,9 @@ const NewJob = () => {
                     name="location"
                     options={LOCATIONS}
                   />
-                  <Radio.Group defaultValue="a">
-                    <Radio.Button value="a">Hangzhou</Radio.Button>
-                    <Radio.Button value="b">Shanghai</Radio.Button>
-                    <Radio.Button value="c">Beijing</Radio.Button>
-                    <Radio.Button value="d">Chengdu</Radio.Button>
-                  </Radio.Group>
+
+                  <RadioGroup label="Type" name="type" options={TYPES} />
+
                   <TextAreaInput
                     label="Job introduction"
                     name="introduction"

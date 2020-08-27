@@ -101,3 +101,10 @@ export const LinkStyled = styled(Link)`
 
   color: #3c2dff;
 `;
+
+export const RadioStyled = styled.div`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+`;

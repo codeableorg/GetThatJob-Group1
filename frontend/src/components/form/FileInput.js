@@ -20,7 +20,6 @@ const FileInput = ({ formik, label, note, ...props }) => {
         {...props}
         onChange={(e) => {
           let files = e.currentTarget.files;
-          console.log(e.currentTarget.files);
           if (files.length === 0) {
             setValue(null);
             handleChange(e);
