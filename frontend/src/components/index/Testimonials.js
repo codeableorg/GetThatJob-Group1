@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import { Container } from '../components/StyledComponents';
-import testimonialsAvatar from '../assets/testimonials-avatar.png';
+import { Container } from '../StyledComponents';
+import testimonialsAvatar from '../../assets/testimonials-avatar.png';
 
 const Wrapper = styled.section`
   .testimonial {

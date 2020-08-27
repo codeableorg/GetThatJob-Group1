@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 
-import Hero from '../components/Hero';
-import Testimonials from '../components/Testimonials';
-import FindJob from '../components/FindJob';
-import GetInTouch from '../components/GetInTouch';
+import Hero from '../components/index/Hero';
+import FindJob from '../components/index/FindJob';
+import Testimonials from '../components/index/Testimonials';
+import GetInTouch from '../components/index/GetInTouch';
 
 export default function Index() {
   return (
