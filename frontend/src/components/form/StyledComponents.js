@@ -122,6 +122,7 @@ export const RadioStyled = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
+  margin-bottom: 2px;
 
   &:first-of-type {
     border-radius: 4px 0px 0px 4px;

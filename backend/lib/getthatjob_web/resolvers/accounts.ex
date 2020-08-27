@@ -67,7 +67,7 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
       {:ok, professional}
     else
       nil ->
-        {:error, message: "Current user is not a professional", details: %{amiguito: "amiguito"}}
+        {:error, message: "Current user is not a professional", details: %{}}
 
       {:error, changeset} ->
         {:error,
@@ -83,7 +83,7 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
       {:ok, recruiter}
     else
       nil ->
-        {:error, message: "Current user is not a recruiter", details: %{amiguito: "amiguito"}}
+        {:error, message: "Current user is not a recruiter", details: %{}}
 
       {:error, changeset} ->
         {:error,

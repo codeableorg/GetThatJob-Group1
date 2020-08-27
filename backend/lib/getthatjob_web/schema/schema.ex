@@ -85,6 +85,22 @@ defmodule GetthatjobWeb.Schema.Schema do
       middleware(Middleware.Authenticate)
       resolve(&Resolvers.Accounts.delete_user/3)
     end
+
+    @desc "Create a Job"
+    field :create_job, :job do
+      arg(:title, non_null(:string))
+      arg(:type, non_null(:string))
+      arg(:seniority, non_null(:string))
+      arg(:salary, :integer)
+      arg(:location, non_null(:string))
+      arg(:introduction, non_null(:string))
+      arg(:expected, non_null(:string))
+      arg(:looking_for, non_null(:string))
+      arg(:requirements, non_null(:string))
+
+      middleware(Middleware.Authenticate)
+      resolve(&Resolvers.Recruitment.create_job/3)
+    end
   end
 
   def context(ctx) do

@@ -2,8 +2,11 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { gql, useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 import CurrentUser from '../components/auth/CurrentUser';
+import { formatErrors } from '../lib/AuthHelper';
 import {
   FormContainer,
   FormStyled,
@@ -29,7 +32,52 @@ const SENIORITIES = [
   { value: 'export', text: 'Expert' },
 ];
 
+const CREATE_JOB_MUTATION = gql`
+  mutation CreateJob(
+    $title: String!
+    $type: String!
+    $seniority: String!
+    $salary: Int
+    $location: String!
+    $introduction: String!
+    $expected: String!
+    $lookingFor: String!
+    $requirements: String!
+  ) {
+    createJob(
+      title: $title
+      type: $type
+      seniority: $seniority
+      salary: $salary
+      location: $location
+      introduction: $introduction
+      expected: $expected
+      lookingFor: $lookingFor
+      requirements: $requirements
+    ) {
+      id
+      title
+      type
+      seniority
+      salary
+      location
+      introduction
+      expected
+      lookingFor
+      requirements
+    }
+  }
+`;
+
 const NewJob = () => {
+  let history = useHistory();
+
+  const [createJob, { loading }] = useMutation(CREATE_JOB_MUTATION, {
+    onCompleted() {
+      history.replace('/jobs');
+    },
+  });
+
   return (
     <CurrentUser>
       {({ loaded, currentUser }) => {
@@ -63,7 +111,7 @@ const NewJob = () => {
                   seniority: Yup.string()
                     .oneOf(SENIORITIES.map((type) => type.value))
                     .required('Required'),
-                  salary: Yup.number().integer().required('Required'),
+                  salary: Yup.number().integer(),
                   location: Yup.string()
                     .oneOf(LOCATIONS.map((location) => location.toLowerCase()))
                     .max(20, 'Must be 20 characters or less')
@@ -82,12 +130,12 @@ const NewJob = () => {
                     .required('Required'),
                 })}
                 onSubmit={(values, { setErrors, setSubmitting }) => {
-                  // updateRecruiter({ variables: values }).catch(
-                  //   ({ graphQLErrors }) => {
-                  //     setErrors(formatErrors(graphQLErrors[0].details));
-                  //     setSubmitting(false);
-                  //   }
-                  // );
+                  createJob({ variables: values }).catch(
+                    ({ graphQLErrors }) => {
+                      setErrors(formatErrors(graphQLErrors[0].details));
+                      setSubmitting(false);
+                    }
+                  );
                 }}
               >
                 <FormStyled>
@@ -135,7 +183,7 @@ const NewJob = () => {
                     note="Between 150 and 1000 characters."
                     rows="6"
                   />
-                  <GeneralSubmitStyled type="submit">
+                  <GeneralSubmitStyled type="submit" disabled={loading}>
                     Post this job!
                   </GeneralSubmitStyled>
                 </FormStyled>
