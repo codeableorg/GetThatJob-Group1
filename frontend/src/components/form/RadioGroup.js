@@ -11,21 +11,13 @@ import {
 } from './StyledComponents';
 
 const RadioGroup = ({ label, note, options, ...props }) => {
-  const [field, meta, { setValue, setTouched }] = useField(props);
+  const [field, meta] = useField(props);
 
   return (
     <Fragment>
       <Label htmlFor={props.id || props.name}>{label}</Label>
 
-      <RadioGroupStyled
-        as={Radio.Group}
-        {...field}
-        {...props}
-        // onChange={(e) => {
-        //   setTouched(true);
-        //   setValue(e.target.value);
-        // }}
-      >
+      <RadioGroupStyled as={Radio.Group} {...field} {...props}>
         {options.map((option, index) => {
           return (
             <RadioStyled as={Radio.Button} value={option.value} key={index}>
