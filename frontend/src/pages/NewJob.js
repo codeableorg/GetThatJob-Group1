@@ -97,6 +97,12 @@ const NewJob = () => {
 
                   <RadioGroup label="Type" name="type" options={TYPES} />
 
+                  <RadioGroup
+                    label="Seniority"
+                    name="seniority"
+                    options={TYPES}
+                  />
+
                   <TextAreaInput
                     label="Job introduction"
                     name="introduction"
