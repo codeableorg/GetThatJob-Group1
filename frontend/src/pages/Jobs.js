@@ -1,24 +1,12 @@
-<<<<<<< HEAD
-import React from 'react';
-=======
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import 'react-input-range/lib/css/index.css';
 
-import Sidebar from '../components/Sidebar';
 import FilterForm from '../components/jobs/FilterForm';
 import { Button } from '../components/StyledComponents';
 import JobCard from '../features/jobs/JobCard';
-
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  height: 100%;
-  background: #f7fafc;
-`;
->>>>>>> origin/jobs
 
 const MyTitle = styled.h1`
   margin-bottom: 15px;
@@ -59,9 +47,6 @@ const JOBS = gql`
 `;
 
 export default function Jobs() {
-<<<<<<< HEAD
-  return <span>Jobs</span>;
-=======
   const initialFormData = {
     matching: '',
     country: '',
@@ -97,29 +82,24 @@ export default function Jobs() {
   }, [formData]);
 
   return (
-    <Wrapper>
-      <Sidebar />
+    <MyJobsSection>
+      <MyTitle>Jobs For you</MyTitle>
 
-      <MyJobsSection>
-        <MyTitle>Jobs For you</MyTitle>
+      <FilterForm formData={formData} setFormData={setFormData} />
 
-        <FilterForm formData={formData} setFormData={setFormData} />
+      {loading && 'Loading...'}
 
-        {loading && 'Loading...'}
+      {data &&
+        data.jobs &&
+        data.jobs.map((job) => (
+          <Link to={`/jobs/${job.id}/detail`} key={job.id}>
+            <JobCard job={job} key={job.id} className="job" />
+          </Link>
+        ))}
 
-        {data &&
-          data.jobs &&
-          data.jobs.map((job) => (
-            <Link to={`/jobs/${job.id}/detail`} key={job.id}>
-              <JobCard job={job} key={job.id} className="job" />
-            </Link>
-          ))}
-
-        <MyFooter>
-          <Button>Load More</Button>
-        </MyFooter>
-      </MyJobsSection>
-    </Wrapper>
+      <MyFooter>
+        <Button>Load More</Button>
+      </MyFooter>
+    </MyJobsSection>
   );
->>>>>>> origin/jobs
 }
