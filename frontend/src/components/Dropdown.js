@@ -5,13 +5,19 @@ import { DownIcon } from './Icons';
 
 const Wrapper = styled.div`
   position: relative;
+  display: inline-block;
 
   .button {
     display: flex;
     align-items: center;
     padding: 5px 20px;
-    background: transparent;
+    background: #ffffff;
     border: 0;
+    border-radius: 4px;
+    box-shadow: ${(props) =>
+      props.shadow
+        ? '0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1)'
+        : 'none'};
     font-family: Hind;
     font-size: 1rem;
     font-weight: 700;
@@ -37,8 +43,10 @@ const Wrapper = styled.div`
   }
 
   .menu > * {
+    width: auto;
     padding: 8px 15px;
     color: #595959;
+    white-space: nowrap;
   }
 
   .menu a {
@@ -48,14 +56,22 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Dropdown({ title, color = '#333333', children }) {
+export default function Dropdown({
+  title,
+  color = '#333333',
+  shadow = false,
+  children,
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dropdownRef = useRef();
+  const buttonRef = useRef();
 
   useEffect(() => {
     const toggleMenu = (event) => {
-      if (dropdownRef.current.contains(event.target)) {
+      if (buttonRef.current.contains(event.target)) {
         setIsMenuOpen(!isMenuOpen);
+      } else if (dropdownRef.current.contains(event.target)) {
+        setIsMenuOpen(true);
       } else {
         setIsMenuOpen(false);
       }
@@ -66,8 +82,8 @@ export default function Dropdown({ title, color = '#333333', children }) {
   }, [isMenuOpen]);
 
   return (
-    <Wrapper ref={dropdownRef} color={color}>
-      <button className="button">
+    <Wrapper ref={dropdownRef} color={color} shadow={shadow}>
+      <button ref={buttonRef} className="button" type="button">
         <span className="button__title">{title}</span>
         <DownIcon color={color} />
       </button>

@@ -38,3 +38,8 @@ button,
 textarea {
   font-family: Hind;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

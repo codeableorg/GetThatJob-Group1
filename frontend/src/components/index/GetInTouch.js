@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import { Container } from './StyledComponents';
-import mailIcon from '../assets/mail-icon.png';
+import { Container } from '../StyledComponents';
+import mailIcon from '../../assets/mail-icon.png';
 
 const Wrapper = styled.section`
   padding: 100px 0;

@@ -2,8 +2,8 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useQuery, gql } from '@apollo/client';
 
-import { Container } from './StyledComponents';
-import JobItem from '../features/jobs/JobItem';
+import { Container } from '../StyledComponents';
+import JobItem from '../../features/jobs/JobItem';
 
 const Wrapper = styled.section`
   background: #3c2dff;

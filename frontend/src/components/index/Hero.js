@@ -2,8 +2,8 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
-import { Container, Button } from './StyledComponents';
-import heroImage from '../assets/hero-image.png';
+import { Container, Button } from '../StyledComponents';
+import heroImage from '../../assets/hero-image.png';
 
 const Wrapper = styled.section`
 padding: 30px 0;
