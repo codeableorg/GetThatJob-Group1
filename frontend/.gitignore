@@ -2,6 +2,9 @@
 
 .idea
 
+.graphqlconfig
+schema.graphql
+
 # dependencies
 /node_modules
 /.pnp

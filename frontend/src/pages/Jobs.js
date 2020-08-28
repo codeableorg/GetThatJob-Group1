@@ -92,7 +92,7 @@ export default function Jobs() {
       {data &&
         data.jobs &&
         data.jobs.map((job) => (
-          <Link to={`/jobs/${job.id}/detail`} key={job.id}>
+          <Link to={`/jobs/${job.id}`} key={job.id}>
             <JobCard job={job} key={job.id} className="job" />
           </Link>
         ))}

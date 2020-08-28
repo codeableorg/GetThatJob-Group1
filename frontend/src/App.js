@@ -11,6 +11,7 @@ import Jobs from './pages/Jobs';
 import Protected from './components/Protected';
 import Profile from './pages/Profile';
 import NewJob from './pages/NewJob';
+import Job from './pages/Job';
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
             </Route>
             <Route exact path="/jobs/new">
               <NewJob />
+            </Route>
+            <Route exact path="/jobs/:id">
+              <Job />
             </Route>
             <Route exact path="/profile">
               <Profile />
