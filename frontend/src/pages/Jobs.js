@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import 'react-input-range/lib/css/index.css';
 
@@ -102,7 +103,9 @@ export default function Jobs() {
         {data &&
           data.jobs &&
           data.jobs.map((job) => (
-            <JobCard job={job} key={job.id} className="job" />
+            <Link to={`/jobs/${job.id}/detail`} key={job.id}>
+              <JobCard job={job} key={job.id} className="job" />
+            </Link>
           ))}
 
         <MyFooter>
