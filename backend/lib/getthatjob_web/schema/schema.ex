@@ -11,7 +11,7 @@ defmodule GetthatjobWeb.Schema.Schema do
   query do
     @desc "Get a Job by title"
     field :job, :job do
-      arg(:title, non_null(:string))
+      arg(:id, non_null(:integer))
       resolve(&Resolvers.Recruitment.job/3)
     end
 
