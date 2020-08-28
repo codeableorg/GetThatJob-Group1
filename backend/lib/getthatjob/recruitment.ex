@@ -277,6 +277,7 @@ defmodule Getthatjob.Recruitment do
 
   """
   def get_job!(id), do: Repo.get!(Job, id)
+  def get_job(id), do: Repo.get(Job, id)
 
   @doc false
   def get_job_by_title!(title), do: Repo.get_by!(Job, title: title)

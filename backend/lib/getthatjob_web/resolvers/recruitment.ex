@@ -4,7 +4,13 @@ defmodule GetthatjobWeb.Resolvers.Recruitment do
   alias GetthatjobWeb.Schema.ChangesetErrors
 
   def job(_, %{id: id}, _) do
-    {:ok, Recruitment.get_job!(id)}
+    case Recruitment.get_job(id) do
+      nil ->
+        {:error, message: "No job", details: %{}}
+
+      job ->
+        {:ok, job}
+    end
   end
 
   def jobs(_, args, _) do
