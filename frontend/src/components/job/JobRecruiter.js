@@ -1,7 +1,7 @@
 import React from 'react';
 
 const JobRecruiter = () => {
-  return <>holi</>
-}
+  return <>holi woli</>;
+};
 
 export default JobRecruiter;

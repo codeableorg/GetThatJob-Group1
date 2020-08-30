@@ -12,6 +12,65 @@
 
 alias Getthatjob.Recruitment
 
+{:ok, country} =
+  Recruitment.create_country(%{
+    name: "Peru",
+    flag_path_meta: %{
+      path: Path.absname("./assets/static/peru-flag.png"),
+      filename: "peru-flag.png"
+    }
+  })
+
+{:ok, city1} =
+  Recruitment.create_city(country, %{
+    name: "Lima"
+  })
+
+{:ok, city2} =
+  Recruitment.create_city(country, %{
+    name: "Huaraz"
+  })
+
+{:ok, type_full} =
+  Recruitment.create_job_type(%{
+    name: "Full Time"
+  })
+
+{:ok, type_part} =
+  Recruitment.create_job_type(%{
+    name: "Part Time"
+  })
+
+{:ok, type_freelancer} =
+  Recruitment.create_job_type(%{
+    name: "Freelance"
+  })
+
+{:ok, type_intership} =
+  Recruitment.create_job_type(%{
+    name: "Intership"
+  })
+
+{:ok, seniority_junior} =
+  Recruitment.create_seniority(%{
+    name: "Junior"
+  })
+
+{:ok, seniority_semi} =
+  Recruitment.create_seniority(%{
+    name: "Semi Senior"
+  })
+
+{:ok, seniority_senior} =
+  Recruitment.create_seniority(%{
+    name: "Senior"
+  })
+
+{:ok, seniority_expert} =
+  Recruitment.create_seniority(%{
+    name: "Expert"
+  })
+
 {:ok, profesional} =
   Recruitment.create_professional(%{
     name: "Albert",
@@ -28,7 +87,6 @@ alias Getthatjob.Recruitment
 {:ok, recruiter} =
   Recruitment.create_recruiter(%{
     company_description: "Codeable Description",
-    company_logo_path: "asd",
     company_name: "Codeable",
     company_website: "codeable.pe",
     user: %{
@@ -37,36 +95,55 @@ alias Getthatjob.Recruitment
       password_confirmation: "123456"
     },
     company_logo_meta: %{
-      path: Path.absname("./assets/static/photo.jpg"),
-      filename: "photo.jpg"
+      path: Path.absname("./assets/static/able.png"),
+      filename: "able.png"
     }
   })
 
 {:ok, job1} =
-  Recruitment.create_job(recruiter, %{
-    title: "Job Title 1",
-    type: "Job type 1",
-    seniority: "Job Seniority 1",
-    salary: 1,
-    location: "Lima",
-    introduction: "Job Introduction 1",
-    expected: "Job expected 1",
-    looking_for: "Job looking for 1",
-    requirements: "Job Requirement 1"
-  })
+  Recruitment.create_job(
+    %{recruiter: recruiter, city: city1, seniority: seniority_expert, job_type: type_full},
+    %{
+      title: "Job Title 1",
+      type: "Job type 1",
+      seniority: "Job Seniority 1",
+      salary: 1,
+      introduction: "Job Introduction 1",
+      expected: "Job expected 1",
+      looking_for: "Job looking for 1",
+      requirements: "Job Requirement 1"
+    }
+  )
 
 {:ok, job2} =
-  Recruitment.create_job(recruiter, %{
-    title: "Job Title 2",
-    type: "Job type 2",
-    seniority: "Job Seniority 2",
-    salary: 1,
-    location: "Lima",
-    introduction: "Job Introduction 2",
-    expected: "Job expected 2",
-    looking_for: "Job looking for 2",
-    requirements: "Job Requirement 2"
-  })
+  Recruitment.create_job(
+    %{recruiter: recruiter, city: city2, seniority: seniority_junior, job_type: type_intership},
+    %{
+      title: "Job Title 2",
+      type: "Job type 2",
+      seniority: "Job Seniority 2",
+      salary: 1,
+      introduction: "Job Introduction 2",
+      expected: "Job expected 2",
+      looking_for: "Job looking for 2",
+      requirements: "Job Requirement 2"
+    }
+  )
+
+{:ok, job3} =
+  Recruitment.create_job(
+    %{recruiter: recruiter, city: city1, seniority: seniority_senior, job_type: type_part},
+    %{
+      title: "Job Title 3",
+      type: "Job type 3",
+      seniority: "Job Seniority 3",
+      salary: 1,
+      introduction: "Job Introduction 3",
+      expected: "Job expected 3",
+      looking_for: "Job looking for 3",
+      requirements: "Job Requirement 3"
+    }
+  )
 
 {:ok, _application} =
   Recruitment.create_application(job1, profesional, %{

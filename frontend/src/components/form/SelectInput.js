@@ -15,10 +15,10 @@ const SelectInput = ({ label, note, options, ...props }) => {
       <Label htmlFor={props.id || props.name}>{label}</Label>
       <TextInputStyled as="select" {...field} {...props}>
         <option disabled hidden></option>
-        {options.map((option, index) => {
+        {options.map((option) => {
           return (
-            <option value={option.toLowerCase()} key={index}>
-              {option}
+            <option value={option.value} key={option.value}>
+              {option.text}
             </option>
           );
         })}

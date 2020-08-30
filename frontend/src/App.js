@@ -22,33 +22,37 @@ function App() {
         </Route>
         <Route path={['/jobs', '/profile']}>
           <Protected>
-            <Route exact path="/jobs">
-              <Jobs />
-            </Route>
-            <Route exact path="/jobs/new">
-              <NewJob />
-            </Route>
-            <Route exact path="/jobs/:id">
-              <Job />
-            </Route>
-            <Route exact path="/profile">
-              <Profile />
-            </Route>
+            <Switch>
+              <Route exact path="/jobs/new">
+                <NewJob />
+              </Route>
+              <Route exact path="/jobs/:id">
+                <Job />
+              </Route>
+              <Route exact path="/jobs">
+                <Jobs />
+              </Route>
+              <Route exact path="/profile">
+                <Profile />
+              </Route>
+            </Switch>
           </Protected>
         </Route>
         <Route path={['/sign-in', '/sign-up']}>
           <Auth>
-            <Route exact path="/sign-in" component={SignIn} />
-            <Route
-              exact
-              path="/sign-up/recruiter"
-              component={SignUpRecruiter}
-            />
-            <Route
-              exact
-              path="/sign-up/professional"
-              component={SignUpProfessional}
-            />
+            <Switch>
+              <Route exact path="/sign-in" component={SignIn} />
+              <Route
+                exact
+                path="/sign-up/recruiter"
+                component={SignUpRecruiter}
+              />
+              <Route
+                exact
+                path="/sign-up/professional"
+                component={SignUpProfessional}
+              />
+            </Switch>
           </Auth>
         </Route>
       </Switch>

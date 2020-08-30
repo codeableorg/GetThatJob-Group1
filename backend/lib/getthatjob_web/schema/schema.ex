@@ -28,6 +28,27 @@ defmodule GetthatjobWeb.Schema.Schema do
     field :me, :user do
       resolve(&Resolvers.Accounts.me/3)
     end
+
+    @desc "Get seniorities"
+    field :seniorities, list_of(:seniority) do
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.seniorities/3)
+    end
+
+    @desc "Get jobs types"
+    field :job_types, list_of(:job_type) do
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.job_types/3)
+    end
+
+    @desc "Get Cities"
+    field :cities, list_of(:city) do
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.cities/3)
+    end
   end
 
   mutation do
@@ -89,10 +110,10 @@ defmodule GetthatjobWeb.Schema.Schema do
     @desc "Create a Job"
     field :create_job, :job do
       arg(:title, non_null(:string))
-      arg(:type, non_null(:string))
-      arg(:seniority, non_null(:string))
+      arg(:type_id, non_null(:integer))
+      arg(:seniority_id, non_null(:integer))
       arg(:salary, :integer)
-      arg(:location, non_null(:string))
+      arg(:city_id, non_null(:integer))
       arg(:introduction, non_null(:string))
       arg(:expected, non_null(:string))
       arg(:looking_for, non_null(:string))

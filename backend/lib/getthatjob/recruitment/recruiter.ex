@@ -52,9 +52,9 @@ defmodule Getthatjob.Recruitment.Recruiter do
        ) do
     with new_filename <- Ecto.UUID.generate(),
          extension <- Path.extname(filename),
-         new_path <- Path.absname("./priv/uploads/" <> new_filename <> extension),
+         new_path <- Path.absname("./priv/company_logos/" <> new_filename <> extension),
          {:ok, _} <- File.copy(path, new_path) do
-      put_change(changeset, :company_logo_path, new_filename <> extension)
+      put_change(changeset, :company_logo_path, "/company_logos/" <> new_filename <> extension)
     else
       _ ->
         changeset |> add_error(:company_logo_meta, "could not upload file")
@@ -70,11 +70,10 @@ defmodule Getthatjob.Recruitment.Recruiter do
        ) do
     with new_filename <- Ecto.UUID.generate(),
          extension <- Path.extname(filename),
-         new_path <- Path.absname("./priv/uploads/" <> new_filename <> extension),
-         :ok <- Path.absname("./priv/uploads/" <> company_logo_path) |> File.rm(),
+         new_path <- Path.absname("./priv/company_logos/" <> new_filename <> extension),
+         :ok <- Path.absname("./priv/company_logos/" <> company_logo_path) |> File.rm(),
          {:ok, _} <- File.copy(path, new_path) do
-      IO.puts("delete last image")
-      put_change(changeset, :company_logo_path, new_filename <> extension)
+      put_change(changeset, :company_logo_path, "/company_logos/" <> new_filename <> extension)
     else
       _ ->
         changeset |> add_error(:company_logo_meta, "could not upload file")
@@ -83,7 +82,6 @@ defmodule Getthatjob.Recruitment.Recruiter do
 
   @doc false
   defp process_company_logo(changeset) do
-    IO.inspect(changeset)
     changeset
   end
 end

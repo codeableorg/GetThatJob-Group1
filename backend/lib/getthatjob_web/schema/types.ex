@@ -10,10 +10,7 @@ defmodule GetthatjobWeb.Schema.Types do
   object :job do
     field(:id, non_null(:id))
     field(:title, non_null(:string))
-    field(:type, non_null(:string))
-    field(:seniority, non_null(:string))
     field(:salary, :integer)
-    field(:location, non_null(:string))
     field(:introduction, non_null(:string))
     field(:expected, non_null(:string))
     field(:looking_for, non_null(:string))
@@ -21,6 +18,31 @@ defmodule GetthatjobWeb.Schema.Types do
     field(:inserted_at, non_null(:naive_datetime))
     field(:recruiter, non_null(:recruiter), resolve: dataloader(Recruitment))
     field(:applications, list_of(:application), resolve: dataloader(Recruitment))
+    field(:city, non_null(:city), resolve: dataloader(Recruitment))
+    field(:seniority, non_null(:seniority), resolve: dataloader(Recruitment))
+    field(:job_type, non_null(:job_type), resolve: dataloader(Recruitment))
+  end
+
+  object :city do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
+    field(:country, non_null(:country), resolve: dataloader(Recruitment))
+  end
+
+  object :country do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
+    field(:flag_path, non_null(:string))
+  end
+
+  object :seniority do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
+  end
+
+  object :job_type do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
   end
 
   object :application do

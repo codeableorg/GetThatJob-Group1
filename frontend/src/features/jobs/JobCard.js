@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
-import { FLAGS, COUNTRIES, getLocalDate, getTimeSince } from '../../utils';
+import { getLocalDate, getTimeSince } from '../../utils';
 import dollarIcon from '../../assets/dollar.png';
 
 const Wrapper = styled.article`
@@ -89,11 +89,11 @@ export default function JobItem({ job, className }) {
         <div className="title">{job.title}</div>
         <div className="metadata">
           <span className="metadata__location">
-            {job.location} - {COUNTRIES[job.location]}
+            {job.location} - {job.location}
           </span>
           <img
             className="metadata__flag"
-            src={FLAGS[job.location]}
+            src={job.location}
             alt={job.location}
           />
         </div>

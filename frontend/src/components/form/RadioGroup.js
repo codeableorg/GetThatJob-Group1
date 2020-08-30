@@ -18,9 +18,13 @@ const RadioGroup = ({ label, note, options, ...props }) => {
       <Label htmlFor={props.id || props.name}>{label}</Label>
 
       <RadioGroupStyled as={Radio.Group} {...field} {...props}>
-        {options.map((option, index) => {
+        {options.map((option) => {
           return (
-            <RadioStyled as={Radio.Button} value={option.value} key={index}>
+            <RadioStyled
+              as={Radio.Button}
+              value={option.value}
+              key={option.value}
+            >
               {option.text}
             </RadioStyled>
           );

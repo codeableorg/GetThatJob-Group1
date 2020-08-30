@@ -31,8 +31,14 @@ defmodule GetthatjobWeb.Endpoint do
   )
 
   plug(Plug.Static,
-    at: "/uploads",
-    from: {:getthatjob, "priv/uploads"},
+    at: "/company_logos",
+    from: {:getthatjob, "priv/company_logos"},
+    gzip: false
+  )
+
+  plug(Plug.Static,
+    at: "/flags",
+    from: {:getthatjob, "priv/flags"},
     gzip: false
   )
 

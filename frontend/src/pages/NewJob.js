@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useLazyQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
 import CurrentUser from '../components/auth/CurrentUser';
@@ -18,27 +18,34 @@ import SelectInput from '../components/form/SelectInput';
 import RadioGroup from '../components/form/RadioGroup';
 import { BlueTitle } from '../components/StyledComponents';
 
-const LOCATIONS = ['Lima', 'Bogota', 'Mexico'];
-const TYPES = [
-  { value: 'full', text: 'Full Time' },
-  { value: 'part', text: 'Part Time' },
-  { value: 'free', text: 'Freelance' },
-  { value: 'inter', text: 'Intership' },
-];
-const SENIORITIES = [
-  { value: 'junior', text: 'Junior' },
-  { value: 'semi', text: 'Semi Senior' },
-  { value: 'senior', text: 'Senior' },
-  { value: 'export', text: 'Expert' },
-];
+const GET_SENIORITIES_CITIES = gql`
+  query GetSenioritiesCities {
+    seniorities {
+      id
+      name
+    }
+    jobTypes {
+      id
+      name
+    }
+    cities {
+      id
+      name
+      country {
+        id
+        name
+      }
+    }
+  }
+`;
 
 const CREATE_JOB_MUTATION = gql`
   mutation CreateJob(
     $title: String!
-    $type: String!
-    $seniority: String!
+    $typeId: Int!
+    $seniorityId: Int!
     $salary: Int
-    $location: String!
+    $cityId: Int!
     $introduction: String!
     $expected: String!
     $lookingFor: String!
@@ -46,10 +53,10 @@ const CREATE_JOB_MUTATION = gql`
   ) {
     createJob(
       title: $title
-      type: $type
-      seniority: $seniority
+      typeId: $typeId
+      seniorityId: $seniorityId
       salary: $salary
-      location: $location
+      cityId: $cityId
       introduction: $introduction
       expected: $expected
       lookingFor: $lookingFor
@@ -57,10 +64,19 @@ const CREATE_JOB_MUTATION = gql`
     ) {
       id
       title
-      type
-      seniority
+      jobType {
+        id
+        name
+      }
+      seniority {
+        id
+        name
+      }
       salary
-      location
+      city {
+        id
+        name
+      }
       introduction
       expected
       lookingFor
@@ -72,11 +88,24 @@ const CREATE_JOB_MUTATION = gql`
 const NewJob = () => {
   let history = useHistory();
 
-  const [createJob, { loading }] = useMutation(CREATE_JOB_MUTATION, {
+  const [
+    getQuery,
+    { error, data: data_query, loading: loading_query, called },
+  ] = useLazyQuery(GET_SENIORITIES_CITIES);
+
+  const [createJob, { loading_mutation }] = useMutation(CREATE_JOB_MUTATION, {
     onCompleted() {
       history.replace('/jobs');
     },
   });
+
+  useEffect(() => {
+    getQuery();
+    return () => {};
+  }, [getQuery]);
+
+  if (error) return null;
+  if (!called || loading_query) return null;
 
   return (
     <CurrentUser>
@@ -92,10 +121,10 @@ const NewJob = () => {
               <Formik
                 initialValues={{
                   title: '',
-                  type: '',
-                  seniority: '',
+                  typeId: '',
+                  seniorityId: '',
                   salary: '',
-                  location: '',
+                  cityId: '',
                   introduction: '',
                   expected: '',
                   lookingFor: '',
@@ -105,16 +134,21 @@ const NewJob = () => {
                   title: Yup.string()
                     .max(15, 'Must be 15 characters or less')
                     .required('Required'),
-                  type: Yup.string()
-                    .oneOf(TYPES.map((type) => type.value))
+                  typeId: Yup.number()
+                    .oneOf(
+                      data_query.jobTypes.map((jobType) => parseInt(jobType.id))
+                    )
                     .required('Required'),
-                  seniority: Yup.string()
-                    .oneOf(SENIORITIES.map((type) => type.value))
+                  seniorityId: Yup.number()
+                    .oneOf(
+                      data_query.seniorities.map((seniority) =>
+                        parseInt(seniority.id)
+                      )
+                    )
                     .required('Required'),
                   salary: Yup.number().integer(),
-                  location: Yup.string()
-                    .oneOf(LOCATIONS.map((location) => location.toLowerCase()))
-                    .max(20, 'Must be 20 characters or less')
+                  cityId: Yup.number()
+                    .oneOf(data_query.cities.map((city) => parseInt(city.id)))
                     .required('Required'),
                   introduction: Yup.string()
                     .max(20, 'Must be 20 characters or less')
@@ -130,6 +164,10 @@ const NewJob = () => {
                     .required('Required'),
                 })}
                 onSubmit={(values, { setErrors, setSubmitting }) => {
+                  console.log(values);
+                  ['typeId', 'seniorityId', 'cityId'].forEach((key) => {
+                    values[key] = parseInt(values[key]);
+                  });
                   createJob({ variables: values }).catch(
                     ({ graphQLErrors }) => {
                       setErrors(formatErrors(graphQLErrors[0].details));
@@ -143,18 +181,37 @@ const NewJob = () => {
                   <TextInput label="Salary" name="salary" type="number" />
                   <SelectInput
                     label="Location"
-                    name="location"
-                    options={LOCATIONS}
+                    name="cityId"
+                    type="number"
+                    options={data_query.cities.map((city) => {
+                      return {
+                        value: city.id,
+                        text: `${city.name} - ${city.country.name}`,
+                      };
+                    })}
                   />
-
-                  <RadioGroup label="Type" name="type" options={TYPES} />
-
+                  <RadioGroup
+                    label="Type"
+                    name="typeId"
+                    type="number"
+                    options={data_query.jobTypes.map((jobTypes) => {
+                      return {
+                        value: jobTypes.id,
+                        text: jobTypes.name,
+                      };
+                    })}
+                  />
                   <RadioGroup
                     label="Seniority"
-                    name="seniority"
-                    options={SENIORITIES}
+                    name="seniorityId"
+                    type="number"
+                    options={data_query.seniorities.map((seniority) => {
+                      return {
+                        value: seniority.id,
+                        text: seniority.name,
+                      };
+                    })}
                   />
-
                   <TextAreaInput
                     label="Job introduction"
                     name="introduction"
@@ -183,7 +240,10 @@ const NewJob = () => {
                     note="Between 150 and 1000 characters."
                     rows="6"
                   />
-                  <GeneralSubmitStyled type="submit" disabled={loading}>
+                  <GeneralSubmitStyled
+                    type="submit"
+                    disabled={loading_mutation}
+                  >
                     Post this job!
                   </GeneralSubmitStyled>
                 </FormStyled>
