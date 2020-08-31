@@ -88,4 +88,8 @@ defmodule GetthatjobWeb.Resolvers.Recruitment do
   def cities(_, _, _) do
     {:ok, Recruitment.list_cities()}
   end
+
+  def countries(_, _, _) do
+    {:ok, Recruitment.list_countries()}
+  end
 end

@@ -49,6 +49,13 @@ defmodule GetthatjobWeb.Schema.Schema do
 
       resolve(&Resolvers.Recruitment.cities/3)
     end
+
+    @desc "Get Countries"
+    field :countries, list_of(:country) do
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.countries/3)
+    end
   end
 
   mutation do

@@ -242,13 +242,28 @@ defmodule Getthatjob.Recruitment do
         )
 
       {:country, value}, query ->
-        from(q in query, where: q.location == ^value)
+        from(q in query,
+          join: ci in City,
+          on: q.city_id == ci.id,
+          join: co in Country,
+          on: ci.country_id == co.id,
+          where: co.name == ^value
+        )
 
-      {:type, value}, query ->
-        from(q in query, where: q.type == ^value)
+      {:job_type, value}, query ->
+        from(q in query,
+          join: jt in JobType,
+          on: jt.id == q.job_type_id,
+          where: jt.name == ^value
+        )
 
       {:seniority, value}, query ->
-        from(q in query, where: q.seniority == ^value)
+        from(
+          q in query,
+          join: s in Seniority,
+          on: s.id == q.seniority_id,
+          where: s.name == ^value
+        )
 
       {:salary_range, %{low: low_salary, high: high_salary}}, query ->
         salary_between(query, low_salary, high_salary)

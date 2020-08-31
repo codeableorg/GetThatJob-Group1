@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 import 'react-input-range/lib/css/index.css';
 
 import FilterForm from '../components/jobs/FilterForm';
@@ -33,10 +33,24 @@ const JOBS = gql`
     jobs(filter: $filter) {
       id
       title
-      location
+      jobType {
+        id
+        name
+      }
+      seniority {
+        id
+        name
+      }
+      city {
+        id
+        name
+        country {
+          id
+          flagPath
+          name
+        }
+      }
       salary
-      type
-      seniority
       insertedAt
       recruiter {
         companyName
@@ -47,10 +61,10 @@ const JOBS = gql`
 `;
 
 export default function Jobs() {
-  const initialFormData = {
+  const initialFilterData = {
     matching: '',
     country: '',
-    type: '',
+    jobType: '',
     salaryRange: {
       low: 0,
       high: 10000,
@@ -58,34 +72,43 @@ export default function Jobs() {
     seniority: '',
   };
 
-  const [formData, setFormData] = useState(initialFormData);
-  const [filterData, setFilterData] = useState(null);
+  const [filterData, setFilterData] = useState(initialFilterData);
+  const [initialLoad, setinitialLoad] = useState(true);
 
-  const { loading, data } = useQuery(JOBS, {
-    variables: { filter: filterData },
-    skip: !filterData,
-  });
+  const [loadJobs, { error, data, loading, called, refetch }] = useLazyQuery(
+    JOBS
+  );
 
   useEffect(() => {
-    const timerId = setTimeout(() => {
-      const keys = Object.keys(formData);
-      const filter = keys.reduce((obj, key) => {
-        if (formData[key]) obj[key] = formData[key];
-        return obj;
-      }, {});
+    const keys = Object.keys(filterData);
+    const filter = keys.reduce((obj, key) => {
+      if (filterData[key]) obj[key] = filterData[key];
+      return obj;
+    }, {});
 
-      console.log(filter);
-      setFilterData(filter);
-    }, 1000);
+    if (initialLoad) {
+      loadJobs({ filter: filter });
+      setinitialLoad(false);
+    } else {
+      refetch({ filter: filter });
+    }
 
-    return () => clearTimeout(timerId);
-  }, [formData]);
+    return () => {};
+  }, [filterData]);
+
+  if (error) return null;
+  if (!called || loading) return null;
+
+  console.log(data.jobs);
 
   return (
     <MyJobsSection>
       <MyTitle>Jobs For you</MyTitle>
 
-      <FilterForm formData={formData} setFormData={setFormData} />
+      <FilterForm
+        setFilterData={setFilterData}
+        initialFilterData={initialFilterData}
+      />
 
       {loading && 'Loading...'}
 
@@ -93,7 +116,7 @@ export default function Jobs() {
         data.jobs &&
         data.jobs.map((job) => (
           <Link to={`/jobs/${job.id}`} key={job.id}>
-            <JobCard job={job} key={job.id} className="job" />
+            <JobCard job={job} className="job" />
           </Link>
         ))}
 

@@ -83,18 +83,22 @@ export default function JobItem({ job, className }) {
 
   return (
     <Wrapper className={className}>
-      <figure>Able</figure>
+      <img
+        className="logo__company"
+        src={process.env.REACT_APP_HTTP + job.recruiter.companyLogoPath}
+        alt={job.recruiter.companyName}
+      />
 
       <div>
         <div className="title">{job.title}</div>
         <div className="metadata">
           <span className="metadata__location">
-            {job.location} - {job.location}
+            {job.recruiter.companyName} - {job.city.name}
           </span>
           <img
             className="metadata__flag"
-            src={job.location}
-            alt={job.location}
+            src={process.env.REACT_APP_HTTP + job.city.country.flagPath}
+            alt={job.city.country.name}
           />
         </div>
       </div>
@@ -108,8 +112,8 @@ export default function JobItem({ job, className }) {
           onMouseLeave={toogleSalary}
           alt="get-that-job"
         />
-        <span className="info__label">{job.seniority}</span>
-        <span className="info__label">{job.type}</span>
+        <span className="info__label">{job.seniority.name}</span>
+        <span className="info__label">{job.jobType.name}</span>
         <span className="info__date">
           {getTimeSince(getLocalDate(job.insertedAt))}
         </span>

@@ -18,8 +18,8 @@ import SelectInput from '../components/form/SelectInput';
 import RadioGroup from '../components/form/RadioGroup';
 import { BlueTitle } from '../components/StyledComponents';
 
-const GET_SENIORITIES_CITIES = gql`
-  query GetSenioritiesCities {
+const GET_AVALIABLE_OPTIONS = gql`
+  query GetAvaliableOptions {
     seniorities {
       id
       name
@@ -91,7 +91,7 @@ const NewJob = () => {
   const [
     getQuery,
     { error, data: data_query, loading: loading_query, called },
-  ] = useLazyQuery(GET_SENIORITIES_CITIES);
+  ] = useLazyQuery(GET_AVALIABLE_OPTIONS);
 
   const [createJob, { loading_mutation }] = useMutation(CREATE_JOB_MUTATION, {
     onCompleted() {

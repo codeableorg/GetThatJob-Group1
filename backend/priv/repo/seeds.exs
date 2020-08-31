@@ -12,7 +12,7 @@
 
 alias Getthatjob.Recruitment
 
-{:ok, country} =
+{:ok, peru} =
   Recruitment.create_country(%{
     name: "Peru",
     flag_path_meta: %{
@@ -21,14 +21,28 @@ alias Getthatjob.Recruitment
     }
   })
 
+{:ok, venezuela} =
+  Recruitment.create_country(%{
+    name: "Venezuela",
+    flag_path_meta: %{
+      path: Path.absname("./assets/static/venezuela-flag.png"),
+      filename: "venezuela-flag.png"
+    }
+  })
+
 {:ok, city1} =
-  Recruitment.create_city(country, %{
+  Recruitment.create_city(peru, %{
     name: "Lima"
   })
 
 {:ok, city2} =
-  Recruitment.create_city(country, %{
+  Recruitment.create_city(peru, %{
     name: "Huaraz"
+  })
+
+{:ok, city3} =
+  Recruitment.create_city(venezuela, %{
+    name: "Caracas"
   })
 
 {:ok, type_full} =
@@ -142,6 +156,21 @@ alias Getthatjob.Recruitment
       expected: "Job expected 3",
       looking_for: "Job looking for 3",
       requirements: "Job Requirement 3"
+    }
+  )
+
+{:ok, job4} =
+  Recruitment.create_job(
+    %{recruiter: recruiter, city: city3, seniority: seniority_semi, job_type: type_freelancer},
+    %{
+      title: "Job Title 4",
+      type: "Job type 4",
+      seniority: "Job Seniority 4",
+      salary: 2,
+      introduction: "Job Introduction 4",
+      expected: "Job expected 4",
+      looking_for: "Job looking for 4",
+      requirements: "Job Requirement 4"
     }
   )
 

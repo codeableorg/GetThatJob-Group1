@@ -98,7 +98,7 @@ defmodule GetthatjobWeb.Schema.Types do
   input_object :job_filter do
     field(:matching, :string)
     field(:country, :string)
-    field(:type, :string)
+    field(:job_type, :string)
     field(:salary_range, :salary_range)
     field(:seniority, :string)
   end

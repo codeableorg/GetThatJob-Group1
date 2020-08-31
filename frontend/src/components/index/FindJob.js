@@ -64,8 +64,10 @@ const JOBS = gql`
         companyLogoPath
       }
       city {
+        id
         name
         country {
+          id
           flagPath
         }
       }
