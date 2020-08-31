@@ -2,8 +2,13 @@ import React, { Fragment, useEffect } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 
 import {
+  ReturnLink,
+  SubTitle,
   Title,
+  JobTypeAndSeniority,
   JobDetailContainer,
+  GeneralTextJob,
+  SubSectionTitle,
   JobCard,
   CompanyLogo,
   CompanyName,
@@ -13,6 +18,7 @@ import {
   LinkStyled,
   Separator,
 } from './StyledComponents';
+import { ReactComponent as LeftArrow } from '../../assets/left_arrow.svg';
 import { ReactComponent as LocationLogo } from '../../assets/location.svg';
 import { ReactComponent as OpenWebsiteLogo } from '../../assets/open_website.svg';
 
@@ -21,10 +27,20 @@ const GET_JOB_QUERY = gql`
     job(id: $id) {
       id
       title
-      type
-      seniority
+      jobType {
+        name
+      }
+      seniority {
+        id
+        name
+      }
       salary
-      location
+      city {
+        name
+        country {
+          name
+        }
+      }
       introduction
       expected
       lookingFor
@@ -58,20 +74,36 @@ const JobProfessional = ({ jobId }) => {
     <Fragment>
       <JobDetailContainer>
         <div>
+          <ReturnLink to="/jobs">
+            <LeftArrow />
+            <p>See more jobs</p>
+          </ReturnLink>
+          <SubTitle>Posted Feb 24</SubTitle>
           <Title>{job.title}</Title>
+          <JobTypeAndSeniority>
+            <div>{job.jobType.name}</div>
+            <div>{job.seniority.name}</div>
+          </JobTypeAndSeniority>
+          <GeneralTextJob>{job.introduction}</GeneralTextJob>
+          <SubSectionTitle>What will be expected of you:</SubSectionTitle>
+          <GeneralTextJob>{job.expected}</GeneralTextJob>
+          <SubSectionTitle>What we are looking for:</SubSectionTitle>
+          <GeneralTextJob>{job.lookingFor}</GeneralTextJob>
+          <SubSectionTitle>Job requirements:</SubSectionTitle>
+          <GeneralTextJob>{job.requirements}</GeneralTextJob>
+          <SubSectionTitle>About {job.recruiter.companyName}:</SubSectionTitle>
+          <GeneralTextJob>{job.recruiter.companyDescription}</GeneralTextJob>
         </div>
         <JobCard>
           <CompanyLogo
-            src={
-              process.env.REACT_APP_HTTP +
-              '/uploads/' +
-              job.recruiter.companyLogoPath
-            }
+            src={process.env.REACT_APP_HTTP + job.recruiter.companyLogoPath}
           />
           <CompanyName>{job.recruiter.companyName}</CompanyName>
           <GroupHorizontal>
             <LocationLogo />
-            <GeneralTextCompany>{job.location}</GeneralTextCompany>
+            <GeneralTextCompany>
+              {job.city.name}, {job.city.country.name}
+            </GeneralTextCompany>
           </GroupHorizontal>
           <GroupHorizontal>
             <OpenWebsiteLogo />
@@ -82,9 +114,9 @@ const JobProfessional = ({ jobId }) => {
               Open Website
             </LinkWebsiteCompany>
           </GroupHorizontal>
-          <GeneralTextCompany>Posted 10 jobs</GeneralTextCompany>
+          {/* <GeneralTextCompany>Posted 10 jobs</GeneralTextCompany> */}
           <LinkStyled>Get this job</LinkStyled>
-          <Separator />
+          {/* <Separator /> */}
         </JobCard>
       </JobDetailContainer>
     </Fragment>

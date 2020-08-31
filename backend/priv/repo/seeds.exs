@@ -100,9 +100,10 @@ alias Getthatjob.Recruitment
 
 {:ok, recruiter} =
   Recruitment.create_recruiter(%{
-    company_description: "Codeable Description",
-    company_name: "Codeable",
-    company_website: "codeable.pe",
+    company_description:
+      "Able builds technology products in a portfolio model. We believe that people, teams, and processes are more important than the ideas themselves, so we’ve focused on bringing great people together, and investing in their growth.",
+    company_name: "Able",
+    company_website: "https://able.co/",
     user: %{
       email: "ricardohuamanip@gmail.com",
       password: "123456",
@@ -118,14 +119,16 @@ alias Getthatjob.Recruitment
   Recruitment.create_job(
     %{recruiter: recruiter, city: city1, seniority: seniority_expert, job_type: type_full},
     %{
-      title: "Job Title 1",
+      title: "Software Engineer",
       type: "Job type 1",
       seniority: "Job Seniority 1",
       salary: 1,
-      introduction: "Job Introduction 1",
-      expected: "Job expected 1",
-      looking_for: "Job looking for 1",
-      requirements: "Job Requirement 1"
+      introduction:
+        "Able is seeking a Full-Stack Software Engineer. You will work on a variety of challenging, creative and innovative products that are part of our rapidly growing portfolio. Your experience will serve as a foundation for your growth at our company and we expect that you will keep developing your existing skills by growing your knowledge in areas you had never envisioned before.",
+      expected: "Build server-side applications as well as RESTful APIs with Ruby and Rails",
+      looking_for:
+        "You have a passion for collaborative problem solving and the willingness to challenge, debate and form relationships with team members",
+      requirements: "2+ years professional experience as a software engineer or equivalent"
     }
   )
 
@@ -133,14 +136,16 @@ alias Getthatjob.Recruitment
   Recruitment.create_job(
     %{recruiter: recruiter, city: city2, seniority: seniority_junior, job_type: type_intership},
     %{
-      title: "Job Title 2",
+      title: "Software Engineer",
       type: "Job type 2",
       seniority: "Job Seniority 2",
       salary: 1,
-      introduction: "Job Introduction 2",
-      expected: "Job expected 2",
-      looking_for: "Job looking for 2",
-      requirements: "Job Requirement 2"
+      introduction:
+        "Able is seeking a Full-Stack Software Engineer. You will work on a variety of challenging, creative and innovative products that are part of our rapidly growing portfolio. Your experience will serve as a foundation for your growth at our company and we expect that you will keep developing your existing skills by growing your knowledge in areas you had never envisioned before.",
+      expected: "Build server-side applications as well as RESTful APIs with Ruby and Rails",
+      looking_for:
+        "You have a passion for collaborative problem solving and the willingness to challenge, debate and form relationships with team members",
+      requirements: "2+ years professional experience as a software engineer or equivalent"
     }
   )
 
@@ -148,14 +153,16 @@ alias Getthatjob.Recruitment
   Recruitment.create_job(
     %{recruiter: recruiter, city: city1, seniority: seniority_senior, job_type: type_part},
     %{
-      title: "Job Title 3",
+      title: "Software Engineer",
       type: "Job type 3",
       seniority: "Job Seniority 3",
       salary: 1,
-      introduction: "Job Introduction 3",
-      expected: "Job expected 3",
-      looking_for: "Job looking for 3",
-      requirements: "Job Requirement 3"
+      introduction:
+        "Able is seeking a Full-Stack Software Engineer. You will work on a variety of challenging, creative and innovative products that are part of our rapidly growing portfolio. Your experience will serve as a foundation for your growth at our company and we expect that you will keep developing your existing skills by growing your knowledge in areas you had never envisioned before.",
+      expected: "Build server-side applications as well as RESTful APIs with Ruby and Rails",
+      looking_for:
+        "You have a passion for collaborative problem solving and the willingness to challenge, debate and form relationships with team members",
+      requirements: "2+ years professional experience as a software engineer or equivalent"
     }
   )
 
@@ -163,14 +170,16 @@ alias Getthatjob.Recruitment
   Recruitment.create_job(
     %{recruiter: recruiter, city: city3, seniority: seniority_semi, job_type: type_freelancer},
     %{
-      title: "Job Title 4",
+      title: "Software Engineer",
       type: "Job type 4",
       seniority: "Job Seniority 4",
       salary: 2,
-      introduction: "Job Introduction 4",
-      expected: "Job expected 4",
-      looking_for: "Job looking for 4",
-      requirements: "Job Requirement 4"
+      introduction:
+        "Able is seeking a Full-Stack Software Engineer. You will work on a variety of challenging, creative and innovative products that are part of our rapidly growing portfolio. Your experience will serve as a foundation for your growth at our company and we expect that you will keep developing your existing skills by growing your knowledge in areas you had never envisioned before.",
+      expected: "Build server-side applications as well as RESTful APIs with Ruby and Rails",
+      looking_for:
+        "You have a passion for collaborative problem solving and the willingness to challenge, debate and form relationships with team members",
+      requirements: "2+ years professional experience as a software engineer or equivalent"
     }
   )
 
