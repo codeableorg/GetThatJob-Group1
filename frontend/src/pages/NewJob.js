@@ -164,7 +164,6 @@ const NewJob = () => {
                     .required('Required'),
                 })}
                 onSubmit={(values, { setErrors, setSubmitting }) => {
-                  console.log(values);
                   ['typeId', 'seniorityId', 'cityId'].forEach((key) => {
                     values[key] = parseInt(values[key]);
                   });

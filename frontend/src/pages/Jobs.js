@@ -99,8 +99,6 @@ export default function Jobs() {
   if (error) return null;
   if (!called || loading) return null;
 
-  console.log(data.jobs);
-
   return (
     <MyJobsSection>
       <MyTitle>Jobs For you</MyTitle>

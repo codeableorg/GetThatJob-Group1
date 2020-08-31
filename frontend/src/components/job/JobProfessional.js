@@ -44,8 +44,6 @@ const JobProfessional = ({ jobId }) => {
     GET_JOB_QUERY
   );
 
-  console.log(jobId);
-
   useEffect(() => {
     getJob({ variables: { id: parseInt(jobId) } });
     return () => {};
