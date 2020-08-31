@@ -60,6 +60,7 @@ const JOBS = gql`
       title
       insertedAt
       recruiter {
+        id
         companyName
         companyLogoPath
       }

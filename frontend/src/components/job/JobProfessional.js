@@ -28,6 +28,7 @@ const GET_JOB_QUERY = gql`
       id
       title
       jobType {
+        id
         name
       }
       seniority {
@@ -36,8 +37,10 @@ const GET_JOB_QUERY = gql`
       }
       salary
       city {
+        id
         name
         country {
+          id
           name
         }
       }
@@ -46,6 +49,7 @@ const GET_JOB_QUERY = gql`
       lookingFor
       requirements
       recruiter {
+        id
         companyName
         companyLogoPath
         companyWebsite

@@ -53,6 +53,7 @@ const JOBS = gql`
       salary
       insertedAt
       recruiter {
+        id
         companyName
         companyLogoPath
       }
