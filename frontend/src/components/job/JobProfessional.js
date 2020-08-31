@@ -16,7 +16,7 @@ import {
   GeneralTextCompany,
   LinkWebsiteCompany,
   LinkStyled,
-  Separator,
+  // Separator,
 } from './StyledComponents';
 import { ReactComponent as LeftArrow } from '../../assets/left_arrow.svg';
 import { ReactComponent as LocationLogo } from '../../assets/location.svg';

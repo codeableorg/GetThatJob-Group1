@@ -2,6 +2,7 @@ import React from 'react';
 
 import CurrentUser from '../components/auth/CurrentUser';
 import JobsProfessional from '../components/jobs/JobsProfessional';
+import JobsRecruiter from '../components/jobs/JobsRecruiter';
 
 export default function Jobs() {
   return (
@@ -10,7 +11,7 @@ export default function Jobs() {
         if (!loaded) {
           return null;
         } else if (currentUser.type === 'RECRUITER') {
-          return null;
+          return <JobsRecruiter />;
         } else {
           return <JobsProfessional />;
         }

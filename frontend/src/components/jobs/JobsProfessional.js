@@ -7,26 +7,7 @@ import 'react-input-range/lib/css/index.css';
 import FilterForm from './FilterForm';
 import { Button } from '../StyledComponents';
 import JobCard from '../../features/jobs/JobCard';
-
-const MyTitle = styled.h1`
-  margin-bottom: 15px;
-  color: #000000;
-  font-size: 2rem;
-  font-weight: bold;
-  line-height: 2.75rem;
-`;
-
-const MyJobsSection = styled.section`
-  padding: 15px;
-
-  .job {
-    margin-bottom: 15px;
-  }
-`;
-
-const MyFooter = styled.footer`
-  text-align: center;
-`;
+import { MyTitle, MyJobsSection, MyFooter } from './StyledComponents';
 
 const JOBS = gql`
   query Jobs($filter: JobFilter) {
