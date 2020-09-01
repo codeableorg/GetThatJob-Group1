@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from '@emotion/styled';
 
+import CurrentUser from './auth/CurrentUser';
 import jobsIcon from '../assets/jobs-icon.png';
 import applicationsIcon from '../assets/applications-icon.png';
 import profileIcon from '../assets/profile-icon.png';
@@ -33,15 +34,49 @@ const MyLink = styled(NavLink)`
 export default function Sidebar() {
   return (
     <Wrapper>
-      <MyLink to="/jobs">
-        <img src={jobsIcon} className="icon" alt="get-that-job" />
-        <span>Jobs for you</span>
-      </MyLink>
+      <CurrentUser>
+        {({ loaded, currentUser }) => {
+          if (!loaded) {
+            return null;
+          } else if (currentUser.type === 'RECRUITER') {
+            return (
+              <Fragment>
+                <MyLink to="/jobs">
+                  <img src={jobsIcon} className="icon" alt="get-that-job" />
+                  <span>Jobs</span>
+                </MyLink>
 
-      <MyLink to="/applications">
-        <img src={applicationsIcon} className="icon" alt="get-that-job" />
-        <span>Your applications</span>
-      </MyLink>
+                <MyLink to="/applications">
+                  <img
+                    src={applicationsIcon}
+                    className="icon"
+                    alt="get-that-job"
+                  />
+                  <span>Candidates</span>
+                </MyLink>
+              </Fragment>
+            );
+          } else {
+            return (
+              <Fragment>
+                <MyLink to="/jobs">
+                  <img src={jobsIcon} className="icon" alt="get-that-job" />
+                  <span>Jobs for you</span>
+                </MyLink>
+
+                <MyLink to="/applications">
+                  <img
+                    src={applicationsIcon}
+                    className="icon"
+                    alt="get-that-job"
+                  />
+                  <span>Your applications</span>
+                </MyLink>
+              </Fragment>
+            );
+          }
+        }}
+      </CurrentUser>
 
       <MyLink to="/profile">
         <img src={profileIcon} className="icon" alt="get-that-job" />

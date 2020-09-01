@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+
+import { Title } from './StyledComponents';
 
 const JobRecruiter = () => {
-  return <>holi woli</>;
+  return (
+    <Fragment>
+      <Title>Job job-name</Title>
+      <p>Detail of Job created by current recruiter loged</p>
+    </Fragment>
+  );
 };
 
 export default JobRecruiter;

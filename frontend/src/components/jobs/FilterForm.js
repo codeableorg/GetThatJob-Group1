@@ -74,7 +74,7 @@ export default function FilterForm({ setFilterData, initialFilterData }) {
   useEffect(() => {
     getQuery();
     return () => {};
-  }, []);
+  }, [getQuery]);
 
   if (error) return null;
   if (!called || loading) return null;

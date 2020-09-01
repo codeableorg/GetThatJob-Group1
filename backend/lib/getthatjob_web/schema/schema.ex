@@ -29,6 +29,13 @@ defmodule GetthatjobWeb.Schema.Schema do
       resolve(&Resolvers.Accounts.me/3)
     end
 
+    @desc "Get jobs of current recruiter"
+    field :jobs_current_recruiter, list_of(:job) do
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.jobs_of_current_recruiter/3)
+    end
+
     @desc "Get seniorities"
     field :seniorities, list_of(:seniority) do
       middleware(Middleware.Authenticate)

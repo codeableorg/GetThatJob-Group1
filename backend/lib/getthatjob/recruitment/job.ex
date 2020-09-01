@@ -4,17 +4,18 @@ defmodule Getthatjob.Recruitment.Job do
   alias Getthatjob.Recruitment.{Recruiter, Application, City, Seniority, JobType}
 
   schema "jobs" do
-    field :expected, :string
-    field :introduction, :string
-    field :looking_for, :string
-    field :requirements, :string
-    field :salary, :integer
-    field :title, :string
-    belongs_to :recruiter, Recruiter
-    has_many :applications, Application
-    belongs_to :city, City
-    belongs_to :seniority, Seniority
-    belongs_to :job_type, JobType
+    field(:expected, :string)
+    field(:introduction, :string)
+    field(:looking_for, :string)
+    field(:requirements, :string)
+    field(:salary, :integer)
+    field(:title, :string)
+    field(:closed, :boolean)
+    belongs_to(:recruiter, Recruiter)
+    has_many(:applications, Application)
+    belongs_to(:city, City)
+    belongs_to(:seniority, Seniority)
+    belongs_to(:job_type, JobType)
 
     timestamps()
   end
@@ -28,7 +29,8 @@ defmodule Getthatjob.Recruitment.Job do
       :introduction,
       :expected,
       :looking_for,
-      :requirements
+      :requirements,
+      :closed
     ])
     |> validate_required([
       :title,

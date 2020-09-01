@@ -61,7 +61,7 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
   end
 
   def update_current_professional(_, args, %{context: %{current_user: user}}) do
-    with professional <- Accounts.get_professional_from_user(user),
+    with professional when not is_nil(professional) <- Accounts.get_professional_from_user(user),
          params <- Enum.into(args, %{}),
          {:ok, professional} <- Recruitment.update_professional(professional, params) do
       {:ok, professional}
@@ -77,7 +77,7 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
   end
 
   def update_current_recruiter(_, args, %{context: %{current_user: user}}) do
-    with recruiter <- Accounts.get_recruiter_from_user(user),
+    with recruiter when not is_nil(recruiter) <- Accounts.get_recruiter_from_user(user),
          params <- Enum.into(args, %{}),
          {:ok, recruiter} <- Recruitment.update_recruiter(recruiter, params) do
       {:ok, recruiter}

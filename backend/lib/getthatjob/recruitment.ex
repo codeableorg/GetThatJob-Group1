@@ -229,6 +229,12 @@ defmodule Getthatjob.Recruitment do
     |> Repo.all()
   end
 
+  def list_jobs_of_recruiter(%Recruiter{} = recruiter) do
+    recruiter
+    |> Ecto.assoc(:jobs)
+    |> Repo.all()
+  end
+
   defp filter_with(filters, query) do
     Enum.reduce(filters, query, fn
       {:matching, term}, query ->
@@ -267,6 +273,11 @@ defmodule Getthatjob.Recruitment do
 
       {:salary_range, %{low: low_salary, high: high_salary}}, query ->
         salary_between(query, low_salary, high_salary)
+
+      {:closed, value}, query ->
+        from(q in query,
+          where: q.closed == ^value
+        )
     end)
   end
 

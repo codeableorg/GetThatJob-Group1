@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { gql, useLazyQuery } from '@apollo/client';
 import 'react-input-range/lib/css/index.css';
 
 import FilterForm from './FilterForm';
 import { Button } from '../StyledComponents';
-import JobCard from '../../features/jobs/JobCard';
+import JobCardProfessional from '../../features/jobs/JobCardProfessional';
 import { MyTitle, MyJobsSection, MyFooter } from './StyledComponents';
 
 const JOBS = gql`
@@ -52,6 +51,7 @@ export default function JobsProfessional() {
       high: 10000,
     },
     seniority: '',
+    closed: false,
   };
 
   const [filterData, setFilterData] = useState(initialFilterData);
@@ -64,7 +64,8 @@ export default function JobsProfessional() {
   useEffect(() => {
     const keys = Object.keys(filterData);
     const filter = keys.reduce((obj, key) => {
-      if (filterData[key]) obj[key] = filterData[key];
+      if (filterData[key] || filterData[key] === false)
+        obj[key] = filterData[key];
       return obj;
     }, {});
 
@@ -96,7 +97,7 @@ export default function JobsProfessional() {
         data.jobs &&
         data.jobs.map((job) => (
           <Link to={`/jobs/${job.id}`} key={job.id}>
-            <JobCard job={job} className="job" />
+            <JobCardProfessional job={job} className="job" />
           </Link>
         ))}
 

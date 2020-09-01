@@ -16,6 +16,7 @@ defmodule GetthatjobWeb.Schema.Types do
     field(:looking_for, non_null(:string))
     field(:requirements, non_null(:string))
     field(:inserted_at, non_null(:naive_datetime))
+    field(:closed, non_null(:boolean))
     field(:recruiter, non_null(:recruiter), resolve: dataloader(Recruitment))
     field(:applications, list_of(:application), resolve: dataloader(Recruitment))
     field(:city, non_null(:city), resolve: dataloader(Recruitment))
@@ -101,6 +102,7 @@ defmodule GetthatjobWeb.Schema.Types do
     field(:job_type, :string)
     field(:salary_range, :salary_range)
     field(:seniority, :string)
+    field(:closed, :boolean)
   end
 
   input_object :salary_range do

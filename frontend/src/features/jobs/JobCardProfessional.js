@@ -76,7 +76,7 @@ const Wrapper = styled.article`
   }
 `;
 
-export default function JobItem({ job, className }) {
+export default function JobCardProfessional({ job, className }) {
   const [isSalaryShown, setIsSalaryShown] = useState(false);
 
   const toogleSalary = () => setIsSalaryShown(!isSalaryShown);

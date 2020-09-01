@@ -1,25 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
 import { getLocalDate, getTimeSince } from '../../utils';
 
 const Wrapper = styled.article`
   display: grid;
-  grid-template-columns: 60px 1fr auto;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  column-gap: 15px;
   padding: 15px 20px;
   background: #ffffff;
-
-  .logo__company__container {
-    display: flex;
-    align-items: center;
-  }
-
-  .logo__company {
-    max-width: 100%;
-    max-height: 100%;
-  }
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1);
 
   .title {
     margin-bottom: 5px;
@@ -45,24 +35,39 @@ const Wrapper = styled.article`
   .metadata__flag {
     height: 14px;
   }
+
+  .applications {
+    text-align: center;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .info {
+    display: flex;
+    align-items: center;
+  }
+
+  .info__date {
+    color: #718096;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    white-space: nowrap;
+  }
 `;
 
-export default function JobItem({ job, className }) {
+export default function JobCardRecruiter({ job, className }) {
+  const [isSalaryShown, setIsSalaryShown] = useState(false);
+
+  const toogleSalary = () => setIsSalaryShown(!isSalaryShown);
+
   return (
     <Wrapper className={className}>
-      <div className="logo__company__container">
-        <img
-          className="logo__company"
-          src={process.env.REACT_APP_HTTP + job.recruiter.companyLogoPath}
-          alt={job.recruiter.companyName}
-        />
-      </div>
       <div>
         <div className="title">{job.title}</div>
         <div className="metadata">
-          <span className="metadata__location">
-            {job.recruiter.companyName} - {job.city.name}
-          </span>
+          <span className="metadata__location">{job.city.name}</span>
           <img
             className="metadata__flag"
             src={process.env.REACT_APP_HTTP + job.city.country.flagPath}
@@ -70,7 +75,14 @@ export default function JobItem({ job, className }) {
           />
         </div>
       </div>
-      <div className="date">{getTimeSince(getLocalDate(job.insertedAt))}</div>
+
+      <div className="applications">{job.applications.length} applicants</div>
+
+      <div className="info">
+        <span className="info__date">
+          Posted {getTimeSince(getLocalDate(job.insertedAt))}
+        </span>
+      </div>
     </Wrapper>
   );
 }
