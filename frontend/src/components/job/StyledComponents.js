@@ -194,3 +194,88 @@ export const CloseJobButton = styled.p`
   line-height: 20px;
   margin-left: 15px;
 `;
+
+export const ApplicationDetailInfo = styled.div`
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: min-content 1fr;
+  grid-template-areas:
+    'sidebar header'
+    'sidebar content';
+
+  .sidebar {
+    min-width: 200px;
+    grid-area: sidebar;
+    background-color: #ffffff;
+    padding: 24px;
+  }
+
+  .sidebar .name {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .sidebar .professional_description {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .header {
+    grid-area: header;
+    display: flex;
+    flex-direction: rows;
+    align-items: center;
+    justify-content: space-between;
+    width: 825px;
+    height: fit-content;
+    padding-right: 28px;
+  }
+
+  .header .text {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 22px;
+    padding: 9px 25px;
+
+    border-bottom: 2px solid #096dd9;
+  }
+
+  .content {
+    grid-area: content;
+    background-color: #f7fafc;
+    padding: 40px 28px;
+  }
+
+  .content .title_section {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+    margin-bottom: 12px;
+  }
+
+  .content .text_section {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 20px;
+  }
+
+  .download_cv {
+    margin-top: 10px;
+    color: #3c2dff;
+    border: 1px solid #3c2dff;
+    background: #ffffff;
+    padding: 8px 16px;
+  }
+`;
+
+export const CursorPointer = styled.svg`
+  cursor: pointer;
+`;

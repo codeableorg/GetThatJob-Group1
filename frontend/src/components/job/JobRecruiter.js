@@ -16,6 +16,9 @@ const JOB_RECRUITER = gql`
       insertedAt
       applications {
         id
+        professionalExperience
+        reason
+        cvPath
         professional {
           id
           name
@@ -26,6 +29,10 @@ const JOB_RECRUITER = gql`
             email
           }
         }
+      }
+      recruiter {
+        id
+        companyName
       }
     }
   }
@@ -67,18 +74,18 @@ const JobRecruiter = ({ jobId }) => {
           </tr>
         </thead>
         <tbody>
-          {job.applications.map((application) => {
+          {job.applications.map((application_job) => {
             return (
               <tr
-                key={application.id}
+                key={application_job.id}
                 onClick={() => {
-                  setApplication(true);
+                  setApplication(application_job);
                 }}
               >
-                <td>{application.professional.name}</td>
-                <td>{application.professional.user.email}</td>
-                <td>{application.professional.phoneNumber}</td>
-                <td>{application.professional.description}</td>
+                <td>{application_job.professional.name}</td>
+                <td>{application_job.professional.user.email}</td>
+                <td>{application_job.professional.phoneNumber}</td>
+                <td>{application_job.professional.description}</td>
               </tr>
             );
           })}
@@ -86,6 +93,7 @@ const JobRecruiter = ({ jobId }) => {
       </Table>
       <CloseJob job={job} />
       <ApplicationDetail
+        companyName={job.recruiter.companyName}
         application={application}
         setApplication={setApplication}
       />

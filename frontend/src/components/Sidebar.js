@@ -46,14 +46,14 @@ export default function Sidebar() {
                   <span>Jobs</span>
                 </MyLink>
 
-                <MyLink to="/applications">
+                {/* <MyLink to="/applications">
                   <img
                     src={applicationsIcon}
                     className="icon"
                     alt="get-that-job"
                   />
                   <span>Candidates</span>
-                </MyLink>
+                </MyLink> */}
               </Fragment>
             );
           } else {

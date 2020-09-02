@@ -198,21 +198,24 @@ alias Getthatjob.Recruitment
 
 {:ok, _application} =
   Recruitment.create_application(job1, profesional, %{
-    professional_experience: "professional_experience1",
-    reason: "reason job1",
+    professional_experience:
+      "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
+    reason: "This is the awnser the applicant wrote.",
     cv_path: "cv_path1"
   })
 
 {:ok, _application} =
   Recruitment.create_application(job2, profesional, %{
-    professional_experience: "professional_experience2",
-    reason: "reason job2",
+    professional_experience:
+      "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
+    reason: "This is the awnser the applicant wrote.",
     cv_path: "cv_path2"
   })
 
 {:ok, _application} =
   Recruitment.create_application(job1, profesional2, %{
-    professional_experience: "professional_experience3",
-    reason: "reason job3",
+    professional_experience:
+      "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
+    reason: "This is the awnser the applicant wrote.",
     cv_path: "cv_path3"
   })
