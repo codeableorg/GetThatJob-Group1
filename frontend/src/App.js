@@ -2,13 +2,13 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Index from './pages/Index';
-
 import Layout from './components/Layout';
 import Auth from './components/Auth';
 import SignIn from './pages/SignIn';
 import SignUpRecruiter from './pages/SignUpRecruiter';
 import SignUpProfessional from './pages/SignUpProfessional';
 import Jobs from './pages/Jobs';
+import JobsApply from './pages/JobsApply';
 
 function App() {
   return (
@@ -34,6 +34,10 @@ function App() {
               component={SignUpProfessional}
             />
           </Auth>
+        </Route>
+
+        <Route exact path="/jobs/:jobId/apply">
+          <JobsApply />
         </Route>
       </Switch>
     </Layout>
