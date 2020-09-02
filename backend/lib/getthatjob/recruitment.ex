@@ -310,6 +310,13 @@ defmodule Getthatjob.Recruitment do
   def get_job!(id), do: Repo.get!(Job, id)
   def get_job(id), do: Repo.get(Job, id)
 
+  def get_job_of_current_recruiter(id, %Recruiter{} = recruiter) do
+    recruiter
+    |> Ecto.assoc(:jobs)
+    |> where([j], j.id == ^id)
+    |> Repo.one()
+  end
+
   @doc false
   def get_job_by_title!(title), do: Repo.get_by!(Job, title: title)
 
@@ -358,6 +365,12 @@ defmodule Getthatjob.Recruitment do
   def update_job(%Job{} = job, attrs) do
     job
     |> Job.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def close_job(%Job{} = job) do
+    job
+    |> Job.close_changeset()
     |> Repo.update()
   end
 

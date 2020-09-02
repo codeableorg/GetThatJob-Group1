@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 
 import { getLocalDate, getTimeSince } from '../../utils';
@@ -58,10 +58,6 @@ const Wrapper = styled.article`
 `;
 
 export default function JobCardRecruiter({ job, className }) {
-  const [isSalaryShown, setIsSalaryShown] = useState(false);
-
-  const toogleSalary = () => setIsSalaryShown(!isSalaryShown);
-
   return (
     <Wrapper className={className}>
       <div>

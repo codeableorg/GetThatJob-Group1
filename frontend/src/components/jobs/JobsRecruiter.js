@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 
-import { MyTitle, MyJobsSection } from './StyledComponents';
+import { MyTitle, MyJobsSection, LinkStyled } from './StyledComponents';
 import JobCardRecruiter from '../../features/jobs/JobCardRecruiter';
 
-const JOBS = gql`
-  query Jobs {
+const JOBS_RECRUITER = gql`
+  query JobsCurrentRecruiter {
     jobsCurrentRecruiter {
       id
       title
@@ -29,7 +29,9 @@ const JOBS = gql`
 `;
 
 const JobsRecruiter = () => {
-  const [loadJobs, { error, data, loading, called }] = useLazyQuery(JOBS);
+  const [loadJobs, { error, data, loading, called }] = useLazyQuery(
+    JOBS_RECRUITER
+  );
 
   useEffect(() => {
     loadJobs();
@@ -55,6 +57,7 @@ const JobsRecruiter = () => {
   return (
     <MyJobsSection>
       <MyTitle>Jobs</MyTitle>
+      <LinkStyled to="/jobs/new">New Job</LinkStyled>
       {jobComponents}
     </MyJobsSection>
   );

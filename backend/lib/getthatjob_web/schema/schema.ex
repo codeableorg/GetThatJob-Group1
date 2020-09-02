@@ -9,7 +9,7 @@ defmodule GetthatjobWeb.Schema.Schema do
   import_types(GetthatjobWeb.Schema.Types)
 
   query do
-    @desc "Get a Job by title"
+    @desc "Get a Job by id"
     field :job, :job do
       arg(:id, non_null(:integer))
       resolve(&Resolvers.Recruitment.job/3)
@@ -34,6 +34,14 @@ defmodule GetthatjobWeb.Schema.Schema do
       middleware(Middleware.Authenticate)
 
       resolve(&Resolvers.Recruitment.jobs_of_current_recruiter/3)
+    end
+
+    @desc "Get a Job by id of current recruiter"
+    field :job_current_recruiter, :job do
+      arg(:id, non_null(:integer))
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.job_of_current_recruiter/3)
     end
 
     @desc "Get seniorities"
@@ -135,6 +143,14 @@ defmodule GetthatjobWeb.Schema.Schema do
 
       middleware(Middleware.Authenticate)
       resolve(&Resolvers.Recruitment.create_job/3)
+    end
+
+    @desc "Close a job by id of current recruiter "
+    field :close_job, :job do
+      arg(:id, non_null(:integer))
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.close_job_of_current_recruiter/3)
     end
   end
 

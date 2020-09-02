@@ -63,6 +63,7 @@ defmodule GetthatjobWeb.Schema.Types do
     field(:experience, :string)
     field(:linkedin, :string)
     field(:github, :string)
+    field(:user, non_null(:user), resolve: dataloader(Recruitment))
   end
 
   object :recruiter do

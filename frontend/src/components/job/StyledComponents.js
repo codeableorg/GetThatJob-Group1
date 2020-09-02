@@ -19,12 +19,26 @@ export const SubTitle = styled.p`
   line-height: 24px;
 `;
 
+export const PostedText = styled.p`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+
+  color: #718096;
+  margin-bottom: 20px;
+`;
+
 export const Title = styled.p`
   font-style: normal;
   font-weight: bold;
   font-size: 32px;
   line-height: 44px;
   margin-bottom: 20px;
+`;
+
+export const TitleWithoutMargin = styled(Title)`
+  margin-bottom: 2px;
 `;
 
 export const JobTypeAndSeniority = styled.div`
@@ -139,4 +153,43 @@ export const Separator = styled.div`
   width: 100%;
   margin-top 16px;
   margin-bottom: 16px;
+`;
+
+export const Table = styled.table`
+  border-spacing: 0;
+  margin-bottom: 20px;
+
+  thead {
+    background-color: #fafafa;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  thead tr th,
+  tbody td {
+    text-align: left;
+    padding: 16px 24px 16px 16px;
+    width: fit-content;
+    min-width: 200px;
+  }
+
+  tbody tr {
+    background-color: #ffffff;
+  }
+
+  tbody tr:nth-of-type(2n) {
+    background-color: #e6f7ff;
+  }
+`;
+
+export const CloseJobButton = styled.p`
+  cursor: pointer;
+  color: #f5222d;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 20px;
+  margin-left: 15px;
 `;

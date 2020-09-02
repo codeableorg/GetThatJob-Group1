@@ -89,10 +89,23 @@ alias Getthatjob.Recruitment
   Recruitment.create_professional(%{
     name: "Albert",
     phone_number: "11111111",
-    description: "Holi",
+    description: "Alchemist",
     experience: "Woli",
     user: %{
       email: "acastemoreno@gmail.com",
+      password: "123456",
+      password_confirmation: "123456"
+    }
+  })
+
+{:ok, profesional2} =
+  Recruitment.create_professional(%{
+    name: "Amiguito",
+    phone_number: "6666666",
+    description: "Pokemon Trainer",
+    experience: "League Winner",
+    user: %{
+      email: "amiguito@gmail.com",
       password: "123456",
       password_confirmation: "123456"
     }
@@ -195,4 +208,11 @@ alias Getthatjob.Recruitment
     professional_experience: "professional_experience2",
     reason: "reason job2",
     cv_path: "cv_path2"
+  })
+
+{:ok, _application} =
+  Recruitment.create_application(job1, profesional2, %{
+    professional_experience: "professional_experience3",
+    reason: "reason job3",
+    cv_path: "cv_path3"
   })

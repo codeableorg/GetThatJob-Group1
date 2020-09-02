@@ -18,11 +18,45 @@ defmodule GetthatjobWeb.Resolvers.Recruitment do
   end
 
   def jobs_of_current_recruiter(_, _, %{context: %{current_user: user}}) do
-    with recruiter when not is_nil(recruiter) <- Accounts.get_recruiter_from_user(user) do
-      {:ok, Recruitment.list_jobs_of_recruiter(recruiter)}
-    else
+    case Accounts.get_recruiter_from_user(user) do
       nil ->
         {:error, message: "Current user is not a recruiter", details: %{}}
+
+      recruiter ->
+        {:ok, Recruitment.list_jobs_of_recruiter(recruiter)}
+    end
+  end
+
+  def job_of_current_recruiter(_, %{id: id}, %{context: %{current_user: user}}) do
+    case Accounts.get_recruiter_from_user(user) do
+      nil ->
+        {:ok, nil}
+
+      recruiter ->
+        {:ok, Recruitment.get_job_of_current_recruiter(id, recruiter)}
+    end
+  end
+
+  def close_job_of_current_recruiter(_, %{id: id}, %{context: %{current_user: user}}) do
+    with recruiter when not is_nil(recruiter) <- Accounts.get_recruiter_from_user(user),
+         {:get_job_recruiter, job} when not is_nil(job) <-
+           {:get_job_recruiter, Recruitment.get_job_of_current_recruiter(id, recruiter)},
+         {:ok, job} <- Recruitment.close_job(job) do
+      {:ok, job}
+    else
+      nil ->
+        {:error,
+         message: "Current user is not a recruiter",
+         details: %{id: "Current user is not a recruiter"}}
+
+      {:get_job_recruiter, nil} ->
+        {:error,
+         message: "Not avaliable job for current recruiter",
+         details: %{id: "Not avaliable job for current recruiter"}}
+
+      {:error, changeset} ->
+        {:error,
+         message: "Can not close the job", details: ChangesetErrors.error_details(changeset)}
     end
   end
 
