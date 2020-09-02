@@ -29,7 +29,7 @@ const DeleteUser = () => {
     setShow(true);
   };
 
-  const hideModal = () => {
+  const closeModal = () => {
     setShow(false);
   };
 
@@ -51,14 +51,14 @@ const DeleteUser = () => {
       <DeleteButton onClick={showModal}>
         Delete permanently your account
       </DeleteButton>
-      <Modal show={show} setShow={setShow}>
+      <Modal show={show} closeModal={closeModal}>
         <DeleteContainerModal>
           <p>are you sure to delete your account?</p>
           <div className="control-buttom">
             <ConfirmDeleteModal onClick={deleteCurrentUser}>
               Confirm delete
             </ConfirmDeleteModal>
-            <CancelDeleteModal onClick={hideModal}>
+            <CancelDeleteModal onClick={closeModal}>
               Cancel Delete
             </CancelDeleteModal>
           </div>

@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 
-const Modal = ({ children, show, setShow }) => {
+const Modal = ({ children, show, closeModal }) => {
   return (
     <ReactModal
       isOpen={show}
       onRequestClose={() => {
-        setShow(false);
+        closeModal();
       }}
       style={{
         overlay: {

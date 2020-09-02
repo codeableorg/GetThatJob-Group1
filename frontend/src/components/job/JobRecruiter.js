@@ -1,15 +1,11 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import { Redirect } from 'react-router-dom';
 
-import {
-  TitleWithoutMargin,
-  PostedText,
-  Table,
-  LinkCloseJob,
-} from './StyledComponents';
+import { TitleWithoutMargin, PostedText, Table } from './StyledComponents';
 import { getLocalDate, getTimeSince } from '../../utils';
 import CloseJob from './CloseJob';
+import ApplicationDetail from './ApplicationDetail';
 
 const JOB_RECRUITER = gql`
   query JobCurrentRecruiter($id: Int!) {
@@ -41,6 +37,8 @@ const JobRecruiter = ({ jobId }) => {
     { variables: { id: parseInt(jobId) } }
   );
 
+  const [application, setApplication] = useState(null);
+
   useEffect(() => {
     getJob();
     return () => {};
@@ -71,7 +69,12 @@ const JobRecruiter = ({ jobId }) => {
         <tbody>
           {job.applications.map((application) => {
             return (
-              <tr key={application.id}>
+              <tr
+                key={application.id}
+                onClick={() => {
+                  setApplication(true);
+                }}
+              >
                 <td>{application.professional.name}</td>
                 <td>{application.professional.user.email}</td>
                 <td>{application.professional.phoneNumber}</td>
@@ -82,6 +85,10 @@ const JobRecruiter = ({ jobId }) => {
         </tbody>
       </Table>
       <CloseJob job={job} />
+      <ApplicationDetail
+        application={application}
+        setApplication={setApplication}
+      />
     </Fragment>
   );
 };

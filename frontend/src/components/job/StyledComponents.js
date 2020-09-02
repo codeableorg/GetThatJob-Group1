@@ -177,6 +177,7 @@ export const Table = styled.table`
 
   tbody tr {
     background-color: #ffffff;
+    cursor: pointer;
   }
 
   tbody tr:nth-of-type(2n) {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { gql, useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 import { CloseJobButton } from './StyledComponents';
 
@@ -13,8 +14,15 @@ const CLOSE_JOB = gql`
 `;
 
 const CloseJob = ({ job }) => {
+  let history = useHistory();
+
   const [closeJob] = useMutation(CLOSE_JOB, {
-    variables: { id: parseInt(job.id) },
+    variables: {
+      id: parseInt(job.id),
+    },
+    onCompleted() {
+      history.push('/jobs');
+    },
   });
 
   if (job.closed) return null;
