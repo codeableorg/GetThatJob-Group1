@@ -159,6 +159,14 @@ defmodule GetthatjobWeb.Schema.Schema do
 
       resolve(&Resolvers.Recruitment.close_job_of_current_recruiter/3)
     end
+
+    @desc "Withdraw a application of current professional"
+    field :withdraw_application, :application_id do
+      arg(:id, non_null(:integer))
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.withdraw_application_of_current_professional/3)
+    end
   end
 
   def context(ctx) do

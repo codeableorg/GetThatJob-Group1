@@ -93,6 +93,10 @@ defmodule GetthatjobWeb.Schema.Types do
     field(:id, non_null(:id))
   end
 
+  object :application_id do
+    field(:id, non_null(:id))
+  end
+
   input_object :user_input do
     field(:email, non_null(:string))
     field(:password, non_null(:string))

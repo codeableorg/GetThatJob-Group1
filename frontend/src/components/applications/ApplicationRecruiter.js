@@ -24,10 +24,8 @@ const ApplicationRecruiter = ({ application, setApplication, companyName }) => {
       {!application ? null : (
         <ApplicationDetailInfo>
           <div className="sidebar">
-            <p className="name">{application.professional.name}</p>
-            <p className="professional_description">
-              {application.professional.description}
-            </p>
+            <p className="title">{application.professional.name}</p>
+            <p className="sub_title">{application.professional.description}</p>
           </div>
           <div className="header">
             <div className="options">

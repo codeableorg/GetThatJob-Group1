@@ -15,7 +15,7 @@ defmodule Getthatjob.Recruitment do
     Country,
     Seniority,
     JobType
-    }
+  }
 
   @doc """
   Returns the list of recruiters.
@@ -257,8 +257,8 @@ defmodule Getthatjob.Recruitment do
             q in query,
             where:
               ilike(q.title, ^pattern) or
-              ilike(q.introduction, ^pattern) or
-              ilike(q.requirements, ^pattern)
+                ilike(q.introduction, ^pattern) or
+                ilike(q.requirements, ^pattern)
           )
 
         {:country, value}, query ->
@@ -503,6 +503,13 @@ defmodule Getthatjob.Recruitment do
   """
   def delete_application(%Application{} = application) do
     Repo.delete(application)
+  end
+
+  def get_application_of_current_professional(id, %Professional{} = professional) do
+    professional
+    |> Ecto.assoc(:applications)
+    |> where([a], a.id == ^id)
+    |> Repo.one()
   end
 
   @doc """

@@ -17,18 +17,47 @@ export const ApplicationDetailInfo = styled.div`
     height: fit-content;
   }
 
-  .sidebar .name {
+  .sidebar .title {
     font-style: normal;
     font-weight: normal;
     font-size: 20px;
     line-height: 28px;
   }
 
-  .sidebar .professional_description {
+  .sidebar .sub_title {
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
     line-height: 22px;
+  }
+
+  .sidebar .control {
+    margin-top: 50px;
+  }
+
+  .sidebar .control div {
+    display: flex;
+    flex-direction: row;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 14px;
+
+    cursor: pointer;
+    align-items: center;
+  }
+
+  .sidebar .control div p {
+    margin-left: 10px;
+  }
+
+  .sidebar .control .edit {
+    color: #096dd9;
+    margin-bottom: 18px;
+  }
+
+  .sidebar .control .withdraw {
+    color: #f5222d;
   }
 
   .header {

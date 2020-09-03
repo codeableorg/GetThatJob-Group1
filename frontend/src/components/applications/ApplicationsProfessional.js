@@ -6,7 +6,7 @@ import { getLocalDate } from '../../utils';
 import { format } from 'date-fns';
 import ApplicationProfessional from './ApplicationProfessional';
 
-const APPLICATIONS_PROFESSIONAL = gql`
+export const APPLICATIONS_PROFESSIONAL = gql`
   query ApplicationsCurrentProfessional {
     applicationsCurrentProfessional {
       id

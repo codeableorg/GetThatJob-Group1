@@ -3,10 +3,14 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Modal from '../Modal';
 import { ApplicationDetailInfo, CursorPointer } from './StyledComponents';
 import { ReactComponent as CancelSVG } from '../../assets/cancel.svg';
+import { ReactComponent as EditSVG } from '../../assets/edit-application.svg';
+import { ReactComponent as DeleteSVG } from '../../assets/delete-application.svg';
+import DeleteApplicationProfessional from './WithdrawApplicationProfessional';
 
 const ApplicationProfessional = ({ application, setApplication }) => {
   const [show, setShow] = useState(false);
   const [option, setOption] = useState('application');
+  const [showModalDelete, setShowModalDelete] = useState(false);
 
   useEffect(() => {
     if (application === null) {
@@ -26,10 +30,23 @@ const ApplicationProfessional = ({ application, setApplication }) => {
       {!application ? null : (
         <ApplicationDetailInfo>
           <div className="sidebar">
-            <p className="name">{application.job.title}</p>
-            <p className="professional_description">
-              {application.job.recruiter.companyName}
-            </p>
+            <p className="title">{application.job.title}</p>
+            <p className="sub_title">{application.job.recruiter.companyName}</p>
+            <div className="control">
+              <div className="edit">
+                <EditSVG />
+                <p>Edit Application</p>
+              </div>
+              <div
+                className="withdraw"
+                onClick={() => {
+                  setShowModalDelete(true);
+                }}
+              >
+                <DeleteSVG />
+                <p>Withdraw application</p>
+              </div>
+            </div>
           </div>
           <div className="header">
             <div className="options">
@@ -86,6 +103,12 @@ const ApplicationProfessional = ({ application, setApplication }) => {
               </Fragment>
             ) : null}
           </div>
+          <DeleteApplicationProfessional
+            show={showModalDelete}
+            setShow={setShowModalDelete}
+            application={application}
+            setApplication={setApplication}
+          />
         </ApplicationDetailInfo>
       )}
     </Modal>

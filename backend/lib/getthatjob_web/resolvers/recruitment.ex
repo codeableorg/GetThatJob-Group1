@@ -19,7 +19,8 @@ defmodule GetthatjobWeb.Resolvers.Recruitment do
 
   def applications_of_current_professional(_, _, %{context: %{current_user: user}}) do
     case Accounts.get_professional_from_user(user) do
-      nil -> {:error, message: "Current user is not a recruiter", details: %{}}
+      nil ->
+        {:error, message: "Current user is not a professional", details: %{}}
 
       professional ->
         {:ok, Recruitment.list_application_of_professional(professional)}
@@ -117,6 +118,31 @@ defmodule GetthatjobWeb.Resolvers.Recruitment do
 
   def countries(_, _, _) do
     {:ok, Recruitment.list_countries()}
+  end
+
+  def withdraw_application_of_current_professional(_, %{id: id}, %{context: %{current_user: user}}) do
+    with professional when not is_nil(professional) <- Accounts.get_professional_from_user(user),
+         {:get_application_professional, application} when not is_nil(application) <-
+           {:get_application_professional,
+            Recruitment.get_application_of_current_professional(id, professional)},
+         {:ok, application} <- Recruitment.delete_application(application) do
+      {:ok, application}
+    else
+      nil ->
+        {:error,
+         message: "Current user is not a professional",
+         details: %{id: "Current user is not a professional"}}
+
+      {:get_application_professional, nil} ->
+        {:error,
+         message: "Not avaliable job for current recruiter",
+         details: %{id: "Not avaliable job for current recruiter"}}
+
+      {:error, changeset} ->
+        {:error,
+         message: "Can not withdraw the application",
+         details: ChangesetErrors.error_details(changeset)}
+    end
   end
 
   defp get_job_type(id) do
