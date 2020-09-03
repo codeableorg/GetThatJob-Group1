@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { useParams } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
@@ -24,24 +23,14 @@ const Title = styled.h1`
   }
 `;
 
-const JOB = gql`
-  query Job($id: Integer!) {
-    job(id: $id) {
-      id
-      title
-    }
-  }
-`;
-
-export default function JobsApply() {
+export default function ApplicationsEdit() {
   const { id } = useParams();
-  const { data } = useQuery(JOB, { variables: { id: Number(id) } });
 
   return (
     <Wrapper>
       <Title>
-        <span className="blue">Get this job: </span>
-        <span>{data && data.job.title}</span>
+        <span className="blue">Edit your application: </span>
+        <span>{id}</span>
       </Title>
 
       <Formik
@@ -90,7 +79,7 @@ export default function JobsApply() {
               note="Between 50 and 1000 characters."
             />
 
-            <Button type="submit">Get this job!</Button>
+            <Button type="submit">Update!</Button>
           </Form>
         )}
       </Formik>

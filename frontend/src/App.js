@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import NewJob from './pages/NewJob';
 import Job from './pages/Job';
 import Jobs from './pages/Jobs';
+import ApplicationsEdit from './pages/ApplicationsEdit';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Route exact path="/">
           <Index />
         </Route>
-        <Route path={['/jobs', '/profile']}>
+        <Route path={['/jobs', '/profile', '/applications']}>
           <Protected>
             <Switch>
               <Route exact path="/jobs/new">
@@ -33,8 +34,11 @@ function App() {
               <Route exact path="/jobs">
                 <Jobs />
               </Route>
-              <Route exact path="/jobs/:jobId/apply">
+              <Route exact path="/jobs/:id/apply">
                 <JobsApply />
+              </Route>
+              <Route exact path="/applications/:id/edit">
+                <ApplicationsEdit />
               </Route>
               <Route exact path="/profile">
                 <Profile />
