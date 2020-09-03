@@ -12,6 +12,7 @@ import Protected from './components/Protected';
 import Profile from './pages/Profile';
 import NewJob from './pages/NewJob';
 import Job from './pages/Job';
+import Jobs from './pages/Jobs';
 
 function App() {
   return (
