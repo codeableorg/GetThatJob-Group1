@@ -12,6 +12,7 @@ import Protected from './components/Protected';
 import Profile from './pages/Profile';
 import NewJob from './pages/NewJob';
 import Job from './pages/Job';
+import Applications from "./pages/Applications"
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route exact path="/">
           <Index />
         </Route>
-        <Route path={['/jobs', '/profile']}>
+        <Route path={['/jobs', '/profile', '/applications']}>
           <Protected>
             <Switch>
               <Route exact path="/jobs/new">
@@ -31,6 +32,9 @@ function App() {
               </Route>
               <Route exact path="/jobs">
                 <Jobs />
+              </Route>
+              <Route exact path="/applications">
+                <Applications />
               </Route>
               <Route exact path="/profile">
                 <Profile />

@@ -15,7 +15,7 @@ defmodule Getthatjob.Recruitment do
     Country,
     Seniority,
     JobType
-  }
+    }
 
   @doc """
   Returns the list of recruiters.
@@ -216,16 +216,20 @@ defmodule Getthatjob.Recruitment do
   def list_jobs(criteria) do
     query = from(p in Job)
 
-    Enum.reduce(criteria, query, fn
-      {:limit, limit}, query ->
-        from(p in query, limit: ^limit)
+    Enum.reduce(
+      criteria,
+      query,
+      fn
+        {:limit, limit}, query ->
+          from(p in query, limit: ^limit)
 
-      {:filter, filters}, query ->
-        filter_with(filters, query)
+        {:filter, filters}, query ->
+          filter_with(filters, query)
 
-      {:order, order}, query ->
-        from(p in query, order_by: [{^order, :id}])
-    end)
+        {:order, order}, query ->
+          from(p in query, order_by: [{^order, :id}])
+      end
+    )
     |> Repo.all()
   end
 
@@ -235,54 +239,69 @@ defmodule Getthatjob.Recruitment do
     |> Repo.all()
   end
 
-  defp filter_with(filters, query) do
-    Enum.reduce(filters, query, fn
-      {:matching, term}, query ->
-        pattern = "%#{term}%"
+  def list_application_of_professional(%Professional{} = professional) do
+    professional
+    |> Ecto.assoc(:applications)
+    |> Repo.all()
+  end
 
-        from(q in query,
-          where:
-            ilike(q.title, ^pattern) or
+  defp filter_with(filters, query) do
+    Enum.reduce(
+      filters,
+      query,
+      fn
+        {:matching, term}, query ->
+          pattern = "%#{term}%"
+
+          from(
+            q in query,
+            where:
+              ilike(q.title, ^pattern) or
               ilike(q.introduction, ^pattern) or
               ilike(q.requirements, ^pattern)
-        )
+          )
 
-      {:country, value}, query ->
-        from(q in query,
-          join: ci in City,
-          on: q.city_id == ci.id,
-          join: co in Country,
-          on: ci.country_id == co.id,
-          where: co.name == ^value
-        )
+        {:country, value}, query ->
+          from(
+            q in query,
+            join: ci in City,
+            on: q.city_id == ci.id,
+            join: co in Country,
+            on: ci.country_id == co.id,
+            where: co.name == ^value
+          )
 
-      {:job_type, value}, query ->
-        from(q in query,
-          join: jt in JobType,
-          on: jt.id == q.job_type_id,
-          where: jt.name == ^value
-        )
+        {:job_type, value}, query ->
+          from(
+            q in query,
+            join: jt in JobType,
+            on: jt.id == q.job_type_id,
+            where: jt.name == ^value
+          )
 
-      {:seniority, value}, query ->
-        from(
-          q in query,
-          join: s in Seniority,
-          on: s.id == q.seniority_id,
-          where: s.name == ^value
-        )
+        {:seniority, value}, query ->
+          from(
+            q in query,
+            join: s in Seniority,
+            on: s.id == q.seniority_id,
+            where: s.name == ^value
+          )
 
-      {:salary_range, %{low: low_salary, high: high_salary}}, query ->
-        salary_between(query, low_salary, high_salary)
+        {:salary_range, %{low: low_salary, high: high_salary}}, query ->
+          salary_between(query, low_salary, high_salary)
 
-      {:closed, value}, query ->
-        from(q in query,
-          where: q.closed == ^value
-        )
-    end)
+        {:closed, value}, query ->
+          from(
+            q in query,
+            where: q.closed == ^value
+          )
+      end
+    )
   end
 
   defp salary_between(query, low_salary, high_salary) do
-    from(q in query,
+    from(
+      q in query,
       where:
         fragment(
           "? BETWEEN ? AND ?",

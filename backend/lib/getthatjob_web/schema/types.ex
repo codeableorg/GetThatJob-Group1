@@ -51,8 +51,10 @@ defmodule GetthatjobWeb.Schema.Types do
     field(:cv_path, non_null(:string))
     field(:professional_experience, non_null(:string))
     field(:reason, non_null(:string))
+    field(:inserted_at, non_null(:naive_datetime))
 
     field(:professional, :professional, resolve: dataloader(Recruitment))
+    field(:job, :job, resolve: dataloader(Recruitment))
   end
 
   object :professional do

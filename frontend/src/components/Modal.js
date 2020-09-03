@@ -23,6 +23,7 @@ const Modal = ({ children, show, closeModal }) => {
         },
         content: {
           width: 'fit-content',
+          maxHeight: '90%',
           border: '1px solid #ccc',
           background: '#fff',
           WebkitOverflowScrolling: 'touch',

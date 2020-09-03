@@ -17,6 +17,15 @@ defmodule GetthatjobWeb.Resolvers.Recruitment do
     {:ok, Recruitment.list_jobs(args)}
   end
 
+  def applications_of_current_professional(_, _, %{context: %{current_user: user}}) do
+    case Accounts.get_professional_from_user(user) do
+      nil -> {:error, message: "Current user is not a recruiter", details: %{}}
+
+      professional ->
+        {:ok, Recruitment.list_application_of_professional(professional)}
+    end
+  end
+
   def jobs_of_current_recruiter(_, _, %{context: %{current_user: user}}) do
     case Accounts.get_recruiter_from_user(user) do
       nil ->

@@ -36,6 +36,13 @@ defmodule GetthatjobWeb.Schema.Schema do
       resolve(&Resolvers.Recruitment.jobs_of_current_recruiter/3)
     end
 
+    @desc "Get jobs of current professional"
+    field :applications_current_professional, list_of(:application) do
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.applications_of_current_professional/3)
+    end
+
     @desc "Get a Job by id of current recruiter"
     field :job_current_recruiter, :job do
       arg(:id, non_null(:integer))
@@ -99,7 +106,7 @@ defmodule GetthatjobWeb.Schema.Schema do
       resolve(&Resolvers.Accounts.sign_up_recruiter/3)
     end
 
-    @desc "Edit current profesional"
+    @desc "Edit current professional"
     field :update_current_professional, :professional do
       arg(:name, non_null(:string))
       arg(:phone_number, non_null(:string))

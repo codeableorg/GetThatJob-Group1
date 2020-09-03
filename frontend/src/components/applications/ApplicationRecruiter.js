@@ -4,11 +4,10 @@ import Modal from '../Modal';
 import { ApplicationDetailInfo, CursorPointer } from './StyledComponents';
 import { ReactComponent as CancelSVG } from '../../assets/cancel.svg';
 
-const ApplicationDetail = ({ application, setApplication, companyName }) => {
+const ApplicationRecruiter = ({ application, setApplication, companyName }) => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    console.log('change application');
     if (application === null) {
       setShow(false);
     } else {
@@ -31,7 +30,9 @@ const ApplicationDetail = ({ application, setApplication, companyName }) => {
             </p>
           </div>
           <div className="header">
-            <p className="text">Application</p>
+            <div className="options">
+              <p className="option active">Application</p>
+            </div>
             <CursorPointer as={CancelSVG} onClick={closeModal} />
           </div>
           <div className="content">
@@ -44,7 +45,7 @@ const ApplicationDetail = ({ application, setApplication, companyName }) => {
             <a
               className="download_cv"
               href={process.env.REACT_APP_HTTP + '/' + application.cvPath}
-              rel="cv"
+              rel="noopener noreferrer"
               target="_blank"
             >
               Download CV
@@ -56,4 +57,4 @@ const ApplicationDetail = ({ application, setApplication, companyName }) => {
   );
 };
 
-export default ApplicationDetail;
+export default ApplicationRecruiter;

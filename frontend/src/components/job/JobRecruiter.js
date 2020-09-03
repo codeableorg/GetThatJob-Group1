@@ -2,10 +2,11 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import { Redirect } from 'react-router-dom';
 
-import { TitleWithoutMargin, PostedText, Table } from './StyledComponents';
+import { TitleWithoutMargin, PostedText } from './StyledComponents';
+import Table from '../Table';
 import { getLocalDate, getTimeSince } from '../../utils';
 import CloseJob from './CloseJob';
-import ApplicationDetail from './ApplicationDetail';
+import ApplicationRecruiter from '../applications/ApplicationRecruiter';
 
 const JOB_RECRUITER = gql`
   query JobCurrentRecruiter($id: Int!) {
@@ -92,7 +93,7 @@ const JobRecruiter = ({ jobId }) => {
         </tbody>
       </Table>
       <CloseJob job={job} />
-      <ApplicationDetail
+      <ApplicationRecruiter
         companyName={job.recruiter.companyName}
         application={application}
         setApplication={setApplication}
