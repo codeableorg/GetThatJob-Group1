@@ -65,4 +65,4 @@ config :cors_plug,
   max_age: 86400,
   methods: ["GET", "POST"]
 
-import_config "prod.secret.exs"
+# import_config "prod.secret.exs"
