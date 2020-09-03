@@ -10,17 +10,40 @@ defmodule GetthatjobWeb.Schema.Types do
   object :job do
     field(:id, non_null(:id))
     field(:title, non_null(:string))
-    field(:type, non_null(:string))
-    field(:seniority, non_null(:string))
     field(:salary, :integer)
-    field(:location, non_null(:string))
     field(:introduction, non_null(:string))
     field(:expected, non_null(:string))
     field(:looking_for, non_null(:string))
     field(:requirements, non_null(:string))
     field(:inserted_at, non_null(:naive_datetime))
+    field(:closed, non_null(:boolean))
     field(:recruiter, non_null(:recruiter), resolve: dataloader(Recruitment))
     field(:applications, list_of(:application), resolve: dataloader(Recruitment))
+    field(:city, non_null(:city), resolve: dataloader(Recruitment))
+    field(:seniority, non_null(:seniority), resolve: dataloader(Recruitment))
+    field(:job_type, non_null(:job_type), resolve: dataloader(Recruitment))
+  end
+
+  object :city do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
+    field(:country, non_null(:country), resolve: dataloader(Recruitment))
+  end
+
+  object :country do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
+    field(:flag_path, non_null(:string))
+  end
+
+  object :seniority do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
+  end
+
+  object :job_type do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
   end
 
   object :application do
@@ -40,6 +63,7 @@ defmodule GetthatjobWeb.Schema.Types do
     field(:experience, :string)
     field(:linkedin, :string)
     field(:github, :string)
+    field(:user, non_null(:user), resolve: dataloader(Recruitment))
   end
 
   object :recruiter do
@@ -63,6 +87,10 @@ defmodule GetthatjobWeb.Schema.Types do
     field(:recruiter, :recruiter, resolve: dataloader(Recruitment))
   end
 
+  object :user_id do
+    field(:id, non_null(:id))
+  end
+
   input_object :user_input do
     field(:email, non_null(:string))
     field(:password, non_null(:string))
@@ -72,9 +100,10 @@ defmodule GetthatjobWeb.Schema.Types do
   input_object :job_filter do
     field(:matching, :string)
     field(:country, :string)
-    field(:type, :string)
+    field(:job_type, :string)
     field(:salary_range, :salary_range)
     field(:seniority, :string)
+    field(:closed, :boolean)
   end
 
   input_object :salary_range do

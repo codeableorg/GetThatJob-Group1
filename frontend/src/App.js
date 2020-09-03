@@ -7,8 +7,11 @@ import Auth from './components/Auth';
 import SignIn from './pages/SignIn';
 import SignUpRecruiter from './pages/SignUpRecruiter';
 import SignUpProfessional from './pages/SignUpProfessional';
-import Jobs from './pages/Jobs';
 import JobsApply from './pages/JobsApply';
+import Protected from './components/Protected';
+import Profile from './pages/Profile';
+import NewJob from './pages/NewJob';
+import Job from './pages/Job';
 
 function App() {
   return (
@@ -17,27 +20,43 @@ function App() {
         <Route exact path="/">
           <Index />
         </Route>
-        <Route exact path="/jobs">
-          <Jobs />
+        <Route path={['/jobs', '/profile']}>
+          <Protected>
+            <Switch>
+              <Route exact path="/jobs/new">
+                <NewJob />
+              </Route>
+              <Route exact path="/jobs/:id">
+                <Job />
+              </Route>
+              <Route exact path="/jobs">
+                <Jobs />
+              </Route>
+              <Route exact path="/jobs/:jobId/apply">
+                <JobsApply />
+              </Route>
+              <Route exact path="/profile">
+                <Profile />
+              </Route>
+            </Switch>
+          </Protected>
         </Route>
         <Route path={['/sign-in', '/sign-up']}>
           <Auth>
-            <Route exact path="/sign-in" component={SignIn} />
-            <Route
-              exact
-              path="/sign-up/recruiter"
-              component={SignUpRecruiter}
-            />
-            <Route
-              exact
-              path="/sign-up/professional"
-              component={SignUpProfessional}
-            />
+            <Switch>
+              <Route exact path="/sign-in" component={SignIn} />
+              <Route
+                exact
+                path="/sign-up/recruiter"
+                component={SignUpRecruiter}
+              />
+              <Route
+                exact
+                path="/sign-up/professional"
+                component={SignUpProfessional}
+              />
+            </Switch>
           </Auth>
-        </Route>
-
-        <Route exact path="/jobs/:jobId/apply">
-          <JobsApply />
         </Route>
       </Switch>
     </Layout>

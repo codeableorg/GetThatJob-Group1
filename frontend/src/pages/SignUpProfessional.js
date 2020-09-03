@@ -4,14 +4,14 @@ import * as Yup from 'yup';
 import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
+import { Title, SubTitle } from '../components/auth/StyledComponents';
 import {
-  Title,
-  SubTitle,
   FormStyled,
-  SubmitStyled,
+  AuthSubmitStyled,
   LinkStyled,
-} from '../components/auth/StyledComponents';
-import TextInput from '../components/auth/TextInput';
+} from '../components/form/StyledComponents';
+import TextInput from '../components/form/TextInput';
+import { formatErrors } from '../lib/AuthHelper';
 import { GET_CURRENT_USER_QUERY } from '../components/auth/CurrentUser';
 
 const SIGN_UP_PROFESSIONAL_MUTATION = gql`
@@ -34,10 +34,18 @@ const SIGN_UP_PROFESSIONAL_MUTATION = gql`
         professional {
           id
           name
+          phoneNumber
+          description
+          experience
+          linkedin
+          github
         }
         recruiter {
           id
           companyName
+          companyLogoPath
+          companyWebsite
+          companyDescription
         }
       }
     }
@@ -50,7 +58,7 @@ const SignUpProfessional = () => {
   const [signUp, { loading }] = useMutation(SIGN_UP_PROFESSIONAL_MUTATION, {
     onCompleted({ signUpProfessional }) {
       localStorage.setItem('auth-token', signUpProfessional.token);
-      history.replace('/');
+      history.replace('/jobs');
     },
     update(cache, { data }) {
       cache.writeQuery({
@@ -86,7 +94,7 @@ const SignUpProfessional = () => {
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
           signUp({ variables: values }).catch(({ graphQLErrors }) => {
-            setErrors(graphQLErrors[0].details);
+            setErrors(formatErrors(graphQLErrors[0].details));
             setSubmitting(false);
           });
         }}
@@ -104,9 +112,9 @@ const SignUpProfessional = () => {
             name="password_confirmation"
             type="password"
           />
-          <SubmitStyled type="submit" disabled={loading}>
+          <AuthSubmitStyled type="submit" disabled={loading}>
             Submit Up
-          </SubmitStyled>
+          </AuthSubmitStyled>
         </FormStyled>
       </Formik>
       <LinkStyled to="/sign-in">Sign in</LinkStyled>

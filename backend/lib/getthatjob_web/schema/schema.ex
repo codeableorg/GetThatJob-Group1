@@ -9,7 +9,7 @@ defmodule GetthatjobWeb.Schema.Schema do
   import_types(GetthatjobWeb.Schema.Types)
 
   query do
-    @desc "Get a Job by title"
+    @desc "Get a Job by id"
     field :job, :job do
       arg(:id, non_null(:integer))
       resolve(&Resolvers.Recruitment.job/3)
@@ -26,8 +26,50 @@ defmodule GetthatjobWeb.Schema.Schema do
 
     @desc "Get the currently signed-in user"
     field :me, :user do
-      # middleware(Middleware.Authenticate)
       resolve(&Resolvers.Accounts.me/3)
+    end
+
+    @desc "Get jobs of current recruiter"
+    field :jobs_current_recruiter, list_of(:job) do
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.jobs_of_current_recruiter/3)
+    end
+
+    @desc "Get a Job by id of current recruiter"
+    field :job_current_recruiter, :job do
+      arg(:id, non_null(:integer))
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.job_of_current_recruiter/3)
+    end
+
+    @desc "Get seniorities"
+    field :seniorities, list_of(:seniority) do
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.seniorities/3)
+    end
+
+    @desc "Get jobs types"
+    field :job_types, list_of(:job_type) do
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.job_types/3)
+    end
+
+    @desc "Get Cities"
+    field :cities, list_of(:city) do
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.cities/3)
+    end
+
+    @desc "Get Countries"
+    field :countries, list_of(:country) do
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.countries/3)
     end
   end
 
@@ -55,6 +97,60 @@ defmodule GetthatjobWeb.Schema.Schema do
       arg(:company_description, non_null(:string))
 
       resolve(&Resolvers.Accounts.sign_up_recruiter/3)
+    end
+
+    @desc "Edit current profesional"
+    field :update_current_professional, :professional do
+      arg(:name, non_null(:string))
+      arg(:phone_number, non_null(:string))
+      arg(:description, non_null(:string))
+      arg(:experience, non_null(:string))
+      arg(:linkedin, :string)
+      arg(:github, :string)
+
+      middleware(Middleware.Authenticate)
+      resolve(&Resolvers.Accounts.update_current_professional/3)
+    end
+
+    @desc "Edit current recruiter"
+    field :update_current_recruiter, :recruiter do
+      arg(:company_name, non_null(:string))
+      arg(:company_logo_meta, :upload)
+      arg(:company_website, non_null(:string))
+      arg(:company_description, non_null(:string))
+
+      middleware(Middleware.Authenticate)
+      resolve(&Resolvers.Accounts.update_current_recruiter/3)
+    end
+
+    @desc "Delete current user"
+    field :delete_current_user, :user_id do
+      middleware(Middleware.Authenticate)
+      resolve(&Resolvers.Accounts.delete_user/3)
+    end
+
+    @desc "Create a Job"
+    field :create_job, :job do
+      arg(:title, non_null(:string))
+      arg(:type_id, non_null(:integer))
+      arg(:seniority_id, non_null(:integer))
+      arg(:salary, :integer)
+      arg(:city_id, non_null(:integer))
+      arg(:introduction, non_null(:string))
+      arg(:expected, non_null(:string))
+      arg(:looking_for, non_null(:string))
+      arg(:requirements, non_null(:string))
+
+      middleware(Middleware.Authenticate)
+      resolve(&Resolvers.Recruitment.create_job/3)
+    end
+
+    @desc "Close a job by id of current recruiter "
+    field :close_job, :job do
+      arg(:id, non_null(:integer))
+      middleware(Middleware.Authenticate)
+
+      resolve(&Resolvers.Recruitment.close_job_of_current_recruiter/3)
     end
   end
 

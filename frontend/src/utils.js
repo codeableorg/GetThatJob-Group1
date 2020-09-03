@@ -1,11 +1,3 @@
-const FLAGS = {
-  Lima: require('./assets/peru-flag.png'),
-};
-
-const COUNTRIES = {
-  Lima: 'Peru',
-};
-
 function getLocalDate(dateString) {
   return new Date(dateString + 'Z');
 }
@@ -18,4 +10,4 @@ function getTimeSince(date) {
   return `${days} days ago`;
 }
 
-export { FLAGS, COUNTRIES, getLocalDate, getTimeSince };
+export { getLocalDate, getTimeSince };

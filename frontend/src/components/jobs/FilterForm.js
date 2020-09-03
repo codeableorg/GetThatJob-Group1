@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import InputRange from 'react-input-range';
+import { gql, useLazyQuery } from '@apollo/client';
 
 import Dropdown from '../Dropdown';
 import searchIcon from '../../assets/search-icon.png';
@@ -33,10 +34,34 @@ const Wrapper = styled.form`
   }
 `;
 
-export default function FilterForm({ formData, setFormData }) {
+const GET_AVALIABLE_OPTIONS = gql`
+  query GetAvaliableOptions {
+    seniorities {
+      id
+      name
+    }
+    jobTypes {
+      id
+      name
+    }
+    countries {
+      id
+      name
+    }
+  }
+`;
+
+export default function FilterForm({ setFilterData, initialFilterData }) {
+  const [getQuery, { error, data, loading, called }] = useLazyQuery(
+    GET_AVALIABLE_OPTIONS
+  );
+
+  const [formData, setFormData] = useState(initialFilterData);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+    setFilterData({ ...formData, [name]: value });
   };
 
   const handleRange = (value) => {
@@ -45,6 +70,14 @@ export default function FilterForm({ formData, setFormData }) {
       salaryRange: { low: value.min, high: value.max },
     });
   };
+
+  useEffect(() => {
+    getQuery();
+    return () => {};
+  }, [getQuery]);
+
+  if (error) return null;
+  if (!called || loading) return null;
 
   return (
     <Wrapper>
@@ -70,84 +103,48 @@ export default function FilterForm({ formData, setFormData }) {
           <span> All</span>
         </label>
 
-        <label>
-          <input
-            type="radio"
-            name="country"
-            value="Peru"
-            checked={formData.country === 'Peru'}
-            onChange={handleChange}
-          />
-          <span> Peru</span>
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            name="country"
-            value="Colombia"
-            checked={formData.country === 'Colombia'}
-            onChange={handleChange}
-          />
-          <span> Colombia</span>
-        </label>
+        {data.countries.map((country) => {
+          return (
+            <label key={country.id}>
+              <input
+                type="radio"
+                name="country"
+                value={country.name}
+                checked={formData.country === country.name}
+                onChange={handleChange}
+              />
+              <span> {country.name}</span>
+            </label>
+          );
+        })}
       </Dropdown>
 
       <Dropdown title="Type" shadow>
         <label>
           <input
             type="radio"
-            name="type"
+            name="jobType"
             value=""
-            checked={formData.type === ''}
+            checked={formData.jobType === ''}
             onChange={handleChange}
           />
           <span> All</span>
         </label>
 
-        <label>
-          <input
-            type="radio"
-            name="type"
-            value="full_time"
-            checked={formData.type === 'full_time'}
-            onChange={handleChange}
-          />
-          <span> Full Time</span>
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            name="type"
-            value="part_time"
-            checked={formData.type === 'part_time'}
-            onChange={handleChange}
-          />
-          <span> Part Time</span>
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            name="type"
-            value="freelance"
-            checked={formData.type === 'freelance'}
-            onChange={handleChange}
-          />
-          <span> Freelance</span>
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            name="type"
-            value="internship"
-            checked={formData.type === 'internship'}
-            onChange={handleChange}
-          />
-          <span> Internship</span>
-        </label>
+        {data.jobTypes.map((jobType) => {
+          return (
+            <label key={jobType.id}>
+              <input
+                type="radio"
+                name="jobType"
+                value={jobType.name}
+                checked={formData.jobType === jobType.name}
+                onChange={handleChange}
+              />
+              <span> {jobType.name}</span>
+            </label>
+          );
+        })}
       </Dropdown>
 
       <Dropdown title="Salary Range" shadow>
@@ -162,6 +159,9 @@ export default function FilterForm({ formData, setFormData }) {
               max: formData.salaryRange.high,
             }}
             onChange={handleRange}
+            onChangeComplete={() => {
+              setFilterData(formData);
+            }}
           />
         </div>
       </Dropdown>
@@ -178,38 +178,20 @@ export default function FilterForm({ formData, setFormData }) {
           <span> All</span>
         </label>
 
-        <label>
-          <input
-            type="radio"
-            name="seniority"
-            value="junior"
-            checked={formData.seniority === 'junior'}
-            onChange={handleChange}
-          />
-          <span> Junior</span>
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            name="seniority"
-            value="semi_senior"
-            checked={formData.seniority === 'semi_senior'}
-            onChange={handleChange}
-          />
-          <span> Semi Senior</span>
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            name="seniority"
-            value="senior"
-            checked={formData.seniority === 'senior'}
-            onChange={handleChange}
-          />
-          <span> Senior</span>
-        </label>
+        {data.seniorities.map((seniority) => {
+          return (
+            <label key={seniority.id}>
+              <input
+                type="radio"
+                name="seniority"
+                value={seniority.name}
+                checked={formData.seniority === seniority.name}
+                onChange={handleChange}
+              />
+              <span> {seniority.name}</span>
+            </label>
+          );
+        })}
       </Dropdown>
     </Wrapper>
   );

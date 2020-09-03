@@ -12,9 +12,10 @@ database_url =
     """
 
 config :getthatjob, Getthatjob.Repo,
-  # ssl: true,
+  database: "",
+  ssl: true,
   url: database_url,
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "2")
 
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
@@ -39,3 +40,5 @@ config :getthatjob, GetthatjobWeb.Endpoint,
 #
 # Then you can assemble a release by calling `mix release`.
 # See `mix help release` for more information.
+
+config :getthatjob, auth_salt: "${AUTH_SALT}"

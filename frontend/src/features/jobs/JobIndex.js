@@ -1,14 +1,25 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import { FLAGS, COUNTRIES, getLocalDate, getTimeSince } from '../../utils';
+import { getLocalDate, getTimeSince } from '../../utils';
 
 const Wrapper = styled.article`
   display: grid;
   grid-template-columns: 60px 1fr auto;
   align-items: center;
+  column-gap: 15px;
   padding: 15px 20px;
   background: #ffffff;
+
+  .logo__company__container {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo__company {
+    max-width: 100%;
+    max-height: 100%;
+  }
 
   .title {
     margin-bottom: 5px;
@@ -36,20 +47,26 @@ const Wrapper = styled.article`
   }
 `;
 
-export default function JobItem({ job, className }) {
+export default function JobIndex({ job, className }) {
   return (
     <Wrapper className={className}>
-      <div>Able</div>
+      <div className="logo__company__container">
+        <img
+          className="logo__company"
+          src={process.env.REACT_APP_HTTP + job.recruiter.companyLogoPath}
+          alt={job.recruiter.companyName}
+        />
+      </div>
       <div>
         <div className="title">{job.title}</div>
         <div className="metadata">
           <span className="metadata__location">
-            {job.location} - {COUNTRIES[job.location]}
+            {job.recruiter.companyName} - {job.city.name}
           </span>
           <img
             className="metadata__flag"
-            src={FLAGS[job.location]}
-            alt={job.location}
+            src={process.env.REACT_APP_HTTP + job.city.country.flagPath}
+            alt={job.city.country.name}
           />
         </div>
       </div>

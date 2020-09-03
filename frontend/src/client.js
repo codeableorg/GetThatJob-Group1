@@ -5,7 +5,7 @@ import { setContext } from '@apollo/client/link/context';
 
 import { createLink } from 'apollo-absinthe-upload-link';
 
-const HTTP_ENDPOINT = 'http://localhost:4000/api';
+const HTTP_ENDPOINT = `${process.env.REACT_APP_HTTP}/api`;
 
 // Create an HTTP link to the Phoenix app's HTTP endpoint URL.
 const httpLink = createLink({

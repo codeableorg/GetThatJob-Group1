@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useQuery, gql } from '@apollo/client';
 
 import { Container } from '../StyledComponents';
-import JobItem from '../../features/jobs/JobItem';
+import JobIndex from '../../features/jobs/JobIndex';
 
 const Wrapper = styled.section`
   background: #3c2dff;
@@ -11,6 +11,8 @@ const Wrapper = styled.section`
 
   ${Container} {
     display: flex;
+    height: fit-content;
+    align-items: center;
   }
 
   .description {
@@ -45,15 +47,31 @@ const Wrapper = styled.section`
   .job {
     margin-bottom: 20px;
   }
+
+  .job:last-child {
+    margin-bottom: 0px;
+  }
 `;
 
 const JOBS = gql`
   query Jobs {
-    jobs {
+    jobs(limit: 3, filter: { closed: false }) {
       id
       title
-      location
       insertedAt
+      recruiter {
+        id
+        companyName
+        companyLogoPath
+      }
+      city {
+        id
+        name
+        country {
+          id
+          flagPath
+        }
+      }
     }
   }
 `;
@@ -84,7 +102,7 @@ export default function FindJob() {
           {error && console.log(error)}
           {data &&
             data.jobs.map((job) => (
-              <JobItem job={job} key={job.id} className="job" />
+              <JobIndex job={job} key={job.id} className="job" />
             ))}
         </section>
       </Container>

@@ -62,7 +62,7 @@ const Wrapper = styled.header`
 const userTitle = (currentUser) => {
   if (currentUser.type === 'RECRUITER') {
     return currentUser.recruiter.companyName;
-  } else if (currentUser.professional.name === null) {
+  } else if (currentUser.professional.name === '') {
     return currentUser.email;
   } else {
     return currentUser.professional.name;
@@ -75,7 +75,6 @@ export default function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem('auth-token');
-    // client.resetStore();
     client.writeQuery({
       query: GET_CURRENT_USER_QUERY,
       data: {
@@ -87,7 +86,7 @@ export default function Header() {
 
   return (
     <CurrentUser>
-      {(currentUser) => (
+      {({ loaded, currentUser }) => (
         <Wrapper>
           <Container>
             <Link className="brand" to="/">
@@ -96,7 +95,7 @@ export default function Header() {
             </Link>
 
             <nav className="navbar">
-              {currentUser && (
+              {loaded && currentUser && (
                 <Dropdown title={userTitle(currentUser)} color="#3c2dff">
                   <Link to="/profile">Edit your profile</Link>
                   <button className="logout" onClick={handleLogout}>
@@ -104,7 +103,7 @@ export default function Header() {
                   </button>
                 </Dropdown>
               )}
-              {!currentUser && (
+              {loaded && !currentUser && (
                 <Fragment>
                   <Link className="navbar__link" to="/sign-in">
                     Sign In

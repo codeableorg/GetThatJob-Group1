@@ -274,4 +274,242 @@ defmodule Getthatjob.RecruitmentTest do
       assert %Ecto.Changeset{} = Recruitment.change_application(application)
     end
   end
+
+  describe "countries" do
+    alias Getthatjob.Recruitment.Country
+
+    @valid_attrs %{flag_path: "some flag_path", name: "some name"}
+    @update_attrs %{flag_path: "some updated flag_path", name: "some updated name"}
+    @invalid_attrs %{flag_path: nil, name: nil}
+
+    def country_fixture(attrs \\ %{}) do
+      {:ok, country} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Recruitment.create_country()
+
+      country
+    end
+
+    test "list_countries/0 returns all countries" do
+      country = country_fixture()
+      assert Recruitment.list_countries() == [country]
+    end
+
+    test "get_country!/1 returns the country with given id" do
+      country = country_fixture()
+      assert Recruitment.get_country!(country.id) == country
+    end
+
+    test "create_country/1 with valid data creates a country" do
+      assert {:ok, %Country{} = country} = Recruitment.create_country(@valid_attrs)
+      assert country.flag_path == "some flag_path"
+      assert country.name == "some name"
+    end
+
+    test "create_country/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Recruitment.create_country(@invalid_attrs)
+    end
+
+    test "update_country/2 with valid data updates the country" do
+      country = country_fixture()
+      assert {:ok, %Country{} = country} = Recruitment.update_country(country, @update_attrs)
+      assert country.flag_path == "some updated flag_path"
+      assert country.name == "some updated name"
+    end
+
+    test "update_country/2 with invalid data returns error changeset" do
+      country = country_fixture()
+      assert {:error, %Ecto.Changeset{}} = Recruitment.update_country(country, @invalid_attrs)
+      assert country == Recruitment.get_country!(country.id)
+    end
+
+    test "delete_country/1 deletes the country" do
+      country = country_fixture()
+      assert {:ok, %Country{}} = Recruitment.delete_country(country)
+      assert_raise Ecto.NoResultsError, fn -> Recruitment.get_country!(country.id) end
+    end
+
+    test "change_country/1 returns a country changeset" do
+      country = country_fixture()
+      assert %Ecto.Changeset{} = Recruitment.change_country(country)
+    end
+  end
+
+  describe "cities" do
+    alias Getthatjob.Recruitment.City
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def city_fixture(attrs \\ %{}) do
+      {:ok, city} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Recruitment.create_city()
+
+      city
+    end
+
+    test "list_cities/0 returns all cities" do
+      city = city_fixture()
+      assert Recruitment.list_cities() == [city]
+    end
+
+    test "get_city!/1 returns the city with given id" do
+      city = city_fixture()
+      assert Recruitment.get_city!(city.id) == city
+    end
+
+    test "create_city/1 with valid data creates a city" do
+      assert {:ok, %City{} = city} = Recruitment.create_city(@valid_attrs)
+      assert city.name == "some name"
+    end
+
+    test "create_city/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Recruitment.create_city(@invalid_attrs)
+    end
+
+    test "update_city/2 with valid data updates the city" do
+      city = city_fixture()
+      assert {:ok, %City{} = city} = Recruitment.update_city(city, @update_attrs)
+      assert city.name == "some updated name"
+    end
+
+    test "update_city/2 with invalid data returns error changeset" do
+      city = city_fixture()
+      assert {:error, %Ecto.Changeset{}} = Recruitment.update_city(city, @invalid_attrs)
+      assert city == Recruitment.get_city!(city.id)
+    end
+
+    test "delete_city/1 deletes the city" do
+      city = city_fixture()
+      assert {:ok, %City{}} = Recruitment.delete_city(city)
+      assert_raise Ecto.NoResultsError, fn -> Recruitment.get_city!(city.id) end
+    end
+
+    test "change_city/1 returns a city changeset" do
+      city = city_fixture()
+      assert %Ecto.Changeset{} = Recruitment.change_city(city)
+    end
+  end
+
+  describe "seniorities" do
+    alias Getthatjob.Recruitment.Seniority
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def seniority_fixture(attrs \\ %{}) do
+      {:ok, seniority} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Recruitment.create_seniority()
+
+      seniority
+    end
+
+    test "list_seniorities/0 returns all seniorities" do
+      seniority = seniority_fixture()
+      assert Recruitment.list_seniorities() == [seniority]
+    end
+
+    test "get_seniority!/1 returns the seniority with given id" do
+      seniority = seniority_fixture()
+      assert Recruitment.get_seniority!(seniority.id) == seniority
+    end
+
+    test "create_seniority/1 with valid data creates a seniority" do
+      assert {:ok, %Seniority{} = seniority} = Recruitment.create_seniority(@valid_attrs)
+      assert seniority.name == "some name"
+    end
+
+    test "create_seniority/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Recruitment.create_seniority(@invalid_attrs)
+    end
+
+    test "update_seniority/2 with valid data updates the seniority" do
+      seniority = seniority_fixture()
+      assert {:ok, %Seniority{} = seniority} = Recruitment.update_seniority(seniority, @update_attrs)
+      assert seniority.name == "some updated name"
+    end
+
+    test "update_seniority/2 with invalid data returns error changeset" do
+      seniority = seniority_fixture()
+      assert {:error, %Ecto.Changeset{}} = Recruitment.update_seniority(seniority, @invalid_attrs)
+      assert seniority == Recruitment.get_seniority!(seniority.id)
+    end
+
+    test "delete_seniority/1 deletes the seniority" do
+      seniority = seniority_fixture()
+      assert {:ok, %Seniority{}} = Recruitment.delete_seniority(seniority)
+      assert_raise Ecto.NoResultsError, fn -> Recruitment.get_seniority!(seniority.id) end
+    end
+
+    test "change_seniority/1 returns a seniority changeset" do
+      seniority = seniority_fixture()
+      assert %Ecto.Changeset{} = Recruitment.change_seniority(seniority)
+    end
+  end
+
+  describe "job_types" do
+    alias Getthatjob.Recruitment.JobType
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def job_type_fixture(attrs \\ %{}) do
+      {:ok, job_type} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Recruitment.create_job_type()
+
+      job_type
+    end
+
+    test "list_job_types/0 returns all job_types" do
+      job_type = job_type_fixture()
+      assert Recruitment.list_job_types() == [job_type]
+    end
+
+    test "get_job_type!/1 returns the job_type with given id" do
+      job_type = job_type_fixture()
+      assert Recruitment.get_job_type!(job_type.id) == job_type
+    end
+
+    test "create_job_type/1 with valid data creates a job_type" do
+      assert {:ok, %JobType{} = job_type} = Recruitment.create_job_type(@valid_attrs)
+      assert job_type.name == "some name"
+    end
+
+    test "create_job_type/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Recruitment.create_job_type(@invalid_attrs)
+    end
+
+    test "update_job_type/2 with valid data updates the job_type" do
+      job_type = job_type_fixture()
+      assert {:ok, %JobType{} = job_type} = Recruitment.update_job_type(job_type, @update_attrs)
+      assert job_type.name == "some updated name"
+    end
+
+    test "update_job_type/2 with invalid data returns error changeset" do
+      job_type = job_type_fixture()
+      assert {:error, %Ecto.Changeset{}} = Recruitment.update_job_type(job_type, @invalid_attrs)
+      assert job_type == Recruitment.get_job_type!(job_type.id)
+    end
+
+    test "delete_job_type/1 deletes the job_type" do
+      job_type = job_type_fixture()
+      assert {:ok, %JobType{}} = Recruitment.delete_job_type(job_type)
+      assert_raise Ecto.NoResultsError, fn -> Recruitment.get_job_type!(job_type.id) end
+    end
+
+    test "change_job_type/1 returns a job_type changeset" do
+      job_type = job_type_fixture()
+      assert %Ecto.Changeset{} = Recruitment.change_job_type(job_type)
+    end
+  end
 end

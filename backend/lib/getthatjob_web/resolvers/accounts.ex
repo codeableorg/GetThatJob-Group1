@@ -3,6 +3,14 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
 
   alias GetthatjobWeb.Schema.ChangesetErrors
 
+  def me(_, _, %{context: %{current_user: user}}) do
+    {:ok, user}
+  end
+
+  def me(_, _, _) do
+    {:ok, nil}
+  end
+
   def sign_in(_, %{email: email, password: password}, _) do
     case Accounts.authenticate(email, password) do
       {:error, details} ->
@@ -15,9 +23,9 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
     end
   end
 
-  def sign_up_professional(_, arg, _) do
+  def sign_up_professional(_, args, _) do
     result =
-      arg
+      args
       |> Enum.into(%{})
       |> Recruitment.create_professional()
 
@@ -34,9 +42,9 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
     end
   end
 
-  def sign_up_recruiter(_, arg, _) do
+  def sign_up_recruiter(_, args, _) do
     result =
-      arg
+      args
       |> Enum.into(%{})
       |> Recruitment.create_recruiter()
 
@@ -52,11 +60,45 @@ defmodule GetthatjobWeb.Resolvers.Accounts do
     end
   end
 
-  def me(_, _, %{context: %{current_user: user}}) do
-    {:ok, user}
+  def update_current_professional(_, args, %{context: %{current_user: user}}) do
+    with professional when not is_nil(professional) <- Accounts.get_professional_from_user(user),
+         params <- Enum.into(args, %{}),
+         {:ok, professional} <- Recruitment.update_professional(professional, params) do
+      {:ok, professional}
+    else
+      nil ->
+        {:error, message: "Current user is not a professional", details: %{}}
+
+      {:error, changeset} ->
+        {:error,
+         message: "Could not update professional",
+         details: ChangesetErrors.error_details(changeset)}
+    end
   end
 
-  def me(_, _, _) do
-    {:ok, nil}
+  def update_current_recruiter(_, args, %{context: %{current_user: user}}) do
+    with recruiter when not is_nil(recruiter) <- Accounts.get_recruiter_from_user(user),
+         params <- Enum.into(args, %{}),
+         {:ok, recruiter} <- Recruitment.update_recruiter(recruiter, params) do
+      {:ok, recruiter}
+    else
+      nil ->
+        {:error, message: "Current user is not a recruiter", details: %{}}
+
+      {:error, changeset} ->
+        {:error,
+         message: "Could not update recruiter", details: ChangesetErrors.error_details(changeset)}
+    end
+  end
+
+  def delete_user(_, _, %{context: %{current_user: user}}) do
+    case Accounts.delete_user(user) do
+      {:ok, user} ->
+        {:ok, user}
+
+      {:error, changeset} ->
+        {:error,
+         message: "Could not delete user", details: ChangesetErrors.error_details(changeset)}
+    end
   end
 end
