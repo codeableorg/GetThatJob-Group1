@@ -26,3 +26,5 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - Deploy `git subtree push --prefix backend gigalixir master`
 - Migration database: `gigalixir ps:migrate`
 - See https://gigalixir.readthedocs.io/en/latest/database.html#how-to-run-seeds
+
+- `sudo docker-compose -f docker-compose.yml up`

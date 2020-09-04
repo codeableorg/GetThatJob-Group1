@@ -12,7 +12,7 @@ ARG APP_VSN
 # The environment to build with
 ARG MIX_ENV=prod
 # Set this to true if this release is not a Phoenix app
-ARG SKIP_PHOENIX=true
+ARG SKIP_PHOENIX=false
 # If you are using an umbrella project, you can change this
 # argument to the directory the Phoenix app is in so that the assets
 # can be built
