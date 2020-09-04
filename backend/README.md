@@ -27,4 +27,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - Migration database: `gigalixir ps:migrate`
 - See https://gigalixir.readthedocs.io/en/latest/database.html#how-to-run-seeds
 
-- `sudo docker-compose -f docker-compose.yml up`
+- Prueba en servidor `sudo docker-compose -f docker-compose.yml up`
+- Deploy en servidor `docker stack deploy -c ./docker-compose.yml getthatjob`
+- Migrate en servidor `docker container exec -i <container> bin/getthatjob eval "Getthatjob.Release.migrate"`

@@ -20,6 +20,7 @@ config :getthatjob, GetthatjobWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
+  server: true,
   watchers: [
     node: [
       "node_modules/webpack/bin/webpack.js",

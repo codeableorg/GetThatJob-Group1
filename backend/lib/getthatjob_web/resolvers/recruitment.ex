@@ -95,7 +95,7 @@ defmodule GetthatjobWeb.Resolvers.Recruitment do
       nil ->
         {:error, message: "Current user is not a recruiter", details: %{}}
 
-      {:error_id, error_detail} ->
+      {:error_assoc, error_detail} ->
         {:error, message: "Choose a correct value", details: error_detail}
 
       {:error, changeset} ->

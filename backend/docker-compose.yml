@@ -2,7 +2,11 @@ version: "3.5"
 
 services:
   web:
-    image: "getthatjob:latest"
+    image: "acastemoreno/getthatjob:latest"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
     ports:
       - "80:4000" # In our .env file above, we chose port 4000
     env_file:
@@ -12,6 +16,12 @@ services:
 
   db:
     image: postgres:12-alpine
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
     volumes:
       - "./volumes/postgres:/var/lib/postgresql/data"
     ports:
