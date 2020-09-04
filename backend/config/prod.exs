@@ -13,7 +13,7 @@ config :getthatjob, GetthatjobWeb.Endpoint,
   load_from_system_env: true,
   http: [port: {:system, "PORT"}],
   server: true,
-  url: [host: "localhost", port: 80],
+  check_origin: false,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
@@ -58,10 +58,5 @@ config :logger, level: :info
 config :argon2_elixir,
   t_cost: 8,
   m_cost: 17
-
-config :cors_plug,
-  origin: ["http://localhost:3000"],
-  max_age: 86400,
-  methods: ["GET", "POST"]
 
 # import_config "prod.secret.exs"

@@ -15,7 +15,20 @@ config :getthatjob, Getthatjob.Endpoint,
     port: port
     # transport_options: [socket_opts: [:inet6]]
   ],
+  url: [host: System.get_env("HOSTNAME"), port: 80],
   server: true,
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 config :getthatjob, auth_salt: System.get_env("AUTH_SALT")
+
+config :cors_plug,
+  origin: [
+    "http://#{System.get_env("HOSTNAME")}",
+    "ws://#{System.get_env("HOSTNAME")}",
+    "//#{System.get_env("HOSTNAME")}",
+    "http://#{System.get_env("REACT_HOST")}",
+    "ws://#{System.get_env("REACT_HOST")}",
+    "//#{System.get_env("REACT_HOST")}"
+  ],
+  max_age: 86400,
+  methods: ["GET", "POST"]

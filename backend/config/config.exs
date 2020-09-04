@@ -12,7 +12,6 @@ config :getthatjob,
 
 # Configures the endpoint
 config :getthatjob, GetthatjobWeb.Endpoint,
-  url: [host: "localhost"],
   secret_key_base: "0ui+YfEKu4MS+3ijLT0E/KdYf4pXVo6gB0ymOx5pTNrjeR5vHh/JFoqWO7y46paB",
   render_errors: [view: GetthatjobWeb.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: Getthatjob.PubSub,
