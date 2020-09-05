@@ -39,6 +39,7 @@ const Wrapper = styled.header`
     border: 0;
     background-color: #ffffff;
     color: #f5222d;
+    cursor: pointer;
     font-size: 1rem;
     text-align: left;
   }
@@ -95,15 +96,14 @@ export default function Header() {
             </Link>
 
             <nav className="navbar">
-              {loaded && currentUser && (
+              {loaded && currentUser ? (
                 <Dropdown title={userTitle(currentUser)} color="#3c2dff">
                   <Link to="/profile">Edit your profile</Link>
                   <button className="logout" onClick={handleLogout}>
                     Logout
                   </button>
                 </Dropdown>
-              )}
-              {loaded && !currentUser && (
+              ) : (
                 <Fragment>
                   <Link className="navbar__link" to="/sign-in">
                     Sign In
