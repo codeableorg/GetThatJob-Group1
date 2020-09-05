@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { gql, useMutation, useLazyQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
+import { useApolloClient } from '@apollo/client';
 
 import CurrentUser from '../components/auth/CurrentUser';
 import { formatErrors } from '../lib/AuthHelper';
@@ -17,6 +18,7 @@ import TextAreaInput from '../components/form/TextAreaInput';
 import SelectInput from '../components/form/SelectInput';
 import RadioGroup from '../components/form/RadioGroup';
 import { BlueTitle } from '../components/StyledComponents';
+import { JOBS_RECRUITER } from '../components/jobs/JobsRecruiter';
 
 const GET_AVALIABLE_OPTIONS = gql`
   query GetAvaliableOptions {
@@ -87,6 +89,7 @@ const CREATE_JOB_MUTATION = gql`
 
 const NewJob = () => {
   let history = useHistory();
+  let client = useApolloClient();
 
   const [
     getQuery,
@@ -94,7 +97,21 @@ const NewJob = () => {
   ] = useLazyQuery(GET_AVALIABLE_OPTIONS);
 
   const [createJob, { loading_mutation }] = useMutation(CREATE_JOB_MUTATION, {
-    onCompleted() {
+    onCompleted({ createJob }) {
+      const jobsRecruiter = client.readQuery({
+        query: JOBS_RECRUITER,
+      });
+
+      const newJobsRecruiter = [
+        ...jobsRecruiter.jobsCurrentRecruiter,
+        createJob,
+      ];
+
+      client.writeQuery({
+        query: JOBS_RECRUITER,
+        data: { jobsCurrentRecruiter: newJobsRecruiter },
+      });
+
       history.replace('/jobs');
     },
   });

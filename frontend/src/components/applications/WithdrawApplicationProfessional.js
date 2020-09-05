@@ -39,7 +39,6 @@ const WithdrawApplicationProfessional = ({
           return app_cache.id !== application.id;
         }
       );
-      console.log(newApplications);
       client.writeQuery({
         query: APPLICATIONS_PROFESSIONAL,
         data: { applicationsCurrentProfessional: newApplications },

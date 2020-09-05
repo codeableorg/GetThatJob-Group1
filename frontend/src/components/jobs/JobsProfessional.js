@@ -101,9 +101,9 @@ export default function JobsProfessional() {
           </Link>
         ))}
 
-      <MyFooter>
+      {/* <MyFooter>
         <Button>Load More</Button>
-      </MyFooter>
+      </MyFooter> */}
     </MyJobsSection>
   );
 }

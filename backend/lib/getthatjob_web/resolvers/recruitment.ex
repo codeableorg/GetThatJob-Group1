@@ -145,6 +145,26 @@ defmodule GetthatjobWeb.Resolvers.Recruitment do
     end
   end
 
+  def apply_a_job_of_current_professional(_, args, %{context: %{current_user: user}}) do
+    with professional when not is_nil(professional) <- Accounts.get_professional_from_user(user),
+         params <- Enum.into(args, %{}),
+         {%{job_id: job_id}, params} <- Map.split(params, [:job_id]),
+         {:get_job, job} when not is_nil(job) <- {:get_job, Recruitment.get_job(job_id)},
+         {:ok, application} <- Recruitment.create_application(job, professional, params) do
+      {:ok, application}
+    else
+      nil ->
+        {:error, message: "Current user is not a professional", details: %{}}
+
+      {:get_job, nil} ->
+        {:error, message: "Job not avaliable for professional", details: %{}}
+
+      {:error, changeset} ->
+        {:error,
+         message: "Could not apply for the job", details: ChangesetErrors.error_details(changeset)}
+    end
+  end
+
   defp get_job_type(id) do
     id
     |> Recruitment.get_job_type()

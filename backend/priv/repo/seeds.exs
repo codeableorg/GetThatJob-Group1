@@ -201,7 +201,10 @@ alias Getthatjob.Recruitment
     professional_experience:
       "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
     reason: "This is the awnser the applicant wrote.",
-    cv_path: "cv_path1"
+    cv_meta: %{
+      path: Path.absname("./assets/static/Resume - Albert Castellano.pdf"),
+      filename: "Resume - Albert Castellano.pdf"
+    }
   })
 
 {:ok, _application} =
@@ -209,7 +212,10 @@ alias Getthatjob.Recruitment
     professional_experience:
       "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
     reason: "This is the awnser the applicant wrote.",
-    cv_path: "cv_path2"
+    cv_meta: %{
+      path: Path.absname("./assets/static/Resume - Albert Castellano.pdf"),
+      filename: "Resume - Albert Castellano.pdf"
+    }
   })
 
 {:ok, _application} =
@@ -217,5 +223,8 @@ alias Getthatjob.Recruitment
     professional_experience:
       "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
     reason: "This is the awnser the applicant wrote.",
-    cv_path: "cv_path3"
+    cv_meta: %{
+      path: Path.absname("./assets/static/Resume - Albert Castellano.pdf"),
+      filename: "Resume - Albert Castellano.pdf"
+    }
   })

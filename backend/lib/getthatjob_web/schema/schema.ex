@@ -167,6 +167,17 @@ defmodule GetthatjobWeb.Schema.Schema do
 
       resolve(&Resolvers.Recruitment.withdraw_application_of_current_professional/3)
     end
+
+    @desc "Apply for a job for current Professional"
+    field :apply_job, :application do
+      arg(:job_id, non_null(:integer))
+      arg(:cv_meta, non_null(:upload))
+      arg(:professional_experience, non_null(:string))
+      arg(:reason, non_null(:string))
+
+      middleware(Middleware.Authenticate)
+      resolve(&Resolvers.Recruitment.apply_a_job_of_current_professional/3)
+    end
   end
 
   def context(ctx) do

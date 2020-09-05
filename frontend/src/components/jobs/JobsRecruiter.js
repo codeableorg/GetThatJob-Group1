@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { MyTitle, MyJobsSection, LinkStyled } from './StyledComponents';
 import JobCardRecruiter from '../../features/jobs/JobCardRecruiter';
 
-const JOBS_RECRUITER = gql`
+export const JOBS_RECRUITER = gql`
   query JobsCurrentRecruiter {
     jobsCurrentRecruiter {
       id

@@ -5,6 +5,7 @@ import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import { Redirect } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
 
 import { FormStyled } from '../components/form/StyledComponents';
 import FileInput from '../components/form/FileInput';
@@ -45,10 +46,60 @@ const JOB = gql`
   }
 `;
 
+const APPLY_JOB = gql`
+  mutation ApplyJob(
+    $jobId: Integer!
+    $cvMeta: Upload!
+    $professionalExperience: String!
+    $reason: String!
+  ) {
+    applyJob(
+      jobId: $jobId
+      cvMeta: $cvMeta
+      professionalExperience: $professionalExperience
+      reason: $reason
+    ) {
+      id
+      insertedAt
+      professionalExperience
+      reason
+      job {
+        id
+        title
+        introduction
+        expected
+        lookingFor
+        requirements
+        jobType {
+          id
+          name
+        }
+        recruiter {
+          id
+          companyName
+          companyDescription
+        }
+        city {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 export default function JobsApply() {
   const { id } = useParams();
+  let history = useHistory();
+
   const [getJob, { error, data, loading, called }] = useLazyQuery(JOB, {
     variables: { id: Number(id) },
+  });
+
+  const [applyJob, { loading: loading_mutation }] = useMutation(APPLY_JOB, {
+    onCompleted() {
+      history.replace('/applications');
+    },
   });
 
   useEffect(() => {
@@ -65,7 +116,7 @@ export default function JobsApply() {
     return application.job.id === job.id;
   });
 
-  if (already_apply) return <Redirect to="/jobs" />;
+  if (already_apply) return <Redirect to={`/jobs/${id}`} />;
 
   return (
     <Wrapper>
@@ -85,20 +136,21 @@ export default function JobsApply() {
         validationSchema={Yup.object({
           professionalExperience: Yup.string().required(),
           reason: Yup.string().required(),
-          cvMeta: Yup.mixed().test('fileFormat', 'PDF only', (value) => {
-            if (value != null) {
-              return ['application/pdf'].includes(value.type);
-            } else {
-              return true;
-            }
-          }),
+          cvMeta: Yup.mixed()
+            .test('fileFormat', 'PDF only', (value) => {
+              if (value != null) {
+                return ['application/pdf'].includes(value.type);
+              } else {
+                return true;
+              }
+            })
+            .required('Required'),
         })}
         onSubmit={(values, { setErrors, setSubmitting }) => {
-          console.log({ values });
-          // updateRecruiter({ variables: values }).catch(({ graphQLErrors }) => {
-          //   setErrors(formatErrors(graphQLErrors[0].details));
-          //   setSubmitting(false);
-          // });
+          applyJob({ variables: values }).catch(({ graphQLErrors }) => {
+            setErrors(graphQLErrors[0].details);
+            setSubmitting(false);
+          });
         }}
       >
         {(formik) => (
@@ -129,7 +181,9 @@ export default function JobsApply() {
               rows="5"
             />
 
-            <Button type="submit">Get this job!</Button>
+            <Button type="submit" disabled={loading_mutation}>
+              Get this job!
+            </Button>
           </FormStyled>
         )}
       </Formik>

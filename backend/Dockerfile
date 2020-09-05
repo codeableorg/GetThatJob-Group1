@@ -87,4 +87,6 @@ RUN mkdir -p /opt/app/priv/flags
 
 RUN mkdir -p /opt/app/priv/company_logos
 
+RUN mkdir -p /opt/app/priv/cv
+
 CMD trap 'exit' INT; /opt/app/bin/${APP_NAME} start
