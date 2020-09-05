@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useParams } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
-import { Formik, Form } from 'formik';
+import { gql, useLazyQuery, useMutation } from '@apollo/client';
+import { Redirect } from 'react-router-dom';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { FullField, FileField } from '../components/jobs/FormComponents';
+import { FormStyled } from '../components/form/StyledComponents';
+import FileInput from '../components/form/FileInput';
+import TextAreaInput from '../components/form/TextAreaInput';
 import { GeneralSubmitStyled as Button } from '../components/form/StyledComponents';
 
 const Wrapper = styled.div`
@@ -29,69 +32,105 @@ const JOB = gql`
     job(id: $id) {
       id
       title
+      recruiter {
+        companyName
+      }
+    }
+    applicationsCurrentProfessional {
+      id
+      job {
+        id
+      }
     }
   }
 `;
 
 export default function JobsApply() {
   const { id } = useParams();
-  const { data } = useQuery(JOB, { variables: { id: Number(id) } });
+  const [getJob, { error, data, loading, called }] = useLazyQuery(JOB, {
+    variables: { id: Number(id) },
+  });
+
+  useEffect(() => {
+    getJob();
+    return () => {};
+  }, [getJob, id]);
+
+  if (error) return <Redirect to="/jobs" />;
+  if (!called || loading) return null;
+
+  const { job, applicationsCurrentProfessional } = data;
+
+  const already_apply = applicationsCurrentProfessional.some((application) => {
+    return application.job.id === job.id;
+  });
+
+  if (already_apply) return <Redirect to="/jobs" />;
 
   return (
     <Wrapper>
       <Title>
         <span className="blue">Get this job: </span>
-        <span>{data && data.job.title}</span>
+        <span>{job.title}</span>
       </Title>
 
       <Formik
         initialValues={{
-          file: null,
-          professional_experience: '',
-          why_interested: '',
+          jobId: Number(id),
+          cv: '',
+          cvMeta: null,
+          professionalExperience: '',
+          reason: '',
         }}
         validationSchema={Yup.object({
-          professional_experience: Yup.string().min(300).max(2000).required(),
-          why_interested: Yup.string().min(50).max(1000).required(),
+          professionalExperience: Yup.string().required(),
+          reason: Yup.string().required(),
+          cvMeta: Yup.mixed().test('fileFormat', 'PDF only', (value) => {
+            if (value != null) {
+              return ['application/pdf'].includes(value.type);
+            } else {
+              return true;
+            }
+          }),
         })}
-        onSubmit={(values) => {
-          console.log('formik');
+        onSubmit={(values, { setErrors, setSubmitting }) => {
           console.log({ values });
+          // updateRecruiter({ variables: values }).catch(({ graphQLErrors }) => {
+          //   setErrors(formatErrors(graphQLErrors[0].details));
+          //   setSubmitting(false);
+          // });
         }}
       >
-        {({ setFieldValue }) => (
-          <Form>
-            <FileField
-              type="file"
-              id="file"
-              name="file"
+        {(formik) => (
+          <FormStyled>
+            <FileInput
+              id="cv"
+              name="cv"
               label="Upload your CV"
               note="PDF files only. 5MB max file size."
-              setFieldValue={setFieldValue}
+              type="file"
+              formik={formik}
             />
 
-            <FullField
-              id="professional_experience"
-              name="professional_experience"
+            <TextAreaInput
+              id="professionalExperience"
+              name="professionalExperience"
               label="Professional Experience"
               component="textarea"
               placeholder="Worked 6 years in a bitcoin farm until I decided to change my life...."
               rows="5"
-              note="Between 300 and 2000 characters."
             />
 
-            <FullField
-              id="why_interested"
-              name="why_interested"
-              label="Why are you interested in working at Able.co?"
-              component="textarea"
-              placeholder="Mention things about Able.co that excite you. Why would you be a good fit?"
+            <TextAreaInput
+              id="reason"
+              name="reason"
+              label={`Why are you interested in working at ${job.recruiter.companyName}?`}
+              placeholder={`Mention things about ${job.recruiter.companyName} that excite you. Why would you be a good fit?`}
               rows="5"
-              note="Between 50 and 1000 characters."
             />
 
             <Button type="submit">Get this job!</Button>
-          </Form>
+          </FormStyled>
         )}
       </Formik>
     </Wrapper>
