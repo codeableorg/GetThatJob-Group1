@@ -38,4 +38,6 @@ getthatjob-*.tar
 !/priv/company_logos/.gitkeep
 /priv/flags/*
 !/priv/flags/.gitkeep
+/priv/cv/*
+!/priv/cv/.gitkeep
 /config/docker.env
