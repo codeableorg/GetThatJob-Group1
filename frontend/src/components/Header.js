@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { useApolloClient } from '@apollo/client';
-import { GET_CURRENT_USER_QUERY } from './auth/CurrentUser';
 
+import { GET_CURRENT_USER_QUERY } from './auth/CurrentUser';
 import { Container } from './StyledComponents';
 import Dropdown from './Dropdown';
 import logo from '../assets/logo.png';
@@ -35,11 +35,11 @@ const Wrapper = styled.header`
     font-weight: 900;
   }
 
-  .menu .logout {
-    color: #f5222d;
-    cursor: pointer;
+  .logout {
+    border: 0;
     background-color: #ffffff;
-    border: none;
+    color: #f5222d;
+    font-size: 1rem;
     text-align: left;
   }
 

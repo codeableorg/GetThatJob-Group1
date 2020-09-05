@@ -1,8 +1,10 @@
 import styled from '@emotion/styled/macro';
 
 const Table = styled.table`
-  border-spacing: 0;
+  width: 100%;
   margin-bottom: 20px;
+  border-spacing: 0;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1);
 
   thead {
     background-color: #fafafa;
@@ -17,7 +19,6 @@ const Table = styled.table`
     text-align: left;
     padding: 16px 24px 16px 16px;
     width: fit-content;
-    min-width: 200px;
   }
 
   tbody tr {

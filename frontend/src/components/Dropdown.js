@@ -6,53 +6,49 @@ import { DownIcon } from './Icons';
 const Wrapper = styled.div`
   position: relative;
   display: inline-block;
+`;
 
-  .button {
-    display: flex;
-    align-items: center;
-    padding: 5px 20px;
-    background: #ffffff;
-    border: 0;
-    border-radius: 4px;
-    box-shadow: ${(props) =>
-      props.shadow
-        ? '0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1)'
-        : 'none'};
-    font-family: Hind;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
+const Button = styled.button`
+  display: flex;
+  align-items: center;
+  padding: 5px 20px;
+  background: #ffffff;
+  border: 0;
+  border-radius: 4px;
+  box-shadow: ${(props) =>
+    props.shadow
+      ? '0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1)'
+      : 'none'};
+  font-family: Hind;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+`;
 
-  .button__title {
-    color: ${(props) => props.color || '#333333'};
-    margin-right: 5px;
-  }
+const Title = styled.span`
+  margin-right: 5px;
+  color: ${(props) => props.color || '#333333'};
+  white-space: nowrap;
+`;
 
-  .menu {
-    position: absolute;
-    top: 45px;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    min-width: 100%;
-    padding: 10px 0;
-    background: #ffffff;
-    border-radius: 4px;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
-  }
+const Menu = styled.div`
+  position: absolute;
+  top: 45px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 100%;
+  padding: 10px 0;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  color: #595959;
 
-  .menu > * {
+  & > * {
     width: auto;
     padding: 8px 15px;
     color: #595959;
     white-space: nowrap;
-  }
-
-  .menu a {
-    color: inherit;
-    text-decoration: none;
-    color: #595959;
   }
 `;
 
@@ -82,12 +78,13 @@ export default function Dropdown({
   }, [isMenuOpen]);
 
   return (
-    <Wrapper ref={dropdownRef} color={color} shadow={shadow}>
-      <button ref={buttonRef} className="button" type="button">
-        <span className="button__title">{title}</span>
+    <Wrapper ref={dropdownRef}>
+      <Button ref={buttonRef} type="button" shadow={shadow}>
+        <Title color={color}>{title}</Title>
         <DownIcon color={color} />
-      </button>
-      {isMenuOpen && <div className="menu">{children}</div>}
+      </Button>
+
+      {isMenuOpen && <Menu>{children}</Menu>}
     </Wrapper>
   );
 }

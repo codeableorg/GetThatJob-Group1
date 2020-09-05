@@ -119,7 +119,7 @@ const JobProfessional = ({ jobId }) => {
             </LinkWebsiteCompany>
           </GroupHorizontal>
           {/* <GeneralTextCompany>Posted 10 jobs</GeneralTextCompany> */}
-          <LinkStyled>Get this job</LinkStyled>
+          <LinkStyled href={`/jobs/${job.id}/apply`}>Get this job</LinkStyled>
           {/* <Separator /> */}
         </JobCard>
       </JobDetailContainer>
