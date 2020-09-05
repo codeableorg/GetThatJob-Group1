@@ -96,15 +96,9 @@ const SignUpRecruiter = () => {
           passwordConfirmation: '',
         }}
         validationSchema={Yup.object({
-          companyName: Yup.string()
-            .max(15, 'Must be 15 characters or less')
-            .required('Required'),
-          companyWebsite: Yup.string()
-            .max(20, 'Must be 20 characters or less')
-            .required('Required'),
-          companyDescription: Yup.string()
-            .max(20, 'Must be 20 characters or less')
-            .required('Required'),
+          companyName: Yup.string().required('Required'),
+          companyWebsite: Yup.string().required('Required'),
+          companyDescription: Yup.string().required('Required'),
           companyLogoMeta: Yup.mixed()
             .required('A file is required')
             .test('fileFormat', 'Images only', (value) => {
@@ -118,11 +112,8 @@ const SignUpRecruiter = () => {
           email: Yup.string()
             .email('Invalid email address')
             .required('Required'),
-          password: Yup.string()
-            .max(20, 'Must be 20 characters or less')
-            .required('Required'),
+          password: Yup.string().required('Required'),
           passwordConfirmation: Yup.string()
-            .max(20, 'Must be 20 characters or less')
             .required('Required')
             .oneOf([Yup.ref('password')], 'Passwords must match'),
         })}

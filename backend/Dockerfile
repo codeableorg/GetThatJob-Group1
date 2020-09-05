@@ -83,5 +83,8 @@ COPY --from=builder /opt/built .
 
 COPY --from=builder /opt/app/assets/static ./assets/static
 
+RUN mkdir -p /opt/app/priv/flags
+
+RUN mkdir -p /opt/app/priv/company_logos
 
 CMD trap 'exit' INT; /opt/app/bin/${APP_NAME} start

@@ -131,9 +131,7 @@ const NewJob = () => {
                   requirements: '',
                 }}
                 validationSchema={Yup.object({
-                  title: Yup.string()
-                    .max(15, 'Must be 15 characters or less')
-                    .required('Required'),
+                  title: Yup.string().required('Required'),
                   typeId: Yup.number()
                     .oneOf(
                       data_query.jobTypes.map((jobType) => parseInt(jobType.id))
@@ -150,18 +148,10 @@ const NewJob = () => {
                   cityId: Yup.number()
                     .oneOf(data_query.cities.map((city) => parseInt(city.id)))
                     .required('Required'),
-                  introduction: Yup.string()
-                    .max(20, 'Must be 20 characters or less')
-                    .required('Required'),
-                  expected: Yup.string()
-                    .max(20, 'Must be 20 characters or less')
-                    .required('Required'),
-                  lookingFor: Yup.string()
-                    .max(20, 'Must be 20 characters or less')
-                    .required('Required'),
-                  requirements: Yup.string()
-                    .max(20, 'Must be 20 characters or less')
-                    .required('Required'),
+                  introduction: Yup.string().required('Required'),
+                  expected: Yup.string().required('Required'),
+                  lookingFor: Yup.string().required('Required'),
+                  requirements: Yup.string().required('Required'),
                 })}
                 onSubmit={(values, { setErrors, setSubmitting }) => {
                   ['typeId', 'seniorityId', 'cityId'].forEach((key) => {

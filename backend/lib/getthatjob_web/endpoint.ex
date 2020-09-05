@@ -32,13 +32,13 @@ defmodule GetthatjobWeb.Endpoint do
 
   plug(Plug.Static,
     at: "/company_logos",
-    from: {:getthatjob, "priv/company_logos"},
+    from: Path.expand("./priv/company_logos"),
     gzip: false
   )
 
   plug(Plug.Static,
     at: "/flags",
-    from: {:getthatjob, "priv/flags"},
+    from: Path.expand("./priv/flags"),
     gzip: false
   )
 

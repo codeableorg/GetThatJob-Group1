@@ -54,15 +54,9 @@ const RecruiterProfile = ({ currentUser }) => {
           companyLogoMeta: null,
         }}
         validationSchema={Yup.object({
-          companyName: Yup.string()
-            .max(15, 'Must be 15 characters or less')
-            .required('Required'),
-          companyWebsite: Yup.string()
-            .max(20, 'Must be 20 characters or less')
-            .required('Required'),
-          companyDescription: Yup.string()
-            .max(20, 'Must be 20 characters or less')
-            .required('Required'),
+          companyName: Yup.string().required('Required'),
+          companyWebsite: Yup.string().required('Required'),
+          companyDescription: Yup.string().required('Required'),
           companyLogoMeta: Yup.mixed().test(
             'fileFormat',
             'Images only',

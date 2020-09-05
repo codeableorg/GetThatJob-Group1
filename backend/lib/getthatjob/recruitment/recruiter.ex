@@ -71,7 +71,7 @@ defmodule Getthatjob.Recruitment.Recruiter do
     with new_filename <- Ecto.UUID.generate(),
          extension <- Path.extname(filename),
          new_path <- Path.absname("./priv/company_logos/" <> new_filename <> extension),
-         :ok <- Path.absname("./priv/company_logos/" <> company_logo_path) |> File.rm(),
+         :ok <- Path.absname("./priv" <> company_logo_path) |> File.rm(),
          {:ok, _} <- File.copy(path, new_path) do
       put_change(changeset, :company_logo_path, "/company_logos/" <> new_filename <> extension)
     else
