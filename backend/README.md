@@ -20,13 +20,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## Deploy
 
-- Generate a secret for auth tokens: `mix phx.gen.secret`
-- Conf enviroment variable to deploy `gigalixir config:set AUTH_SALT=<secret>`
-- Verify `gigalixir config`
-- Deploy `git subtree push --prefix backend gigalixir master`
-- Migration database: `gigalixir ps:migrate`
-- See https://gigalixir.readthedocs.io/en/latest/database.html#how-to-run-seeds
-
 - Prueba en servidor `sudo docker-compose -f docker-compose.yml up`
 - Deploy en servidor `docker stack deploy -c ./docker-compose.yml getthatjob`
 - Migrate en servidor `docker container exec -i <container> bin/getthatjob eval "Getthatjob.Release.migrate"`

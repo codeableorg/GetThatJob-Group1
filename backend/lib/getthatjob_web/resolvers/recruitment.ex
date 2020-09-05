@@ -17,6 +17,54 @@ defmodule GetthatjobWeb.Resolvers.Recruitment do
     {:ok, Recruitment.list_jobs(args)}
   end
 
+  def edit_application_current_professional(_, args, %{context: %{current_user: user}}) do
+    with professional when not is_nil(professional) <- Accounts.get_professional_from_user(user),
+         params <- Enum.into(args, %{}),
+         {%{id: id}, params} <- Map.split(params, [:id]),
+         {:get_application_professional, application} when not is_nil(application) <-
+           {:get_application_professional,
+            Recruitment.get_application_of_current_professional(id, professional)},
+         {:ok, application} <- Recruitment.update_application(application, params) do
+      {:ok, application}
+    else
+      nil ->
+        {:error,
+         message: "Current user is not a professional",
+         details: %{id: "Current user is not a professional"}}
+
+      {:get_application_professional, nil} ->
+        {:error,
+         message: "Not avaliable job for current recruiter",
+         details: %{id: "Not avaliable job for current recruiter"}}
+
+      {:error, changeset} ->
+        {:error,
+         message: "Can not withdraw the application",
+         details: ChangesetErrors.error_details(changeset)}
+    end
+  end
+
+  def application_current_professional(_, %{id: id}, %{
+        context: %{current_user: user}
+      }) do
+    with professional when not is_nil(professional) <- Accounts.get_professional_from_user(user),
+         {:get_application_professional, application} when not is_nil(application) <-
+           {:get_application_professional,
+            Recruitment.get_application_of_current_professional(id, professional)} do
+      {:ok, application}
+    else
+      nil ->
+        {:error,
+         message: "Current user is not a professional",
+         details: %{id: "Current user is not a professional"}}
+
+      {:get_application_professional, nil} ->
+        {:error,
+         message: "Not avaliable application for current professional",
+         details: %{id: "Not avaliable application for current professional"}}
+    end
+  end
+
   def applications_of_current_professional(_, _, %{context: %{current_user: user}}) do
     case Accounts.get_professional_from_user(user) do
       nil ->
@@ -135,8 +183,8 @@ defmodule GetthatjobWeb.Resolvers.Recruitment do
 
       {:get_application_professional, nil} ->
         {:error,
-         message: "Not avaliable job for current recruiter",
-         details: %{id: "Not avaliable job for current recruiter"}}
+         message: "Not avaliable application for current professional",
+         details: %{id: "Not avaliable application for current professional"}}
 
       {:error, changeset} ->
         {:error,

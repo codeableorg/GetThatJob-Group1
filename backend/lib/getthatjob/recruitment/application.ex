@@ -23,6 +23,17 @@ defmodule Getthatjob.Recruitment.Application do
   end
 
   @doc false
+  def update_changeset(recruiter, attrs) do
+    recruiter
+    |> cast(attrs, [:cv_meta, :professional_experience, :reason])
+    |> validate_required([
+      :professional_experience,
+      :reason
+    ])
+    |> process_cv()
+  end
+
+  @doc false
   defp process_cv(
          %Ecto.Changeset{
            valid?: true,

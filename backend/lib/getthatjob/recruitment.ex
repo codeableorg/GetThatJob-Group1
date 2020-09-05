@@ -485,7 +485,7 @@ defmodule Getthatjob.Recruitment do
   """
   def update_application(%Application{} = application, attrs) do
     application
-    |> Application.changeset(attrs)
+    |> Application.update_changeset(attrs)
     |> Repo.update()
   end
 

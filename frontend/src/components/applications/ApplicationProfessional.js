@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Modal from '../Modal';
 import { ApplicationDetailInfo, CursorPointer } from './StyledComponents';
@@ -11,6 +12,7 @@ const ApplicationProfessional = ({ application, setApplication }) => {
   const [show, setShow] = useState(false);
   const [option, setOption] = useState('application');
   const [showModalDelete, setShowModalDelete] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     if (application === null) {
@@ -35,7 +37,13 @@ const ApplicationProfessional = ({ application, setApplication }) => {
             <div className="control">
               <div className="edit">
                 <EditSVG />
-                <p>Edit Application</p>
+                <p
+                  onClick={() => {
+                    history.push(`/applications/${application.id}/edit`);
+                  }}
+                >
+                  Edit Application
+                </p>
               </div>
               <div
                 className="withdraw"

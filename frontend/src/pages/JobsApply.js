@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect, useHistory } from 'react-router-dom';
 import { gql, useLazyQuery, useMutation } from '@apollo/client';
-import { Redirect } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useHistory } from 'react-router-dom';
 
 import { FormStyled } from '../components/form/StyledComponents';
 import FileInput from '../components/form/FileInput';
@@ -28,7 +26,7 @@ const Title = styled.h1`
   }
 `;
 
-const JOB = gql`
+const JOB_APPLICATIONS = gql`
   query Job($id: Integer!) {
     job(id: $id) {
       id
@@ -92,9 +90,12 @@ export default function JobsApply() {
   const { id } = useParams();
   let history = useHistory();
 
-  const [getJob, { error, data, loading, called }] = useLazyQuery(JOB, {
-    variables: { id: Number(id) },
-  });
+  const [getJobApplications, { error, data, loading, called }] = useLazyQuery(
+    JOB_APPLICATIONS,
+    {
+      variables: { id: Number(id) },
+    }
+  );
 
   const [applyJob, { loading: loading_mutation }] = useMutation(APPLY_JOB, {
     onCompleted() {
@@ -103,9 +104,9 @@ export default function JobsApply() {
   });
 
   useEffect(() => {
-    getJob();
+    getJobApplications();
     return () => {};
-  }, [getJob, id]);
+  }, [getJobApplications, id]);
 
   if (error) return <Redirect to="/jobs" />;
   if (!called || loading) return null;
