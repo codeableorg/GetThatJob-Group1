@@ -45,7 +45,7 @@ const ProfessionalProfile = ({ currentUser }) => {
     UPDATE_PROFESSIONAL_MUTATION,
     {
       onCompleted() {
-        history.replace('/');
+        history.replace('/jobs');
       },
     }
   );

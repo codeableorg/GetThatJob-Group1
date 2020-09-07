@@ -40,7 +40,7 @@ const RecruiterProfile = ({ currentUser }) => {
     UPDATE_RECRUITER_MUTATION,
     {
       onCompleted() {
-        history.replace('/');
+        history.replace('/jobs');
       },
     }
   );
