@@ -14,7 +14,8 @@ defmodule Getthatjob.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Getthatjob.PubSub},
       # Start the Endpoint (http/https)
-      GetthatjobWeb.Endpoint
+      GetthatjobWeb.Endpoint,
+      {Absinthe.Subscription, GetthatjobWeb.Endpoint}
       # Start a worker by calling: Getthatjob.Worker.start_link(arg)
       # {Getthatjob.Worker, arg}
     ]

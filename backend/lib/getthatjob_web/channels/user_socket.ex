@@ -1,5 +1,6 @@
 defmodule GetthatjobWeb.UserSocket do
   use Phoenix.Socket
+  use Absinthe.Phoenix.Socket, schema: GetthatjobWeb.Schema.Schema
 
   ## Channels
   # channel "room:*", GetthatjobWeb.RoomChannel
