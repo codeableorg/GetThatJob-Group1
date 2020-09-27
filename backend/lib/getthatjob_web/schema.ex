@@ -1,4 +1,4 @@
-defmodule GetthatjobWeb.Schema.Schema do
+defmodule GetthatjobWeb.Schema do
   use Absinthe.Schema
 
   alias Getthatjob.Recruitment
@@ -6,7 +6,10 @@ defmodule GetthatjobWeb.Schema.Schema do
   alias GetthatjobWeb.Resolvers
   alias GetthatjobWeb.Schema.Middleware
 
-  import_types(GetthatjobWeb.Schema.Types)
+  import_types(Absinthe.Type.Custom)
+  import_types(Absinthe.Plug.Types)
+  import_types(GetthatjobWeb.Schema.AccountsTypes)
+  import_types(GetthatjobWeb.Schema.RecruitmentTypes)
 
   query do
     @desc "Get a Job by id"

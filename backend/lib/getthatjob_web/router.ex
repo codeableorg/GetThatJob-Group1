@@ -9,10 +9,10 @@ defmodule GetthatjobWeb.Router do
   scope "/" do
     pipe_through(:api)
 
-    forward("/api", Absinthe.Plug, schema: GetthatjobWeb.Schema.Schema)
+    forward("/api", Absinthe.Plug, schema: GetthatjobWeb.Schema)
 
     forward("/graphiql", Absinthe.Plug.GraphiQL,
-      schema: GetthatjobWeb.Schema.Schema,
+      schema: GetthatjobWeb.Schema,
       socket: GetthatjobWeb.UserSocket
     )
   end

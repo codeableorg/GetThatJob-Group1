@@ -1,9 +1,6 @@
-defmodule GetthatjobWeb.Schema.Types do
+defmodule GetthatjobWeb.Schema.RecruitmentTypes do
   use Absinthe.Schema.Notation
   alias Getthatjob.Recruitment
-
-  import_types(Absinthe.Type.Custom)
-  import_types(Absinthe.Plug.Types)
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
@@ -76,31 +73,8 @@ defmodule GetthatjobWeb.Schema.Types do
     field(:company_description, non_null(:string))
   end
 
-  object :session do
-    field(:user, non_null(:user))
-    field(:token, non_null(:string))
-  end
-
-  object :user do
-    field(:id, non_null(:id))
-    field(:type, non_null(:type_user))
-    field(:email, non_null(:string))
-    field(:professional, :professional, resolve: dataloader(Recruitment))
-    field(:recruiter, :recruiter, resolve: dataloader(Recruitment))
-  end
-
-  object :user_id do
-    field(:id, non_null(:id))
-  end
-
   object :application_id do
     field(:id, non_null(:id))
-  end
-
-  input_object :user_input do
-    field(:email, non_null(:string))
-    field(:password, non_null(:string))
-    field(:password_confirmation, non_null(:string))
   end
 
   input_object :job_filter do
@@ -115,11 +89,6 @@ defmodule GetthatjobWeb.Schema.Types do
   input_object :salary_range do
     field(:low, non_null(:integer))
     field(:high, non_null(:integer))
-  end
-
-  enum :type_user do
-    value(:recruiter, as: "recruiter")
-    value(:professional, as: "professional")
   end
 
   enum :sort_order do
