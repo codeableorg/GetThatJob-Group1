@@ -17,6 +17,16 @@ defmodule Getthatjob.Recruitment do
     JobType
   }
 
+
+  # Dataloader
+  def datasource() do
+    Dataloader.Ecto.new(Repo, query: &query/2)
+  end
+
+  def query(queryable, _) do
+    queryable
+  end
+
   @doc """
   Returns the list of recruiters.
 
@@ -523,16 +533,6 @@ defmodule Getthatjob.Recruitment do
   """
   def change_application(%Application{} = application, attrs \\ %{}) do
     Application.changeset(application, attrs)
-  end
-
-  # Dataloader
-
-  def datasource() do
-    Dataloader.Ecto.new(Repo, query: &query/2)
-  end
-
-  def query(queryable, _) do
-    queryable
   end
 
   @doc """

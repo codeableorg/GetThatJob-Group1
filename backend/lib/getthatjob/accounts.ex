@@ -9,6 +9,15 @@ defmodule Getthatjob.Accounts do
   alias Getthatjob.Accounts.User
   alias Getthatjob.Recruitment.{Professional, Recruiter}
 
+  # Dataloader
+  def datasource() do
+    Dataloader.Ecto.new(Repo, query: &query/2)
+  end
+
+  def query(queryable, _) do
+    queryable
+  end
+
   @doc """
   Returns the list of users.
 

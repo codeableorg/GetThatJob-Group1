@@ -4,9 +4,8 @@ import { gql, useLazyQuery } from '@apollo/client';
 import 'react-input-range/lib/css/index.css';
 
 import FilterForm from './FilterForm';
-import { Button } from '../StyledComponents';
 import JobCardProfessional from '../../features/jobs/JobCardProfessional';
-import { MyTitle, MyJobsSection, MyFooter } from './StyledComponents';
+import { MyTitle, MyJobsSection } from './StyledComponents';
 
 const JOBS = gql`
   query Jobs($filter: JobFilter) {
