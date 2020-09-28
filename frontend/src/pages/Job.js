@@ -11,7 +11,7 @@ const Job = () => {
       {({ loaded, currentUser }) => {
         if (!loaded) {
           return null;
-        } else if (currentUser.type === 'RECRUITER') {
+        } else if (currentUser.roleData.__typename === 'Recruiter') {
           return <JobRecruiter jobId={id} />;
         } else {
           return <JobProfessional jobId={id} />;

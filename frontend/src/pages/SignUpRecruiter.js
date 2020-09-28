@@ -41,21 +41,24 @@ const SIGN_UP_RECRUITER_MUTATION = gql`
       user {
         email
         type
-        professional {
-          id
-          name
-          phoneNumber
-          description
-          experience
-          linkedin
-          github
-        }
-        recruiter {
-          id
-          companyName
-          companyLogoPath
-          companyWebsite
-          companyDescription
+        roleData{
+          __typename
+          ... on Professional{
+            id
+            name
+            phoneNumber
+            description
+            experience
+            linkedin
+            github
+          }
+          ... on Recruiter{
+            id
+            companyName
+            companyLogoPath
+            companyWebsite
+            companyDescription
+          }
         }
       }
     }

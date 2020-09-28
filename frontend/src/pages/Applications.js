@@ -9,7 +9,7 @@ const Applications = () => {
       {({ loaded, currentUser }) => {
         if (!loaded) {
           return null;
-        } else if (currentUser.type === 'PROFESSIONAL') {
+        } else if (currentUser.roleData.__typename === 'Professional') {
           return <ApplicationsProfessional />;
         } else {
           return null;

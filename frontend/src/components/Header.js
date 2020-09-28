@@ -61,12 +61,12 @@ const Wrapper = styled.header`
 `;
 
 const userTitle = (currentUser) => {
-  if (currentUser.type === 'RECRUITER') {
-    return currentUser.recruiter.companyName;
-  } else if (currentUser.professional.name === '') {
+  if (currentUser.roleData.__typename === 'Recruiter') {
+    return currentUser.roleData.companyName;
+  } else if (currentUser.roleData.name === '') {
     return currentUser.email;
   } else {
-    return currentUser.professional.name;
+    return currentUser.roleData.name;
   }
 };
 

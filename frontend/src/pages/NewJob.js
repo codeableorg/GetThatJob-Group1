@@ -129,7 +129,7 @@ const NewJob = () => {
       {({ loaded, currentUser }) => {
         if (!loaded) {
           return null;
-        } else if (loaded && currentUser.type !== 'RECRUITER') {
+        } else if (loaded && currentUser.type !== 'Recruiter') {
           return <Redirect to="/jobs" />;
         } else {
           return (

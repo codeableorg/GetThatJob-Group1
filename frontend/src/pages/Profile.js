@@ -14,7 +14,7 @@ const Profile = () => {
         {({ loaded, currentUser }) => {
           if (!loaded) {
             return null;
-          } else if (currentUser.type === 'RECRUITER') {
+          } else if (currentUser.roleData.__typename === 'Recruiter') {
             return <RecruiterProfile currentUser={currentUser} />;
           } else {
             return <ProfessionalProfile currentUser={currentUser} />;

@@ -6,22 +6,23 @@ const GET_CURRENT_USER_QUERY = gql`
   query GetCurrentUser {
     me {
       email
-      type
-      professional {
-        id
-        name
-        phoneNumber
-        description
-        experience
-        linkedin
-        github
-      }
-      recruiter {
-        id
-        companyName
-        companyLogoPath
-        companyWebsite
-        companyDescription
+      roleData{__typename
+        ... on Professional{
+          id
+          name
+          phoneNumber
+          description
+          experience
+          linkedin
+          github
+        }
+        ... on Recruiter{
+          id
+          companyName
+          companyLogoPath
+          companyDescription
+          companyWebsite
+        }
       }
     }
   }
@@ -34,7 +35,8 @@ let CurrentUser = ({ children }) => {
 
   useEffect(() => {
     getCurrentUser();
-    return () => {};
+    return () => {
+    };
   }, [getCurrentUser]);
 
   if (error) return children({ currentUser: null, loaded: false });
@@ -43,7 +45,7 @@ let CurrentUser = ({ children }) => {
 };
 
 CurrentUser.propTypes = {
-  children: PropTypes.func.isRequired,
+  children: PropTypes.func.isRequired
 };
 
 export default CurrentUser;

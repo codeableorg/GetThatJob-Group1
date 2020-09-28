@@ -1,5 +1,5 @@
 import { ApolloClient } from '@apollo/client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 // import { createHttpLink } from 'apollo-link-http';
 import { setContext } from '@apollo/client/link/context';
 
@@ -9,7 +9,7 @@ const HTTP_ENDPOINT = `${process.env.REACT_APP_HTTP}/api`;
 
 // Create an HTTP link to the Phoenix app's HTTP endpoint URL.
 const httpLink = createLink({
-  uri: HTTP_ENDPOINT,
+  uri: HTTP_ENDPOINT
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -17,8 +17,8 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
+      authorization: token ? `Bearer ${token}` : ''
+    }
   };
 });
 
@@ -27,10 +27,17 @@ const authLink = setContext((_, { headers }) => {
 // Subscriptions go through the WebSocket link.
 const link = authLink.concat(httpLink);
 
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData: {
+    __schema: {
+      types: [], // no types provided
+    },
+  },
+});
 // Create the Apollo Client instance.
 const client = new ApolloClient({
   link: link,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({ fragmentMatcher }),
 });
 
 export default client;

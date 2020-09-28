@@ -38,7 +38,7 @@ export default function Sidebar() {
         {({ loaded, currentUser }) => {
           if (!loaded) {
             return null;
-          } else if (currentUser.type === 'RECRUITER') {
+          } else if (currentUser.roleData.__typename === 'Recruiter') {
             return (
               <Fragment>
                 <MyLink to="/jobs">

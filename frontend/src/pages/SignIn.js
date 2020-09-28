@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
-
 import { Title } from '../components/auth/StyledComponents';
 import {
   FormStyled,
@@ -19,22 +18,24 @@ const SIGN_IN = gql`
       token
       user {
         email
-        type
-        professional {
-          id
-          name
-          phoneNumber
-          description
-          experience
-          linkedin
-          github
-        }
-        recruiter {
-          id
-          companyName
-          companyLogoPath
-          companyWebsite
-          companyDescription
+        roleData{
+          __typename
+          ... on Professional{
+            id
+            name
+            phoneNumber
+            description
+            experience
+            linkedin
+            github
+          }
+          ... on Recruiter{
+            id
+            companyName
+            companyLogoPath
+            companyWebsite
+            companyDescription
+          }
         }
       }
     }

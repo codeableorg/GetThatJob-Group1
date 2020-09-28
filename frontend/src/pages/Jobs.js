@@ -10,7 +10,7 @@ export default function Jobs() {
       {({ loaded, currentUser }) => {
         if (!loaded) {
           return null;
-        } else if (currentUser.type === 'RECRUITER') {
+        } else if (currentUser.roleData.__typename === 'Recruiter') {
           return <JobsRecruiter />;
         } else {
           return <JobsProfessional />;
