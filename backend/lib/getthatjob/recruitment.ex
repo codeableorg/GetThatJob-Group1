@@ -15,7 +15,7 @@ defmodule Getthatjob.Recruitment do
     Country,
     Seniority,
     JobType
-  }
+    }
 
 
   # Dataloader
@@ -267,8 +267,8 @@ defmodule Getthatjob.Recruitment do
             q in query,
             where:
               ilike(q.title, ^pattern) or
-                ilike(q.introduction, ^pattern) or
-                ilike(q.requirements, ^pattern)
+              ilike(q.introduction, ^pattern) or
+              ilike(q.requirements, ^pattern)
           )
 
         {:country, value}, query ->

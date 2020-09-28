@@ -5,7 +5,7 @@ defmodule GetthatjobWeb.Schema.AccountsTypes do
   alias GetthatjobWeb.Resolvers
 
   alias GetthatjobWeb.Schema.Middleware
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 2]
+  import Absinthe.Resolution.Helpers, only: [dataloader: 2]
 
   object :accounts_queries do
     @desc "Get the currently signed-in user"
@@ -80,10 +80,17 @@ defmodule GetthatjobWeb.Schema.AccountsTypes do
     field(:id, non_null(:id))
     field(:type, non_null(:type_user))
     field(:email, non_null(:string))
-    field(:role_data, non_null(:role_data), resolve: dataloader(Accounts, fn
-      %{professional_id: nil}, args, _ -> {:recruiter, args}
-      _, args, _ -> {:professional, args}
-    end))
+    field(
+      :role_data,
+      non_null(:role_data),
+      resolve: dataloader(
+        Accounts,
+        fn
+          %{professional_id: nil}, args, _ -> {:recruiter, args}
+          _, args, _ -> {:professional, args}
+        end
+      )
+    )
   end
 
   object :user_id do

@@ -23,22 +23,27 @@ defmodule Getthatjob.Recruitment.Job do
   @doc false
   def changeset(job, attrs) do
     job
-    |> cast(attrs, [
-      :title,
-      :salary,
-      :introduction,
-      :expected,
-      :looking_for,
-      :requirements,
-      :closed
-    ])
-    |> validate_required([
-      :title,
-      :introduction,
-      :expected,
-      :looking_for,
-      :requirements
-    ])
+    |> cast(
+         attrs,
+         [
+           :title,
+           :salary,
+           :introduction,
+           :expected,
+           :looking_for,
+           :requirements,
+           :closed
+         ]
+       )
+    |> validate_required(
+         [
+           :title,
+           :introduction,
+           :expected,
+           :looking_for,
+           :requirements
+         ]
+       )
   end
 
   def close_changeset(job) do
@@ -47,11 +52,25 @@ defmodule Getthatjob.Recruitment.Job do
     |> close_job()
   end
 
-  def close_job(%Ecto.Changeset{data: %__MODULE__{closed: false}} = changeset) do
-    changeset |> put_change(:closed, true)
+  def close_job(
+        %Ecto.Changeset{
+          data: %__MODULE__{
+            closed: false
+          }
+        } = changeset
+      ) do
+    changeset
+    |> put_change(:closed, true)
   end
 
-  def close_job(%Ecto.Changeset{data: %__MODULE__{closed: true}} = changeset) do
-    changeset |> add_error(:closed, "already closed")
+  def close_job(
+        %Ecto.Changeset{
+          data: %__MODULE__{
+            closed: true
+          }
+        } = changeset
+      ) do
+    changeset
+    |> add_error(:closed, "already closed")
   end
 end

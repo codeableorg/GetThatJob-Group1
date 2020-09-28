@@ -29,7 +29,12 @@ defmodule Getthatjob.Accounts.User do
   @doc false
   defp hash_password(changeset) do
     case changeset do
-      %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
+      %Ecto.Changeset{
+        valid?: true,
+        changes: %{
+          password: password
+        }
+      } ->
         change(changeset, Argon2.add_hash(password))
 
       _ ->

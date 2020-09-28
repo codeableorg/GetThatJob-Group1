@@ -13,120 +13,155 @@
 alias Getthatjob.Recruitment
 
 {:ok, peru} =
-  Recruitment.create_country(%{
-    name: "Peru",
-    flag_path_meta: %{
-      path: Path.absname("./assets/static/peru-flag.png"),
-      filename: "peru-flag.png"
+  Recruitment.create_country(
+    %{
+      name: "Peru",
+      flag_path_meta: %{
+        path: Path.absname("./assets/static/peru-flag.png"),
+        filename: "peru-flag.png"
+      }
     }
-  })
+  )
 
 {:ok, venezuela} =
-  Recruitment.create_country(%{
-    name: "Venezuela",
-    flag_path_meta: %{
-      path: Path.absname("./assets/static/venezuela-flag.png"),
-      filename: "venezuela-flag.png"
+  Recruitment.create_country(
+    %{
+      name: "Venezuela",
+      flag_path_meta: %{
+        path: Path.absname("./assets/static/venezuela-flag.png"),
+        filename: "venezuela-flag.png"
+      }
     }
-  })
+  )
 
 {:ok, city1} =
-  Recruitment.create_city(peru, %{
-    name: "Lima"
-  })
+  Recruitment.create_city(
+    peru,
+    %{
+      name: "Lima"
+    }
+  )
 
 {:ok, city2} =
-  Recruitment.create_city(peru, %{
-    name: "Huaraz"
-  })
+  Recruitment.create_city(
+    peru,
+    %{
+      name: "Huaraz"
+    }
+  )
 
 {:ok, city3} =
-  Recruitment.create_city(venezuela, %{
-    name: "Caracas"
-  })
+  Recruitment.create_city(
+    venezuela,
+    %{
+      name: "Caracas"
+    }
+  )
 
 {:ok, type_full} =
-  Recruitment.create_job_type(%{
-    name: "Full Time"
-  })
+  Recruitment.create_job_type(
+    %{
+      name: "Full Time"
+    }
+  )
 
 {:ok, type_part} =
-  Recruitment.create_job_type(%{
-    name: "Part Time"
-  })
+  Recruitment.create_job_type(
+    %{
+      name: "Part Time"
+    }
+  )
 
 {:ok, type_freelancer} =
-  Recruitment.create_job_type(%{
-    name: "Freelance"
-  })
+  Recruitment.create_job_type(
+    %{
+      name: "Freelance"
+    }
+  )
 
 {:ok, type_intership} =
-  Recruitment.create_job_type(%{
-    name: "Intership"
-  })
+  Recruitment.create_job_type(
+    %{
+      name: "Intership"
+    }
+  )
 
 {:ok, seniority_junior} =
-  Recruitment.create_seniority(%{
-    name: "Junior"
-  })
+  Recruitment.create_seniority(
+    %{
+      name: "Junior"
+    }
+  )
 
 {:ok, seniority_semi} =
-  Recruitment.create_seniority(%{
-    name: "Semi Senior"
-  })
+  Recruitment.create_seniority(
+    %{
+      name: "Semi Senior"
+    }
+  )
 
 {:ok, seniority_senior} =
-  Recruitment.create_seniority(%{
-    name: "Senior"
-  })
+  Recruitment.create_seniority(
+    %{
+      name: "Senior"
+    }
+  )
 
 {:ok, seniority_expert} =
-  Recruitment.create_seniority(%{
-    name: "Expert"
-  })
+  Recruitment.create_seniority(
+    %{
+      name: "Expert"
+    }
+  )
 
 {:ok, profesional} =
-  Recruitment.create_professional(%{
-    name: "Albert",
-    phone_number: "11111111",
-    description: "Alchemist",
-    experience: "Woli",
-    user: %{
-      email: "acastemoreno@gmail.com",
-      password: "123456",
-      password_confirmation: "123456"
+  Recruitment.create_professional(
+    %{
+      name: "Albert",
+      phone_number: "11111111",
+      description: "Alchemist",
+      experience: "Woli",
+      user: %{
+        email: "acastemoreno@gmail.com",
+        password: "123456",
+        password_confirmation: "123456"
+      }
     }
-  })
+  )
 
 {:ok, profesional2} =
-  Recruitment.create_professional(%{
-    name: "Amiguito",
-    phone_number: "6666666",
-    description: "Pokemon Trainer",
-    experience: "League Winner",
-    user: %{
-      email: "amiguito@gmail.com",
-      password: "123456",
-      password_confirmation: "123456"
+  Recruitment.create_professional(
+    %{
+      name: "Amiguito",
+      phone_number: "6666666",
+      description: "Pokemon Trainer",
+      experience: "League Winner",
+      user: %{
+        email: "amiguito@gmail.com",
+        password: "123456",
+        password_confirmation: "123456"
+      }
     }
-  })
+  )
 
 {:ok, recruiter} =
-  Recruitment.create_recruiter(%{
-    company_description:
-      "Able builds technology products in a portfolio model. We believe that people, teams, and processes are more important than the ideas themselves, so we’ve focused on bringing great people together, and investing in their growth.",
-    company_name: "Able",
-    company_website: "https://able.co/",
-    user: %{
-      email: "ricardohuamanip@gmail.com",
-      password: "123456",
-      password_confirmation: "123456"
-    },
-    company_logo_meta: %{
-      path: Path.absname("./assets/static/able.png"),
-      filename: "able.png"
+  Recruitment.create_recruiter(
+    %{
+      company_description:
+        "Able builds technology products in a portfolio model. We believe that people, teams, and processes are more important than the ideas themselves, so we’ve focused on bringing great people together, and investing in their growth.",
+      company_name: "Able",
+      company_website: "https://able.co/",
+      user: %{
+        email: "ricardohuamanip@gmail.com",
+        password: "123456",
+        password_confirmation: "123456"
+      },
+      company_logo_meta: %{
+        path: Path.absname("./assets/static/able.png"),
+        filename: "able.png"
+      }
     }
-  })
+  )
 
 {:ok, job1} =
   Recruitment.create_job(
@@ -197,34 +232,46 @@ alias Getthatjob.Recruitment
   )
 
 {:ok, _application} =
-  Recruitment.create_application(job1, profesional, %{
-    professional_experience:
-      "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
-    reason: "This is the awnser the applicant wrote.",
-    cv_meta: %{
-      path: Path.absname("./assets/static/Resume - Albert Castellano.pdf"),
-      filename: "Resume - Albert Castellano.pdf"
+  Recruitment.create_application(
+    job1,
+    profesional,
+    %{
+      professional_experience:
+        "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
+      reason: "This is the awnser the applicant wrote.",
+      cv_meta: %{
+        path: Path.absname("./assets/static/Resume - Albert Castellano.pdf"),
+        filename: "Resume - Albert Castellano.pdf"
+      }
     }
-  })
+  )
 
 {:ok, _application} =
-  Recruitment.create_application(job2, profesional, %{
-    professional_experience:
-      "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
-    reason: "This is the awnser the applicant wrote.",
-    cv_meta: %{
-      path: Path.absname("./assets/static/Resume - Albert Castellano.pdf"),
-      filename: "Resume - Albert Castellano.pdf"
+  Recruitment.create_application(
+    job2,
+    profesional,
+    %{
+      professional_experience:
+        "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
+      reason: "This is the awnser the applicant wrote.",
+      cv_meta: %{
+        path: Path.absname("./assets/static/Resume - Albert Castellano.pdf"),
+        filename: "Resume - Albert Castellano.pdf"
+      }
     }
-  })
+  )
 
 {:ok, _application} =
-  Recruitment.create_application(job1, profesional2, %{
-    professional_experience:
-      "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
-    reason: "This is the awnser the applicant wrote.",
-    cv_meta: %{
-      path: Path.absname("./assets/static/Resume - Albert Castellano.pdf"),
-      filename: "Resume - Albert Castellano.pdf"
+  Recruitment.create_application(
+    job1,
+    profesional2,
+    %{
+      professional_experience:
+        "This is the professional experience the candidate wrote on their application.It could be several lines long. :D",
+      reason: "This is the awnser the applicant wrote.",
+      cv_meta: %{
+        path: Path.absname("./assets/static/Resume - Albert Castellano.pdf"),
+        filename: "Resume - Albert Castellano.pdf"
+      }
     }
-  })
+  )

@@ -11,11 +11,12 @@ database_url =
     For example: ecto://USER:PASS@HOST/DATABASE
     """
 
-config :getthatjob, Getthatjob.Repo,
-  database: "",
-  ssl: true,
-  url: database_url,
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "2")
+config :getthatjob,
+       Getthatjob.Repo,
+       database: "",
+       ssl: true,
+       url: database_url,
+       pool_size: String.to_integer(System.get_env("POOL_SIZE") || "2")
 
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
@@ -24,12 +25,15 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
-config :getthatjob, GetthatjobWeb.Endpoint,
-  http: [
-    port: String.to_integer(System.get_env("PORT") || "4000"),
-    transport_options: [socket_opts: [:inet6]]
-  ],
-  secret_key_base: secret_key_base
+config :getthatjob,
+       GetthatjobWeb.Endpoint,
+       http: [
+         port: String.to_integer(System.get_env("PORT") || "4000"),
+         transport_options: [
+           socket_opts: [:inet6]
+         ]
+       ],
+       secret_key_base: secret_key_base
 
 # ## Using releases (Elixir v1.9+)
 #

@@ -8,19 +8,27 @@
 use Mix.Config
 
 config :getthatjob,
-  ecto_repos: [Getthatjob.Repo]
+       ecto_repos: [Getthatjob.Repo]
 
 # Configures the endpoint
-config :getthatjob, GetthatjobWeb.Endpoint,
-  secret_key_base: "0ui+YfEKu4MS+3ijLT0E/KdYf4pXVo6gB0ymOx5pTNrjeR5vHh/JFoqWO7y46paB",
-  render_errors: [view: GetthatjobWeb.ErrorView, accepts: ~w(json), layout: false],
-  pubsub_server: Getthatjob.PubSub,
-  live_view: [signing_salt: "8ne/ubh3"]
+config :getthatjob,
+       GetthatjobWeb.Endpoint,
+       secret_key_base: "0ui+YfEKu4MS+3ijLT0E/KdYf4pXVo6gB0ymOx5pTNrjeR5vHh/JFoqWO7y46paB",
+       render_errors: [
+         view: GetthatjobWeb.ErrorView,
+         accepts: ~w(json),
+         layout: false
+       ],
+       pubsub_server: Getthatjob.PubSub,
+       live_view: [
+         signing_salt: "8ne/ubh3"
+       ]
 
 # Configures Elixir's Logger
-config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
+config :logger,
+       :console,
+       format: "$time $metadata[$level] $message\n",
+       metadata: [:request_id]
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason

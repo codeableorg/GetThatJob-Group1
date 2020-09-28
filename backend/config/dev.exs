@@ -1,13 +1,14 @@
 use Mix.Config
 
 # Configure your database
-config :getthatjob, Getthatjob.Repo,
-  username: "getthatjob_dev",
-  password: "123456",
-  database: "getthatjob_dev",
-  hostname: "localhost",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+config :getthatjob,
+       Getthatjob.Repo,
+       username: "getthatjob_dev",
+       password: "123456",
+       database: "getthatjob_dev",
+       hostname: "localhost",
+       show_sensitive_data_on_connection_error: true,
+       pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -15,20 +16,23 @@ config :getthatjob, Getthatjob.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :getthatjob, GetthatjobWeb.Endpoint,
-  http: [port: 4000],
-  debug_errors: true,
-  code_reloader: true,
-  check_origin: false,
-  watchers: [
-    node: [
-      "node_modules/webpack/bin/webpack.js",
-      "--mode",
-      "development",
-      "--watch-stdin",
-      cd: Path.expand("../assets", __DIR__)
-    ]
-  ]
+config :getthatjob,
+       GetthatjobWeb.Endpoint,
+       http: [
+         port: 4000
+       ],
+       debug_errors: true,
+       code_reloader: true,
+       check_origin: false,
+       watchers: [
+         node: [
+           "node_modules/webpack/bin/webpack.js",
+           "--mode",
+           "development",
+           "--watch-stdin",
+           cd: Path.expand("../assets", __DIR__)
+         ]
+       ]
 
 # ## SSL Support
 #
@@ -65,12 +69,12 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 config :argon2_elixir,
-  t_cost: 1,
-  m_cost: 8
+       t_cost: 1,
+       m_cost: 8
 
 config :cors_plug,
-  origin: ["http://localhost:3000"],
-  max_age: 86400,
-  methods: ["GET", "POST"]
+       origin: ["http://localhost:3000"],
+       max_age: 86400,
+       methods: ["GET", "POST"]
 
 config :getthatjob, auth_salt: "xalkdXT0Nho04J/CHBueV6o0zmSiQDLf0E59dK/nowN+SiYd3sfq6RGuxIT/MJ9o"

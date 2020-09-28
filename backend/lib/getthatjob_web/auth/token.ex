@@ -1,8 +1,12 @@
 defmodule GetthatjobWeb.Auth.Token do
   def sign(user) do
-    Phoenix.Token.sign(GetthatjobWeb.Endpoint, Application.get_env(:getthatjob, :auth_salt), %{
-      id: user.id
-    })
+    Phoenix.Token.sign(
+      GetthatjobWeb.Endpoint,
+      Application.get_env(:getthatjob, :auth_salt),
+      %{
+        id: user.id
+      }
+    )
   end
 
   def verify(token) do

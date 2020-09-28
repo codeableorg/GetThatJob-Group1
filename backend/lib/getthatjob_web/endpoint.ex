@@ -12,37 +12,51 @@ defmodule GetthatjobWeb.Endpoint do
 
   plug(CORSPlug)
 
-  socket("/socket", GetthatjobWeb.UserSocket,
+  socket(
+    "/socket",
+    GetthatjobWeb.UserSocket,
     websocket: true,
     longpoll: false
   )
 
-  socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])
+  socket(
+    "/live",
+    Phoenix.LiveView.Socket,
+    websocket: [
+      connect_info: [
+        session: @session_options
+      ]
+    ]
+  )
 
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest
   # when deploying your static files in production.
-  plug(Plug.Static,
+  plug(
+    Plug.Static,
     at: "/",
     from: :getthatjob,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
   )
 
-  plug(Plug.Static,
+  plug(
+    Plug.Static,
     at: "/company_logos",
     from: Path.expand("./priv/company_logos"),
     gzip: false
   )
 
-  plug(Plug.Static,
+  plug(
+    Plug.Static,
     at: "/flags",
     from: Path.expand("./priv/flags"),
     gzip: false
   )
 
-  plug(Plug.Static,
+  plug(
+    Plug.Static,
     at: "/cv",
     from: Path.expand("./priv/cv"),
     gzip: false
@@ -55,7 +69,8 @@ defmodule GetthatjobWeb.Endpoint do
     plug(Phoenix.Ecto.CheckRepoStatus, otp_app: :getthatjob)
   end
 
-  plug(Phoenix.LiveDashboard.RequestLogger,
+  plug(
+    Phoenix.LiveDashboard.RequestLogger,
     param_key: "request_logger",
     cookie_key: "request_logger"
   )
@@ -63,7 +78,8 @@ defmodule GetthatjobWeb.Endpoint do
   plug(Plug.RequestId)
   plug(Plug.Telemetry, event_prefix: [:phoenix, :endpoint])
 
-  plug(Plug.Parsers,
+  plug(
+    Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()

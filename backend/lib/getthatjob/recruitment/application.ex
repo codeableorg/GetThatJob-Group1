@@ -26,10 +26,12 @@ defmodule Getthatjob.Recruitment.Application do
   def update_changeset(recruiter, attrs) do
     recruiter
     |> cast(attrs, [:cv_meta, :professional_experience, :reason])
-    |> validate_required([
-      :professional_experience,
-      :reason
-    ])
+    |> validate_required(
+         [
+           :professional_experience,
+           :reason
+         ]
+       )
     |> process_cv()
   end
 
@@ -37,8 +39,15 @@ defmodule Getthatjob.Recruitment.Application do
   defp process_cv(
          %Ecto.Changeset{
            valid?: true,
-           changes: %{cv_meta: %{path: path, filename: filename}},
-           data: %__MODULE__{cv_path: nil}
+           changes: %{
+             cv_meta: %{
+               path: path,
+               filename: filename
+             }
+           },
+           data: %__MODULE__{
+             cv_path: nil
+           }
          } = changeset
        ) do
     with new_filename <- Ecto.UUID.generate(),
@@ -48,26 +57,36 @@ defmodule Getthatjob.Recruitment.Application do
       put_change(changeset, :cv_path, "/cv/" <> new_filename <> extension)
     else
       _ ->
-        changeset |> add_error(:cv_meta, "could not upload file")
+        changeset
+        |> add_error(:cv_meta, "could not upload file")
     end
   end
 
   defp process_cv(
          %Ecto.Changeset{
            valid?: true,
-           changes: %{cv_meta: %{path: path, filename: filename}},
-           data: %__MODULE__{cv_path: cv_path}
+           changes: %{
+             cv_meta: %{
+               path: path,
+               filename: filename
+             }
+           },
+           data: %__MODULE__{
+             cv_path: cv_path
+           }
          } = changeset
        ) do
     with new_filename <- Ecto.UUID.generate(),
          extension <- Path.extname(filename),
          new_path <- Path.absname("./priv/cv/" <> new_filename <> extension),
-         :ok <- Path.absname("./priv" <> cv_path) |> File.rm(),
+         :ok <- Path.absname("./priv" <> cv_path)
+                |> File.rm(),
          {:ok, _} <- File.copy(path, new_path) do
       put_change(changeset, :cv_path, "/cv/" <> new_filename <> extension)
     else
       _ ->
-        changeset |> add_error(:cv_meta, "could not upload file")
+        changeset
+        |> add_error(:cv_meta, "could not upload file")
     end
   end
 

@@ -26,7 +26,12 @@ defmodule Getthatjob.Recruitment.Country do
   defp process_flag(
          %Ecto.Changeset{
            valid?: true,
-           changes: %{flag_path_meta: %{path: path, filename: filename}}
+           changes: %{
+             flag_path_meta: %{
+               path: path,
+               filename: filename
+             }
+           }
          } = changeset
        ) do
     with new_filename <- Ecto.UUID.generate(),
@@ -36,7 +41,8 @@ defmodule Getthatjob.Recruitment.Country do
       put_change(changeset, :flag_path, "/flags/" <> new_filename <> extension)
     else
       _ ->
-        changeset |> add_error(:flag_path_meta, "could not upload file")
+        changeset
+        |> add_error(:flag_path_meta, "could not upload file")
     end
   end
 end

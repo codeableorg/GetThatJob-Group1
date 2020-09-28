@@ -11,7 +11,9 @@ defmodule GetthatjobWeb.Router do
 
     forward("/api", Absinthe.Plug, schema: GetthatjobWeb.Schema)
 
-    forward("/graphiql", Absinthe.Plug.GraphiQL,
+    forward(
+      "/graphiql",
+      Absinthe.Plug.GraphiQL,
       schema: GetthatjobWeb.Schema,
       socket: GetthatjobWeb.UserSocket
     )
