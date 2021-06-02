@@ -56,7 +56,8 @@ defmodule Getthatjob.MixProject do
       {:absinthe, "~> 1.5"},
       {:absinthe_plug, "~> 1.5"},
       {:dataloader, "~> 1.0.0"},
-      {:cors_plug, "~> 2.0"}
+      {:cors_plug, "~> 2.0"},
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false}
     ]
   end
 
